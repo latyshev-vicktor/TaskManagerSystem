@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
 EndProject
@@ -19,15 +19,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{A5065554-917F-4D61-8B3D-FC819A07B8A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Api", "Tasks.Api\Tasks.Api.csproj", "{EB813A9B-669A-4003-8620-928E11FEBD01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.Api", "Tasks.Api\Tasks.Api.csproj", "{EB813A9B-669A-4003-8620-928E11FEBD01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Application", "Tasks.Application\Tasks.Application.csproj", "{FC006EAF-C2FC-4127-A680-24114BD02966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.Application", "Tasks.Application\Tasks.Application.csproj", "{FC006EAF-C2FC-4127-A680-24114BD02966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Domain", "Tasks.Domain\Tasks.Domain.csproj", "{5FFE0C9A-FC1F-492A-A3F4-1284E9D79AF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.Domain", "Tasks.Domain\Tasks.Domain.csproj", "{5FFE0C9A-FC1F-492A-A3F4-1284E9D79AF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.DataAccess.Postgres", "Tasks.DataAccess.Postgres\Tasks.DataAccess.Postgres.csproj", "{BC636B76-B8DD-44A3-A93A-01507B5DB273}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.DataAccess.Postgres", "Tasks.DataAccess.Postgres\Tasks.DataAccess.Postgres.csproj", "{BC636B76-B8DD-44A3-A93A-01507B5DB273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Infrastructure.Impl", "Tasks.Infrastructure.Impl\Tasks.Infrastructure.Impl.csproj", "{D663FEAD-28F1-46DC-AF2F-28C7C97637DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.Infrastructure.Impl", "Tasks.Infrastructure.Impl\Tasks.Infrastructure.Impl.csproj", "{D663FEAD-28F1-46DC-AF2F-28C7C97637DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerSystem.Common", "TaskManagerSystem.Common\TaskManagerSystem.Common.csproj", "{1D1BC83E-572B-4E82-82F0-F77CF867998F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{D663FEAD-28F1-46DC-AF2F-28C7C97637DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D663FEAD-28F1-46DC-AF2F-28C7C97637DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D663FEAD-28F1-46DC-AF2F-28C7C97637DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D1BC83E-572B-4E82-82F0-F77CF867998F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D1BC83E-572B-4E82-82F0-F77CF867998F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D1BC83E-572B-4E82-82F0-F77CF867998F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D1BC83E-572B-4E82-82F0-F77CF867998F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{5FFE0C9A-FC1F-492A-A3F4-1284E9D79AF5} = {822975AA-0E61-4A62-BD72-1164226B9F4F}
 		{BC636B76-B8DD-44A3-A93A-01507B5DB273} = {A5065554-917F-4D61-8B3D-FC819A07B8A2}
 		{D663FEAD-28F1-46DC-AF2F-28C7C97637DA} = {A5065554-917F-4D61-8B3D-FC819A07B8A2}
+		{1D1BC83E-572B-4E82-82F0-F77CF867998F} = {94754155-831E-4DB5-A48F-243984102618}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11A4E9F6-C907-4BF5-921E-8881B0EA289A}

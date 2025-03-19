@@ -12,8 +12,6 @@ namespace Tasks.DataAccess.Postgres
         public DbSet<SprintEntity> Sprints { get; set; }
         public DbSet<TargetEntity> Targets { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
-        public DbSet<SprintStatusEntity> SprintStatuses { get; set; }
-        public DbSet<TaskStatusEntity> TaskStatuses { get; set; }
 
         public TaskDbContext(DbContextOptions<TaskDbContext> options, IMediator mediator) : base(options) 
         {
