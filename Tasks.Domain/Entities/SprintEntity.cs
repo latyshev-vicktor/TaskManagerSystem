@@ -9,5 +9,7 @@
         public DateTimeOffset EndDate { get; private set; }
         public string StatusId { get; private set; }
         public SprintStatusEntity? Status { get; private set; }
+        private List<TargetEntity> _targets = [];
+        public IReadOnlyList<TargetEntity> Targets => _targets;
     }
 }
