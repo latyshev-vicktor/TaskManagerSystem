@@ -5,22 +5,22 @@ using Tasks.Domain.Errors;
 
 namespace Tasks.Domain.ValueObjects
 {
-    public class SprintName : ValueObject
+    public class TargetName : ValueObject
     {
         public string Name { get; }
-        protected SprintName() { }
+        protected TargetName() { }
 
-        protected SprintName(string name)
+        protected TargetName(string name)
         {
             Name = name;
         }
 
-        public static IExecutionResult<SprintName> Create(string name)
+        public static IExecutionResult<TargetName> Create(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return ExecutionResult.Failure<SprintName>(SprintNameError.NotEmpty());
+                return ExecutionResult.Failure<TargetName>(TargetNameError.NotEmpty());
 
-            return ExecutionResult.Success(new SprintName(name));
+            return ExecutionResult.Success(new TargetName(name));
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -6,7 +6,7 @@ using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.ValueObjects;
 
-namespace Tasks.Application.UseCases
+namespace Tasks.Application.UseCases.Sprint.Commands
 {
     public class UpdateSprintCommandValidator : RequestValidator<UpdateSprintCommand>
     {

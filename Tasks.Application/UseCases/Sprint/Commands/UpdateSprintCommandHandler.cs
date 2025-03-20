@@ -4,7 +4,7 @@ using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
 
-namespace Tasks.Application.UseCases
+namespace Tasks.Application.UseCases.Sprint.Commands
 {
     public class UpdateSprintCommandHandler(TaskDbContext dbContext) : IRequestHandler<UpdateSprintCommand, IExecutionResult<long>>
     {
