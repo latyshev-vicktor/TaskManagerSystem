@@ -7,14 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DomainEvents\**" />
-    <EmbeddedResource Remove="DomainEvents\**" />
-    <None Remove="DomainEvents\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="NSpecifications" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace Tasks.Domain.Entities
         public void ClearDomainEvents()
             => _domainEvents?.Clear();
 
-        public void Delete()
+        public virtual void Delete()
         {
             IsDeleted = true;
             DeletedDate = DateTimeOffset.Now;

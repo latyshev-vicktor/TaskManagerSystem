@@ -5,18 +5,13 @@ using Tasks.Domain.Entities;
 
 namespace Tasks.DataAccess.Postgres
 {
-    public class TaskDbContext : DbContext
+    public class TaskDbContext(DbContextOptions<TaskDbContext> options, IMediator mediator) : DbContext(options)
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator _mediator = mediator;
 
         public DbSet<SprintEntity> Sprints { get; set; }
         public DbSet<TargetEntity> Targets { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
-
-        public TaskDbContext(DbContextOptions<TaskDbContext> options, IMediator mediator) : base(options) 
-        {
-            _mediator = mediator;
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

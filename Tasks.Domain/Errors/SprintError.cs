@@ -13,5 +13,11 @@ namespace Tasks.Domain.Errors
 
         public static Error EndDateNotBeLessNow()
             => new(ResultCode.BadRequest, "Дата окончания спринта не может быть меньше текущей даты");
+
+        public static Error CompletedSprintNotBeDeleted()
+            => new(ResultCode.BadRequest, "Завершенный спринт нелья удалить");
+
+        public static Error SprintDoesNotBelongForCurrentUser()
+            => new(ResultCode.BadRequest, "Спринт не принадлежит текущему пользователю");
     }
 }

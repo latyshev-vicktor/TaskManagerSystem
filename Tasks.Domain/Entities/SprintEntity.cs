@@ -1,5 +1,6 @@
 ﻿using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
+using Tasks.Domain.DomainEvents;
 using Tasks.Domain.Errors;
 using Tasks.Domain.ValueObjects;
 
@@ -101,6 +102,16 @@ namespace Tasks.Domain.Entities
             Description = descriptionResult.Value;
 
             return ExecutionResult.Success();
+        }
+
+        public override void Delete()
+        {
+            foreach(var target in _targets)
+                target.Delete();
+
+            base.Delete();
+
+            RiseDomainEvents(new DeleteSprintEvent(Name.Name, UserId));
         }
         #endregion
     }
