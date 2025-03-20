@@ -3,7 +3,6 @@
     public class TargetEntity : BaseEntity
     {
         public string Name { get; private set; }
-        public string Description { get; private set; }
         public long SprintId { get; private set; }
         public SprintEntity? Sprint { get; private set; }
         private List<TaskEntity> _tasks = [];

@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DomainEvents\" />
+    <Compile Remove="DomainEvents\**" />
+    <EmbeddedResource Remove="DomainEvents\**" />
+    <None Remove="DomainEvents\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagerSystem.Common\TaskManagerSystem.Common.csproj" />
   </ItemGroup>
 
 </Project>
