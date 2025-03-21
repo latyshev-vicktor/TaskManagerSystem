@@ -14,6 +14,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 request.Dto.UserId,
                 request.Dto.Name,
                 request.Dto.Description,
+                request.Dto.FieldActivityId,
                 request.Dto.StartDate,
                 request.Dto.EndDate);
 
