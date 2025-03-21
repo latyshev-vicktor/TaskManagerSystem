@@ -23,11 +23,13 @@ namespace Tasks.Application.UseCases.FIeldActivity.Commands
 
         public async override Task<IExecutionResult> RequestValidateAsync(CreateFieldActivityCommand request, CancellationToken cancellationToken)
         {
-            var spec = Spec<FieldActivityEntity>.None;
+            var spec = Spec.Any<FieldActivityEntity>();
             spec &= FieldActivitySpecification.ByName(request.Name);
             spec &= FieldActivitySpecification.ByUserId(request.UserId);
 
-            var existFieldActivityByName = await _dbContext.FieldActivities.AnyAsync(spec, cancellationToken);
+            var existFieldActivityByName = await _dbContext.FieldActivities
+                                                           .AsNoTracking()
+                                                           .AnyAsync(spec, cancellationToken);
             if (existFieldActivityByName == true)
                 return ExecutionResult.Failure(FieldActivityError.DublicateNameForCurrentUser());
 
