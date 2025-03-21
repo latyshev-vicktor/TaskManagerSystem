@@ -12,6 +12,7 @@ namespace Tasks.DataAccess.Postgres
         public DbSet<SprintEntity> Sprints { get; set; }
         public DbSet<TargetEntity> Targets { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
+        public DbSet<FieldActivityEntity> FieldActivities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

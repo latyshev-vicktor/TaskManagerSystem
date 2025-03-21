@@ -13,5 +13,8 @@ namespace Tasks.Domain.Specifications
 
         public static Spec<SprintEntity> ByStatus(string statusName)
             => new(x => x.Status.Value == statusName);
+
+        public static Spec<SprintEntity> ByFieldActivity(long fieldActivityId)
+            => new(x => x.FieldActivityId == fieldActivityId);
     }
 }

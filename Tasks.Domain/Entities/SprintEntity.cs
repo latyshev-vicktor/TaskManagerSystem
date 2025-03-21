@@ -18,6 +18,9 @@ namespace Tasks.Domain.Entities
         public DateTimeOffset EndDate { get; private set; }
         public SprintStatus Status { get; private set; }
 
+        public long FieldActivityId { get; private set; }
+        public FieldActivityEntity? FieldActivity { get; private set; }
+
         private List<TargetEntity> _targets = [];
         public IReadOnlyList<TargetEntity> Targets => _targets;
 
@@ -31,12 +34,14 @@ namespace Tasks.Domain.Entities
             long userId,
             SprintName name,
             SprintDescription description,
+            long fieldActivityId,
             DateTimeOffset startDate,
             DateTimeOffset endDate)
         {
             UserId = userId;
             Name = name;
             Description = description;
+            FieldActivityId = fieldActivityId;
             StartDate = startDate;
             EndDate = endDate;
             Status = SprintStatus.Created;
@@ -48,6 +53,7 @@ namespace Tasks.Domain.Entities
             long userId,
             string name,
             string description,
+            long fieldActivityId,
             DateTimeOffset startDate,
             DateTimeOffset endDate)
         {
@@ -68,7 +74,7 @@ namespace Tasks.Domain.Entities
             if (descriptionResult.IsFailure)
                 return ExecutionResult.Failure<SprintEntity>(descriptionResult.Error);
 
-            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, startDate, endDate));
+            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivityId, startDate, endDate));
         }
 
         public IExecutionResult ChangeStatus(string status)
@@ -100,6 +106,16 @@ namespace Tasks.Domain.Entities
                 return ExecutionResult.Failure(descriptionResult.Error);
 
             Description = descriptionResult.Value;
+
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult ChangeFieldActivity(long fieldActivityId)
+        {
+            if (fieldActivityId == default)
+                return ExecutionResult.Failure(SprintError.NotFoundFieldActivity());
+
+            FieldActivityId = fieldActivityId;
 
             return ExecutionResult.Success();
         }
