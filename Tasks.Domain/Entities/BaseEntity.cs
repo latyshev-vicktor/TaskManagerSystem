@@ -6,8 +6,8 @@ namespace Tasks.Domain.Entities
     {
         public long Id { get; set; }
         public bool IsDeleted { get; private set; }
-        public DateTimeOffset? DeletedDate { get; private set; }
-        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
+        public DateTime? DeletedDate { get; private set; }
+        public DateTime CreatedDate { get; } = DateTime.Now;
 
         private List<INotification> _domainEvents = [];
         public IReadOnlyList<INotification> GetDomainEvents() => _domainEvents;
@@ -21,7 +21,7 @@ namespace Tasks.Domain.Entities
         public virtual void Delete()
         {
             IsDeleted = true;
-            DeletedDate = DateTimeOffset.Now;
+            DeletedDate = DateTime.Now;
         }
     }
 }
