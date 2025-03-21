@@ -14,6 +14,7 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.Property(x => x.DeletedDate).HasDefaultValue(null).IsRequired(false);
+            builder.Property(x => x.CreatedDate).IsRequired();
             builder.HasQueryFilter(x => !x.IsDeleted);
 
             Config(builder);
