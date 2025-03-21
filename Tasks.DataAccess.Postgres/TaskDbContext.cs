@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Tasks.Domain.Entities;
+using Tasks.Domain.SeedWork;
 
 namespace Tasks.DataAccess.Postgres
 {

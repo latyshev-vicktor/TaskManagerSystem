@@ -2,6 +2,7 @@
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Domain.DomainEvents;
 using Tasks.Domain.Errors;
+using Tasks.Domain.SeedWork;
 using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Domain.Entities
