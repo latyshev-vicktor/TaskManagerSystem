@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Tasks.Domain.Entities;
+using Tasks.Domain.SeedWork;
 
 namespace Tasks.DataAccess.Postgres.Configurations
 {
