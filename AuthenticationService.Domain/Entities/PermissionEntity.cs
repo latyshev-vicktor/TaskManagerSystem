@@ -1,10 +1,11 @@
-﻿using AuthenticationService.Domain.ValueObjects.Permission;
+﻿using AuthenticationService.Domain.SeedWork;
+using AuthenticationService.Domain.ValueObjects.Permission;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 
 namespace AuthenticationService.Domain.Entities
 {
-    public class PermissionEntity
+    public class PermissionEntity : BaseEntity
     {
         public PermissionName Name { get; private set; }
         public PermissionDescription Description { get; private set; }

@@ -43,7 +43,7 @@ namespace Tasks.Api.Controllers
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value);
+            var userId = 1;//long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value);
             var command = new DeleteFieldActivityCommand(id, userId);
             await mediator.Send(command);
 

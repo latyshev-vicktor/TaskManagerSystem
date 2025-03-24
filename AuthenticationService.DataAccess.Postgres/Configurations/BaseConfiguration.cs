@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AuthenticationService.Domain.SeedWork;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Tasks.Domain.SeedWork;
 
-namespace Tasks.DataAccess.Postgres.Configurations
+namespace AuthenticationService.DataAccess.Postgres.Configurations
 {
     public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
         where TEntity : BaseEntity
