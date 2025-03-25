@@ -38,5 +38,14 @@ namespace AuthenticationService.Domain.Errors
 
         public static Error EmailNotBeEmpty()
             => new(ResultCode.BadRequest, "Email не может быть пустым");
+
+        public static Error DublicateEmailUser()
+            => new(ResultCode.BadRequest, "Пользователь с данным email уже существует");
+
+        public static Error DublicateUserName()
+            => new(ResultCode.BadRequest, "Пользователь с данным user name уже существует");
+
+        public static Error PasswordNotBeEmpty()
+            => new(ResultCode.BadRequest, "Пароль не может быть пустым");
     }
 }

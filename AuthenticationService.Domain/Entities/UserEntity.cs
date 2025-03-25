@@ -1,4 +1,5 @@
-﻿using AuthenticationService.Domain.SeedWork;
+﻿using AuthenticationService.Domain.Errors;
+using AuthenticationService.Domain.SeedWork;
 using AuthenticationService.Domain.ValueObjects.User;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
@@ -11,7 +12,8 @@ namespace AuthenticationService.Domain.Entities
         public Phone Phone { get; private set; }
         public FullName FullName { get; private set; }
         public Email Email { get; private set; }
-        public DateTimeOffset BirthDay { get; private set; }
+        public DateTime BirthDay { get; private set; }
+        public string PassWordHash { get; private set; }
 
         public List<RoleEntity> Roles { get; set; } = [];
 
@@ -26,13 +28,16 @@ namespace AuthenticationService.Domain.Entities
             FullName fullName,
             Email email,
             Phone phone,
-            DateTimeOffset birthDay)
+            string passwordHash,
+            DateTime birthDay)
         {
             UserName = userName;
             Email = email;
             Phone = phone;
             BirthDay = birthDay;
+            PassWordHash = passwordHash;
             FullName = fullName;
+
         }
         #endregion
 
@@ -43,7 +48,8 @@ namespace AuthenticationService.Domain.Entities
             string lastName,
             string email,
             string phone,
-            DateTimeOffset birthDay)
+            string passwordHash,
+            DateTime birthDay)
         {
 
             var fullNameResult = FullName.Create(firstName, lastName);
@@ -62,7 +68,10 @@ namespace AuthenticationService.Domain.Entities
             if (emailResult.IsFailure)
                 return ExecutionResult.Failure<UserEntity>(emailResult.Error);
 
-            return ExecutionResult.Success(new UserEntity(userNameResult.Value, fullNameResult.Value, emailResult.Value, phoneResult.Value, birthDay));
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                return ExecutionResult.Failure<UserEntity>(UserError.PasswordNotBeEmpty());
+
+            return ExecutionResult.Success(new UserEntity(userNameResult.Value, fullNameResult.Value, emailResult.Value, phoneResult.Value, passwordHash, birthDay));
         }
 
         public IExecutionResult SetFullName(string firstName, string lastNmae)

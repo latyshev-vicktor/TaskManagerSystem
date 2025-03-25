@@ -8,7 +8,7 @@ namespace AuthenticationService.Domain.ValueObjects.User
 {
     public class Phone : ValueObject
     {
-        private const string PATTERN = @"\+7\d{10}";
+        private const string PATTERN = @"^\+7\d{10}$";
         public const int MAX_LENGHT_PHONE_NUMBER = 12;
 
         public string PhoneNumber { get; }

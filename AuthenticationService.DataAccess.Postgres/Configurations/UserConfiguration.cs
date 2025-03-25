@@ -11,6 +11,7 @@ namespace AuthenticationService.DataAccess.Postgres.Configurations
         {
             builder.ToTable("Users");
 
+            builder.Property(x => x.BirthDay).IsRequired();
             builder.HasMany(x => x.Roles)
                    .WithMany(x => x.Users)
                    .UsingEntity<RoleUserEntity>(

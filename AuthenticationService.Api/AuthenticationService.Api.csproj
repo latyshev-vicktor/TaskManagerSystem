@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
       <PrivateAssets>all</PrivateAssets>
@@ -18,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationService.Application\AuthenticationService.Application.csproj" />
     <ProjectReference Include="..\AuthenticationService.DataAccess.Postgres\AuthenticationService.DataAccess.Postgres.csproj" />
+    <ProjectReference Include="..\AuthenticationService.Infrastructure.Impl\AuthenticationService.Infrastructure.Impl.csproj" />
   </ItemGroup>
 
 </Project>

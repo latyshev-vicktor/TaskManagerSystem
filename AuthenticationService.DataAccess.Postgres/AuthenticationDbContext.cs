@@ -15,6 +15,7 @@ namespace AuthenticationService.DataAccess.Postgres
         public DbSet<RoleUserEntity> RoleUsers { get; set; }
         public DbSet<RolePermissionEntity> RolePermissions { get; set; }
 
+        public DbSet<EmailVerificationTokenEntity> EmailVerificationTokens { get; set; }
         public AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options, IMediator mediator) : base(options)
         {
             _mediator = mediator;
