@@ -51,6 +51,17 @@ namespace Tasks.Api.Controllers
             return NoContent();
         }
 
+        [HttpGet("my")]
+        public async Task<ActionResult<List<FieldActivityDto>>> GetMyFieldActivities()
+        {
+            var userId = principal.GetUserId();
+
+            var query = new GetMyFieldActivitiesQuery(userId);
+            var result = await mediator.Send(query);
+
+            return Ok(result.Value);
+        }
+
         [HttpPost("all")]
         public async Task<ActionResult<List<FieldActivityDto>>> GetAllByFilter([FromBody] FieldActivityFilter filter)
         {

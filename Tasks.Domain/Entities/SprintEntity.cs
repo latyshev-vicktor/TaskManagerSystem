@@ -61,10 +61,10 @@ namespace Tasks.Domain.Entities
             if (userId == default)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.UserNotEmpty());
 
-            if (startDate.Date < DateTimeOffset.Now)
+            if (startDate.Date < DateTimeOffset.Now.Date)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.StartDateNotBeLessNow());
 
-            if (startDate.Date < DateTimeOffset.Now)
+            if (startDate.Date > endDate.Date)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.EndDateNotBeLessNow());
 
             var nameResult = SprintName.Create(name);

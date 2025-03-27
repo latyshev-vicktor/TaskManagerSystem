@@ -4,8 +4,6 @@ namespace Tasks.Application.UseCases.Sprint.Dto
 {
     public class CreateSprintDto
     {
-        [Required]
-        public long UserId { get; set; }
 
         [Required]
         public string Name { get; set; }
