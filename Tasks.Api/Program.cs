@@ -2,11 +2,14 @@ using Newtonsoft.Json;
 using Tasks.DataAccess.Postgres;
 using Tasks.Application;
 using System.Text.Json.Serialization;
+using Tasks.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPostgres(builder.Configuration)
-                .AddApplication();
+                .AddApplication()
+                .AddCustomAuthentication(builder.Configuration)
+                .AddHttpContextAccessor();
 
 builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
