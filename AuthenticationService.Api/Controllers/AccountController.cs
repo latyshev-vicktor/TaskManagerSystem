@@ -6,6 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Security.Principal;
+using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Options;
 
 namespace AuthenticationService.Api.Controllers
@@ -13,7 +15,7 @@ namespace AuthenticationService.Api.Controllers
     [Route("api/[controller]")]
     [AllowAnonymous]
     [ApiController]
-    public class AccountController(IMediator mediator, IOptions<JwtSettings> options) : ControllerBase
+    public class AccountController(IMediator mediator, IOptions<JwtSettings> options, IPrincipal principal) : ControllerBase
     {
         private readonly JwtSettings _jwtSettings = options.Value;
 
