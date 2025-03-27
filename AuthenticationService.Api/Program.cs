@@ -1,8 +1,10 @@
+using AuthenticationService.Api.Extensions;
 using AuthenticationService.Application;
 using AuthenticationService.DataAccess.Postgres;
 using AuthenticationService.Infrastructure.Impl;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using TaskManagerSystem.Common.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ var port = builder.Configuration.GetValue<int>("Email:Port");
 builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
                 .AddImplementation()
+                .AddCustomAuthentication(builder.Configuration)
                 .AddFluentEmail(senderEmail, sender)
                 .AddSmtpSender(host, port);
 
@@ -22,17 +25,10 @@ builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+builder.Services.Configure<JwtSettings>(options => builder.Configuration.GetSection("JwtSettings").Bind(options));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Api", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-    });
-});
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

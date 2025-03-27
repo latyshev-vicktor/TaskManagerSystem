@@ -47,5 +47,8 @@ namespace AuthenticationService.Domain.Errors
 
         public static Error PasswordNotBeEmpty()
             => new(ResultCode.BadRequest, "Пароль не может быть пустым");
+
+        public static Error NotFoundByEmailOrPassword()
+            => new(ResultCode.BadRequest, "Неправильные email или пароль");
     }
 }

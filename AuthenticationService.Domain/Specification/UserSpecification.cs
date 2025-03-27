@@ -10,5 +10,8 @@ namespace AuthenticationService.Domain.Specification
 
         public static Spec<UserEntity> ByUserName(string userName)
             => new(x => x.UserName.Value == userName);
+
+        public static Spec<UserEntity> ByPassword(string hashPassword)
+            => new(x => x.PasswordHash == hashPassword);
     }
 }

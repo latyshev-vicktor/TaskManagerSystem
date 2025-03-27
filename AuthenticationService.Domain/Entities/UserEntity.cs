@@ -13,7 +13,7 @@ namespace AuthenticationService.Domain.Entities
         public FullName FullName { get; private set; }
         public Email Email { get; private set; }
         public DateTime BirthDay { get; private set; }
-        public string PassWordHash { get; private set; }
+        public string PasswordHash { get; private set; }
 
         public List<RoleEntity> Roles { get; set; } = [];
 
@@ -35,7 +35,7 @@ namespace AuthenticationService.Domain.Entities
             Email = email;
             Phone = phone;
             BirthDay = birthDay;
-            PassWordHash = passwordHash;
+            PasswordHash = passwordHash;
             FullName = fullName;
 
         }
