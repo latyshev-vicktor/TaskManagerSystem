@@ -13,5 +13,8 @@ namespace Tasks.Domain.Errors
 
         public static Error ExistSprintForDeleteCurrentActivity()
             => new(ResultCode.BadRequest, "Невозможно удалить сферу деятельности, так как существует связанный с ней спринт");
+
+        public static Error NotFoundUserId()
+            => new(ResultCode.BadRequest, "Идентификатор пользователя не найден");
     }
 }

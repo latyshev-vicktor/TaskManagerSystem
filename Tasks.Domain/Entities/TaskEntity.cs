@@ -1,6 +1,7 @@
 ﻿using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Domain.Errors;
+using Tasks.Domain.SeedWork;
 using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Domain.Entities

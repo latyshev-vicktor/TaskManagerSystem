@@ -1,4 +1,6 @@
-﻿namespace Tasks.Domain.Entities
+﻿using Tasks.Domain.SeedWork;
+
+namespace Tasks.Domain.Entities
 {
     public class FieldActivityEntity : BaseEntity
     {

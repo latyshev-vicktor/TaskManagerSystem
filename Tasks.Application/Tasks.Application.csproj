@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UseCases\Sprint\Queries\**" />
+    <EmbeddedResource Remove="UseCases\Sprint\Queries\**" />
+    <None Remove="UseCases\Sprint\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
@@ -18,10 +24,6 @@
     <ProjectReference Include="..\TaskManagerSystem.Common\TaskManagerSystem.Common.csproj" />
     <ProjectReference Include="..\Tasks.DataAccess.Postgres\Tasks.DataAccess.Postgres.csproj" />
     <ProjectReference Include="..\Tasks.Domain\Tasks.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UseCases\Sprint\Queries\" />
   </ItemGroup>
 
 </Project>

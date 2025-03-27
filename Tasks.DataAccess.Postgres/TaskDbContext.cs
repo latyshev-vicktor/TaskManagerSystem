@@ -2,17 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Tasks.Domain.Entities;
+using Tasks.Domain.SeedWork;
 
 namespace Tasks.DataAccess.Postgres
 {
-    public class TaskDbContext(DbContextOptions<TaskDbContext> options, IMediator mediator) : DbContext(options)
+    public class TaskDbContext : DbContext
     {
-        private readonly IMediator _mediator = mediator;
+        private readonly IMediator _mediator;
 
         public DbSet<SprintEntity> Sprints { get; set; }
         public DbSet<TargetEntity> Targets { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<FieldActivityEntity> FieldActivities { get; set; }
+
+        public TaskDbContext(DbContextOptions<TaskDbContext> options, IMediator mediator) : base(options) 
+        {
+            _mediator = mediator;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

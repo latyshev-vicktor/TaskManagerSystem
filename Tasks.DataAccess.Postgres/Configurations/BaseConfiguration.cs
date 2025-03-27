@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Tasks.Domain.Entities;
+using Tasks.Domain.SeedWork;
 
 namespace Tasks.DataAccess.Postgres.Configurations
 {
@@ -14,8 +14,8 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.Property(x => x.DeletedDate).HasDefaultValue(null).IsRequired(false);
-            builder.Property(x => x.CreatedDate).IsRequired();
             builder.HasQueryFilter(x => !x.IsDeleted);
+            builder.Property(x => x.CreatedDate).IsRequired();
 
             Config(builder);
         }

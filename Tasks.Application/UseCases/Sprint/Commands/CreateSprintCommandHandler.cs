@@ -11,7 +11,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
         public async Task<IExecutionResult<long>> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
         {
             var sprintResult = SprintEntity.Create(
-                request.Dto.UserId,
+                request.UserId,
                 request.Dto.Name,
                 request.Dto.Description,
                 request.Dto.FieldActivityId,

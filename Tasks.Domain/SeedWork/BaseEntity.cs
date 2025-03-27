@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Tasks.Domain.Entities
+namespace Tasks.Domain.SeedWork
 {
     public abstract class BaseEntity
     {
