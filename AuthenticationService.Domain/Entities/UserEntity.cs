@@ -1,4 +1,5 @@
-﻿using AuthenticationService.Domain.Errors;
+﻿using AuthenticationService.Domain.DomainEvents;
+using AuthenticationService.Domain.Errors;
 using AuthenticationService.Domain.SeedWork;
 using AuthenticationService.Domain.ValueObjects.User;
 using TaskManagerSystem.Common.Implementation;
@@ -38,6 +39,7 @@ namespace AuthenticationService.Domain.Entities
             PasswordHash = passwordHash;
             FullName = fullName;
 
+            RiseDomainEvents(new CreateNewUserEvent(Email.Value, FullName.FirstName, FullName.LastName));
         }
         #endregion
 

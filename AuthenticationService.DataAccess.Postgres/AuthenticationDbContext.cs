@@ -39,18 +39,20 @@ namespace AuthenticationService.DataAccess.Postgres
 
         private async Task PublishDomainEvents(CancellationToken cancellationToken)
         {
-            var domainEventsFromEntity = ChangeTracker.Entries<BaseEntity>()
-                                                      .Select(entry => entry.Entity)
-                                                      .SelectMany(entity =>
-                                                      {
-                                                          var domainEvents = entity.GetDomainEvents();
+            var domainEntites = ChangeTracker.Entries<BaseEntity>()
+                .Where(x => x.Entity.GetDomainEvents().Any())
+                .Select(x => x.Entity)
+                .ToList();
 
-                                                          entity.ClearDomainEvents();
+            var domainEvents = domainEntites.SelectMany(x => x.GetDomainEvents())
+                                            .ToList();
 
-                                                          return domainEvents;
-                                                      });
+            domainEntites.ToList().ForEach(x =>
+            {
+                x.ClearDomainEvents();
+            });
 
-            foreach (var domainEvent in domainEventsFromEntity)
+            foreach (var domainEvent in domainEvents)
                 await _mediator.Publish(domainEvent, cancellationToken);
         }
     }
