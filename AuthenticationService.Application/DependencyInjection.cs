@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using AuthenticationService.Application.Consumers;
+using FluentValidation;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TaskManagerSystem.Common.Interfaces;
@@ -27,6 +29,22 @@ namespace AuthenticationService.Application
             {
                 options.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
                 options.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+            });
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<SendEmailByCreatedNewUserConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
             });
 
             return services;

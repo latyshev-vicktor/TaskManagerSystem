@@ -1,4 +1,6 @@
+using AuthenticationService.Api;
 using AuthenticationService.Api.Extensions;
+using AuthenticationService.Api.Handlers;
 using AuthenticationService.Application;
 using AuthenticationService.DataAccess.Postgres;
 using AuthenticationService.Infrastructure.Impl;
@@ -9,22 +11,18 @@ using TaskManagerSystem.Common.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var senderEmail = builder.Configuration["Email:SenderEmail"];
-var sender = builder.Configuration["Email:Sender"];
-var host = builder.Configuration["Email:Host"];
-var port = builder.Configuration.GetValue<int>("Email:Port");
-
 builder.Services.Configure<JwtSettings>(options => builder.Configuration.GetSection("JwtSettings").Bind(options));
+builder.Services.Configure<SmptSettings>(options => builder.Configuration.GetSection("SmptSettings").Bind(options));
 
 builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
                 .AddImplementation()
                 .AddHttpContextAccessor()
-                .AddCustomAuthentication(builder.Configuration)
-                .AddFluentEmail(senderEmail, sender)
-                .AddSmtpSender(host, port);
+                .AddCustomAuthentication(builder.Configuration);
 
 builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
@@ -42,6 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

@@ -14,8 +14,7 @@ namespace AuthenticationService.Application.UseCases.User.Commands
 {
     public class CreateUserRequestHandler(
         AuthenticationDbContext dbContext, 
-        IPasswordHasher passwordHasher,
-        IFluentEmail fluentEmail) : IRequestHandler<CreateUserRequest, IExecutionResult>
+        IPasswordHasher passwordHasher) : IRequestHandler<CreateUserRequest, IExecutionResult>
     {
         public async Task<IExecutionResult> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
