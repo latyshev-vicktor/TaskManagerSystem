@@ -4,6 +4,7 @@ using AuthenticationService.Api.Handlers;
 using AuthenticationService.Application;
 using AuthenticationService.DataAccess.Postgres;
 using AuthenticationService.Infrastructure.Impl;
+using MassTransit;
 using Newtonsoft.Json;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
@@ -12,7 +13,6 @@ using TaskManagerSystem.Common.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<JwtSettings>(options => builder.Configuration.GetSection("JwtSettings").Bind(options));
-builder.Services.Configure<SmptSettings>(options => builder.Configuration.GetSection("SmptSettings").Bind(options));
 
 builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
@@ -30,6 +30,20 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

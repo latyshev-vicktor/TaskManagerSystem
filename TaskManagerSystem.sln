@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.DataAccess.Postgres",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasks.Infrastructure.Impl", "Tasks.Infrastructure.Impl\Tasks.Infrastructure.Impl.csproj", "{D663FEAD-28F1-46DC-AF2F-28C7C97637DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerSystem.Common", "TaskManagerSystem.Common\TaskManagerSystem.Common.csproj", "{1D1BC83E-572B-4E82-82F0-F77CF867998F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagerSystem.Common", "TaskManagerSystem.Common\TaskManagerSystem.Common.csproj", "{1D1BC83E-572B-4E82-82F0-F77CF867998F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentatin", "1. Presentatin", "{9CEDD69E-E1CF-4B14-98AD-390AA7BED09D}"
 EndProject
@@ -39,15 +39,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{96FB962C-ACAE-4E10-B81C-230CAC7CEB21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService.Api", "AuthenticationService.Api\AuthenticationService.Api.csproj", "{A7972601-6E2F-4502-A3E1-B4D136FC048B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Api", "AuthenticationService.Api\AuthenticationService.Api.csproj", "{A7972601-6E2F-4502-A3E1-B4D136FC048B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService.Application", "AuthenticationService.Application\AuthenticationService.Application.csproj", "{B54C2F03-3605-4CA3-9789-50DE8A4B6FD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Application", "AuthenticationService.Application\AuthenticationService.Application.csproj", "{B54C2F03-3605-4CA3-9789-50DE8A4B6FD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService.Domain", "AuthenticationService.Domain\AuthenticationService.Domain.csproj", "{178ABDC4-DBAA-45CA-BDF3-26DBE7963647}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Domain", "AuthenticationService.Domain\AuthenticationService.Domain.csproj", "{178ABDC4-DBAA-45CA-BDF3-26DBE7963647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService.DataAccess.Postgres", "AuthenticationService.DataAccess.Postgres\AuthenticationService.DataAccess.Postgres.csproj", "{5EA445EC-BFEC-4279-948D-86D7E7E8A98D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.DataAccess.Postgres", "AuthenticationService.DataAccess.Postgres\AuthenticationService.DataAccess.Postgres.csproj", "{5EA445EC-BFEC-4279-948D-86D7E7E8A98D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService.Infrastructure.Impl", "AuthenticationService.Infrastructure.Impl\AuthenticationService.Infrastructure.Impl.csproj", "{43ABAA12-3A12-493D-81C3-0CF2655ACF3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Infrastructure.Impl", "AuthenticationService.Infrastructure.Impl\AuthenticationService.Infrastructure.Impl.csproj", "{43ABAA12-3A12-493D-81C3-0CF2655ACF3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notificaion", "Notificaion", "{844E3E40-EE07-4C73-9CD0-1D3482F9C4BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation", "1. Presentation", "{6CE6B455-3E01-4818-A1CD-BE4C944C641D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{9B0B1793-D941-4116-B011-DEAE28257BB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{C5B936AB-5E67-4993-A0B3-476D02EDDFE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{D9797940-1CEB-4C10-8C9C-9E7D823711E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Api", "Notification.Api\Notification.Api.csproj", "{4D84B56E-B40E-434D-9408-AC6A0D3CE17D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Application", "Notification.Application\Notification.Application.csproj", "{0892CBCD-2885-48EF-9408-7E276A0E8FDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Infrastructure.Impl", "Notification.Infrastructure.Impl\Notification.Infrastructure.Impl.csproj", "{200FBB66-6939-488E-B563-E4B90B67CAEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +115,18 @@ Global
 		{43ABAA12-3A12-493D-81C3-0CF2655ACF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43ABAA12-3A12-493D-81C3-0CF2655ACF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43ABAA12-3A12-493D-81C3-0CF2655ACF3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D84B56E-B40E-434D-9408-AC6A0D3CE17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D84B56E-B40E-434D-9408-AC6A0D3CE17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D84B56E-B40E-434D-9408-AC6A0D3CE17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D84B56E-B40E-434D-9408-AC6A0D3CE17D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0892CBCD-2885-48EF-9408-7E276A0E8FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0892CBCD-2885-48EF-9408-7E276A0E8FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0892CBCD-2885-48EF-9408-7E276A0E8FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0892CBCD-2885-48EF-9408-7E276A0E8FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200FBB66-6939-488E-B563-E4B90B67CAEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200FBB66-6939-488E-B563-E4B90B67CAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200FBB66-6939-488E-B563-E4B90B67CAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200FBB66-6939-488E-B563-E4B90B67CAEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +154,14 @@ Global
 		{178ABDC4-DBAA-45CA-BDF3-26DBE7963647} = {ADA264A9-64A9-4E61-A492-F6F87A691AE0}
 		{5EA445EC-BFEC-4279-948D-86D7E7E8A98D} = {96FB962C-ACAE-4E10-B81C-230CAC7CEB21}
 		{43ABAA12-3A12-493D-81C3-0CF2655ACF3F} = {96FB962C-ACAE-4E10-B81C-230CAC7CEB21}
+		{844E3E40-EE07-4C73-9CD0-1D3482F9C4BA} = {94754155-831E-4DB5-A48F-243984102618}
+		{6CE6B455-3E01-4818-A1CD-BE4C944C641D} = {844E3E40-EE07-4C73-9CD0-1D3482F9C4BA}
+		{9B0B1793-D941-4116-B011-DEAE28257BB8} = {844E3E40-EE07-4C73-9CD0-1D3482F9C4BA}
+		{C5B936AB-5E67-4993-A0B3-476D02EDDFE0} = {844E3E40-EE07-4C73-9CD0-1D3482F9C4BA}
+		{D9797940-1CEB-4C10-8C9C-9E7D823711E6} = {844E3E40-EE07-4C73-9CD0-1D3482F9C4BA}
+		{4D84B56E-B40E-434D-9408-AC6A0D3CE17D} = {6CE6B455-3E01-4818-A1CD-BE4C944C641D}
+		{0892CBCD-2885-48EF-9408-7E276A0E8FDB} = {9B0B1793-D941-4116-B011-DEAE28257BB8}
+		{200FBB66-6939-488E-B563-E4B90B67CAEF} = {D9797940-1CEB-4C10-8C9C-9E7D823711E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11A4E9F6-C907-4BF5-921E-8881B0EA289A}
