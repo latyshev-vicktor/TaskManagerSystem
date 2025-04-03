@@ -1,10 +1,10 @@
-﻿namespace AuthenticationService.Api
+﻿namespace Notification.Application.Options
 {
-    public class SmptSettings
+    public class SmptSetting
     {
         public string Host { get; set; }
         public int Port { get; set; }
-        public string Username { get;set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public string FromEmail { get; set; }
         public string FromName { get; set; }
