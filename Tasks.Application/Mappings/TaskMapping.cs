@@ -18,7 +18,7 @@ namespace Tasks.Application.Mappings
                     Name = entity.Status.Value,
                     Description = entity.Status.Description
                 },
-                //Target = entity.Target
+                Target = entity.Target?.ToDto()
             };
         }
     }

@@ -3,12 +3,12 @@
     public class SprintFilter
     {
         public long? Id { get; set; }
-        public long? UserId { get; private set; }
-        public string? Name { get; private set; }
-        public string? Description { get; private set; }
-        public DateTimeOffset? StartDate { get; private set; }
-        public DateTimeOffset? EndDate { get; private set; }
-        public string? Status { get; private set; }
-        public long? FieldActivityId { get; private set; }
+        public long? UserId { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
+        public string? Status { get; set; }
+        public long? FieldActivityId { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace Tasks.Api.Extensions
                 {
                     OnMessageReceived = context =>
                     {
-                        context.Token = context.HttpContext.Request.Cookies["accessToken"];
+                        context.Token = context.HttpContext.Request.Cookies["access_token"];
                         return Task.CompletedTask;
                     }
                 };

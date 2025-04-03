@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
 using TaskManagerSystem.Common.Extensions;
+using Tasks.Application.Dto;
+using Tasks.Application.UseCases.FIeldActivity.Queires;
 using Tasks.Application.UseCases.Sprint.Commands;
 using Tasks.Application.UseCases.Sprint.Dto;
+using Tasks.Application.UseCases.Sprint.Queries;
 
 namespace Tasks.Api.Controllers
 {
@@ -20,6 +23,15 @@ namespace Tasks.Api.Controllers
 
             if (result.IsFailure)
                 return BadRequest(result.Error.Message);
+
+            return Ok(result.Value);
+        }
+
+        [HttpPost("allByFilter")]
+        public async Task<ActionResult<List<SprintDto>>> GetAllByFilter([FromBody]SprintFilter filter)
+        {
+            var query = new GetAllSprintByFilterQuery(filter);
+            var result = await mediator.Send(query);
 
             return Ok(result.Value);
         }

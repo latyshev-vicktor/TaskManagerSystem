@@ -43,7 +43,8 @@ namespace Tasks.Application.UseCases.Sprint.Queries
             if (filter.FieldActivityId.HasValue)
                 spec &= SprintSpecification.ByFieldActivity(filter.FieldActivityId.Value);
 
-            var result = await dbContext.Sprints.Where(spec)
+            var result = await dbContext.Sprints.AsNoTracking()
+                                                .Where(spec)
                                                 .Select(x => x.ToDto())
                                                 .ToListAsync(cancellationToken);
 
