@@ -10,11 +10,16 @@ namespace Tasks.Domain.ValueObjects
         private static readonly SprintStatus[] _all = [Created, Completed];
 
         public string Value { get; }
-        public static readonly SprintStatus Created = new(nameof(Created));
-        public static readonly SprintStatus Completed = new(nameof(Completed));
+        public string Description { get; }
+        public static readonly SprintStatus Created = new(nameof(Created), "Созданный");
+        public static readonly SprintStatus Completed = new(nameof(Completed), "Завершенный");
 
         protected SprintStatus() { }
-        protected SprintStatus(string value) => Value = value;
+        protected SprintStatus(string value, string description)
+        {
+            Value = value;
+            Description = description;
+        }
 
         public static IExecutionResult<SprintStatus> Create(string value)
         {
