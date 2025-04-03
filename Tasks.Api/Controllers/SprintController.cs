@@ -36,6 +36,15 @@ namespace Tasks.Api.Controllers
             return Ok(result.Value);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] SprintDto dto)
+        {
+            var command = new UpdateSprintCommand(dto);
+            var result = await mediator.Send(command);
+
+            return Ok(result.Value);
+        }
+
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> Delete(long id)
         {
