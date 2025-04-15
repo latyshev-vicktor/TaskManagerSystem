@@ -18,7 +18,8 @@ builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
                 .AddImplementation()
                 .AddHttpContextAccessor()
-                .AddCustomAuthentication(builder.Configuration);
+                .AddCustomAuthentication(builder.Configuration)
+                .AddCustomCors();
 
 builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddProblemDetails();
@@ -54,8 +55,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+
+app.UseCors("AuthenticationPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

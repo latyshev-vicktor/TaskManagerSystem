@@ -1,4 +1,5 @@
 using MassTransit;
+using Notification.Api.Extension;
 using Notification.Application.Consumers;
 using Notification.Application.Options;
 using Notification.Infrastructure.Impl;
@@ -7,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure()
+                .AddCustomCors();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,6 +44,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("NotificationPolicy");
 
 app.UseAuthorization();
 

@@ -14,7 +14,8 @@ builder.Services.Configure<JwtSettings>(options => builder.Configuration.GetSect
 builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
                 .AddCustomAuthentication(builder.Configuration)
-                .AddHttpContextAccessor();
+                .AddHttpContextAccessor()
+                .AddCustomCors();
 
 builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddProblemDetails();
@@ -39,6 +40,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+
+app.UseCors("TaskPolicy")
 
 app.UseAuthentication();
 app.UseAuthorization();
