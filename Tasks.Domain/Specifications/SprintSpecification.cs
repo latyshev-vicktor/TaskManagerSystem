@@ -14,7 +14,19 @@ namespace Tasks.Domain.Specifications
         public static Spec<SprintEntity> ByStatus(string statusName)
             => new(x => x.Status.Value == statusName);
 
+        public static Spec<SprintEntity> ByName(string name)
+            => new(x => x.Name.Name == name);
+
+        public static Spec<SprintEntity> ByDescription(string description)
+            => new(x => x.Description.Description == description);
+
         public static Spec<SprintEntity> ByFieldActivity(long fieldActivityId)
             => new(x => x.FieldActivityId == fieldActivityId);
+
+        public static Spec<SprintEntity> LessDateEnd(DateTimeOffset endDate)
+            => new(x => x.EndDate < endDate);
+
+        public static Spec<SprintEntity> ModeStartEnd(DateTimeOffset startDate)
+            => new(x => x.StartDate < startDate);
     }
 }

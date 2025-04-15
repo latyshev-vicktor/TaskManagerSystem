@@ -1,6 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using TaskManagerSystem.Common.Enums;
-using TaskManagerSystem.Common.Errors;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Domain.Errors;
@@ -12,12 +10,19 @@ namespace Tasks.Domain.ValueObjects
         private static readonly TasksStatus[] _all = [Created, InWork, Completed];
 
         public string Value { get; }
-        public static readonly TasksStatus Created = new(nameof(Created));
-        public static readonly TasksStatus InWork = new(nameof(InWork));
-        public static readonly TasksStatus Completed = new(nameof(Completed));
+
+        public string Description { get; }
+
+        public static readonly TasksStatus Created = new(nameof(Created), "Созданная");
+        public static readonly TasksStatus InWork = new(nameof(InWork), "В работе");
+        public static readonly TasksStatus Completed = new(nameof(Completed), "Завершенная");
 
         protected TasksStatus() { }
-        protected TasksStatus(string value) => Value = value;
+        protected TasksStatus(string value, string description)
+        {
+            Value = value;
+            Description = description;
+        }
 
         public static IExecutionResult<TasksStatus> Create(string value)
         {
