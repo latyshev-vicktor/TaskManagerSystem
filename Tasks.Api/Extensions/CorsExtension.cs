@@ -8,7 +8,7 @@
             {
                 policy.AddPolicy("TaskPolicy", options =>
                 {
-                    options.AllowAnyHeader()
+                    options.AllowAnyOrigin()
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });

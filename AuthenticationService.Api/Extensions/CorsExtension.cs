@@ -8,7 +8,7 @@
             {
                 policy.AddPolicy("AuthenticationPolicy", options =>
                 {
-                    options.AllowAnyHeader()
+                    options.AllowAnyOrigin()
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });
