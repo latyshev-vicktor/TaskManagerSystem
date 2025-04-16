@@ -43,13 +43,7 @@ namespace AuthenticationService.Api.Extensions
                 };
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Api", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                });
-            });
+            services.AddAuthorization();
 
             return services;
         }
