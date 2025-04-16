@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
 using TaskManagerSystem.Common.Extensions;
 using Tasks.Application.Dto;
-using Tasks.Application.UseCases.FIeldActivity.Queires;
 using Tasks.Application.UseCases.Sprint.Commands;
 using Tasks.Application.UseCases.Sprint.Dto;
 using Tasks.Application.UseCases.Sprint.Queries;

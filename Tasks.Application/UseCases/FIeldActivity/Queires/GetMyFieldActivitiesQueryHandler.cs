@@ -14,6 +14,7 @@ namespace Tasks.Application.UseCases.FIeldActivity.Queires
         public async Task<IExecutionResult<List<FieldActivityDto>>> Handle(GetMyFieldActivitiesQuery request, CancellationToken cancellationToken)
         {
             var result = await dbContext.FieldActivities
+                                        .AsNoTracking()
                                         .Where(FieldActivitySpecification.ByUserId(request.UserId))
                                         .Select(x => x.ToDto())
                                         .ToListAsync(cancellationToken);

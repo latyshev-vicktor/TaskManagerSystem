@@ -5,6 +5,8 @@ using AuthenticationService.Application;
 using AuthenticationService.DataAccess.Postgres;
 using AuthenticationService.Infrastructure.Impl;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
@@ -18,15 +20,21 @@ builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
                 .AddImplementation()
                 .AddHttpContextAccessor()
-                .AddCustomAuthentication(builder.Configuration);
+                .AddCustomAuthentication(builder.Configuration)
+                .AddCustomCors();
 
 builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddControllers()
-                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
-                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.AddControllers(options =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+                }).AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
+                  .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -54,8 +62,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+
+app.UseCors("AuthenticationPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

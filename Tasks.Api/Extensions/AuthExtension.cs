@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TaskManagerSystem.Common.Options;
@@ -43,13 +44,7 @@ namespace Tasks.Api.Extensions
                 };
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Api", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                });
-            });
+            services.AddAuthorization();
 
             return services;
         }
