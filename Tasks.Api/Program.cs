@@ -8,6 +8,7 @@ using TaskManagerSystem.Common.Options;
 using Tasks.Api.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using TaskManagerSystem.Common.CommonMiddlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler();
+app.UseMiddleware<TaskCancellationMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseCors("TaskPolicy");
