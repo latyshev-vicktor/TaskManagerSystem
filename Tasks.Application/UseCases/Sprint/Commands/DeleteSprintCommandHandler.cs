@@ -11,7 +11,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
     {
         public async Task<IExecutionResult> Handle(DeleteSprintCommand request, CancellationToken cancellationToken)
         {
-            var deletedSprint = await dbContext.Sprints.FirstOrDefaultAsync(SprintSpecification.ById(request.SprintId));
+            var deletedSprint = await dbContext.Sprints.FirstOrDefaultAsync(SprintSpecification.ById(request.SprintId), cancellationToken);
             deletedSprint!.Delete();
 
             return ExecutionResult.Success();

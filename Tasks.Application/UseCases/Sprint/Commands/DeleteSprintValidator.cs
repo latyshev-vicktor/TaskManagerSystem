@@ -22,16 +22,6 @@ namespace Tasks.Application.UseCases.Sprint.Commands
             if (deletedSprint.Status == SprintStatus.Completed)
                 return ExecutionResult.Failure(SprintError.CompletedSprintNotBeDeleted());
 
-            //if (long.TryParse(context.User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value, out long userId))
-            //{
-            //    if (deletedSprint.UserId != userId)
-            //        return ExecutionResult.Failure(SprintError.SprintDoesNotBelongForCurrentUser());
-            //}
-            //else
-            //{
-            //    return ExecutionResult.Failure(new Error(TaskManagerSystem.Common.Enums.ResultCode.BadRequest, "Не удалось получить id пользователя"));
-            //}
-
             return ExecutionResult.Success();
         }
     }
