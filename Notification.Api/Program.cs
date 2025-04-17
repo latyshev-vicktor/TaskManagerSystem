@@ -3,6 +3,7 @@ using Notification.Api.Extension;
 using Notification.Application.Consumers;
 using Notification.Application.Options;
 using Notification.Infrastructure.Impl;
+using TaskManagerSystem.Common.CommonMiddlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<TaskCancellationMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseCors("NotificationPolicy");

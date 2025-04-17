@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
+using TaskManagerSystem.Common.CommonMiddlewares;
 using TaskManagerSystem.Common.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseExceptionHandler();
+app.UseMiddleware<TaskCancellationMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseCors("AuthenticationPolicy");
