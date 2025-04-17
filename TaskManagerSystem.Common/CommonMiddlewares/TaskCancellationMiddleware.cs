@@ -13,7 +13,10 @@ namespace TaskManagerSystem.Common.CommonMiddlewares
             }
             catch (Exception _) when (_ is OperationCanceledException or TaskCanceledException)
             {
-                logger.LogInformation($"Операция по пути {context.Connection.LocalIpAddress} - {context.Request.Path} была отменена...");
+                var request = context.Request;
+                var fullUrl = $"{request.Method} {request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
+
+                logger.LogInformation("Запрос был отменён: {FullUrl}", fullUrl);
             }
         }
     }
