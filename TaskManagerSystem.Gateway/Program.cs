@@ -12,9 +12,10 @@ builder.Services.AddCors(policy =>
     policy.AddPolicy("GatewayPolicy", options =>
     {
 
-        options.AllowAnyOrigin()
+        options.WithOrigins("http://localhost:4200")
                .AllowAnyHeader()
-               .AllowAnyMethod();
+               .AllowAnyMethod()
+               .AllowCredentials();
     });
 });
 
