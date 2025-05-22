@@ -9,6 +9,7 @@ using Tasks.Api.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using TaskManagerSystem.Common.CommonMiddlewares;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<TaskDbContext>();
+await dbContext.Database.MigrateAsync().ConfigureAwait(false);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

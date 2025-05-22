@@ -8,9 +8,9 @@
             {
                 policy.AddPolicy("AuthenticationPolicy", options =>
                 {
-                    options.AllowAnyOrigin()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
+                    options.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                 });
             });
         }

@@ -7,6 +7,7 @@ using AuthenticationService.Infrastructure.Impl;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
@@ -56,6 +57,12 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
+await dbContext.Database.MigrateAsync().ConfigureAwait(false);
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
