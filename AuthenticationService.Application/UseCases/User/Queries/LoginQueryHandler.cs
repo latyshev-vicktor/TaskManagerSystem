@@ -21,7 +21,7 @@ namespace AuthenticationService.Application.UseCases.User.Queries
                                       .FirstOrDefaultAsync(UserSpecification.ByEmail(request.Email), cancellationToken);
 
             var accessToken = tokenGenerator.GenerateToken(user!);
-            return ExecutionResult.Success(new LoginResponse(accessToken));
+            return ExecutionResult.Success(new LoginResponse(accessToken, user.Id, user.UserName.Value, user.Email.Value, user.FullName.FirstName, user.FullName.LastName));
         }
     }
 }

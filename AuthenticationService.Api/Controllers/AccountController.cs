@@ -39,7 +39,7 @@ namespace AuthenticationService.Api.Controllers
 
             SetResponseCookies(response.Value.AccessToken);
 
-            return NoContent();
+            return Ok(response.Value);
         }
 
         private void SetResponseCookies(string accessToken)
@@ -47,7 +47,7 @@ namespace AuthenticationService.Api.Controllers
             var cookieOption = new CookieOptions()
             {
                 HttpOnly = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.Now.AddDays(_jwtSettings.DaysToExpirationAccessToken),
                 Secure = true
             };
