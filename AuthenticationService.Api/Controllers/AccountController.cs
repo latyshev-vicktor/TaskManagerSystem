@@ -39,7 +39,7 @@ namespace AuthenticationService.Api.Controllers
 
             SetResponseCookies(response.Value.AccessToken);
 
-            return NoContent();
+            return Ok(response.Value);
         }
 
         private void SetResponseCookies(string accessToken)
