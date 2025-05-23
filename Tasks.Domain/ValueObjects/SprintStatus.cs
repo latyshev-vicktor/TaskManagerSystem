@@ -12,6 +12,7 @@ namespace Tasks.Domain.ValueObjects
         public string Value { get; }
         public string Description { get; }
         public static readonly SprintStatus Created = new(nameof(Created), "Созданный");
+        public static readonly SprintStatus InProgress = new(nameof(InProgress), "В работе");
         public static readonly SprintStatus Completed = new(nameof(Completed), "Завершенный");
 
         protected SprintStatus() { }

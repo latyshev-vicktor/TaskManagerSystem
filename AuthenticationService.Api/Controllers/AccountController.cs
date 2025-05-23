@@ -47,7 +47,7 @@ namespace AuthenticationService.Api.Controllers
             var cookieOption = new CookieOptions()
             {
                 HttpOnly = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.Now.AddDays(_jwtSettings.DaysToExpirationAccessToken),
                 Secure = true
             };
