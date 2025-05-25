@@ -26,7 +26,10 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.ComplexProperty(x => x.Status, options =>
             {
                 options.IsRequired()
-                       .Property(x => x.Value).HasColumnName("Status");
+                       .Property(x => x.Value).HasColumnName("StatusName");
+
+                options.IsRequired()
+                       .Property(x => x.Description).HasColumnName("StatusDescription");
             });
 
             builder.ComplexProperty(x => x.Name, options =>
