@@ -5,7 +5,7 @@ using Tasks.Domain.ValueObjects;
 
 namespace Tasks.DataAccess.Postgres.Configurations
 {
-    public class SpringConfiguration : BaseConfiguration<SprintEntity>
+    public class SprintConfiguration : BaseConfiguration<SprintEntity>
     {
         protected override void Config(EntityTypeBuilder<SprintEntity> builder)
         {

@@ -14,7 +14,7 @@ namespace Tasks.Application.Mappings
                 CreatedDate = entity.CreatedDate,
                 Name = entity.Name.Name,
                 Description = entity.Description.Description,
-                SpringStatus = new SprintStatusDto
+                SprintStatus = new SprintStatusDto
                 {
                     Name = entity.Status.Value,
                     Description = entity.Status.Description,
