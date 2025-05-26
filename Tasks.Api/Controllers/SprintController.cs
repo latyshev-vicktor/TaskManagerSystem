@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
+using TaskManagerSystem.Common.Dtos;
 using TaskManagerSystem.Common.Extensions;
 using Tasks.Application.Dto;
 using Tasks.Application.UseCases.Sprint.Commands;
@@ -40,6 +41,15 @@ namespace Tasks.Api.Controllers
         {
             var command = new UpdateSprintCommand(dto);
             var result = await mediator.Send(command);
+
+            return Ok(result.Value);
+        }
+
+        [HttpPost("search")]
+        public async Task<ActionResult<SearchData<SprintDto>>> Search([FromBody]SprintFilter filter)
+        {
+            var query = new SearchSprintQuery(filter);
+            var result = await mediator.Send(query);
 
             return Ok(result.Value);
         }

@@ -1,4 +1,5 @@
-﻿using NSpecifications;
+﻿using Microsoft.EntityFrameworkCore;
+using NSpecifications;
 using Tasks.Domain.Entities;
 
 namespace Tasks.Domain.Specifications
@@ -15,10 +16,10 @@ namespace Tasks.Domain.Specifications
             => new(x => x.Status.Value == statusName);
 
         public static Spec<SprintEntity> ByName(string name)
-            => new(x => x.Name.Name == name);
+           => new(x => x.Name.Name.ToLower().Contains(name.ToLower()));
 
         public static Spec<SprintEntity> ByDescription(string description)
-            => new(x => x.Description.Description == description);
+            => new(x => x.Description.Description.ToLower().Contains(description.ToLower()));
 
         public static Spec<SprintEntity> ByFieldActivity(long fieldActivityId)
             => new(x => x.FieldActivityId == fieldActivityId);
