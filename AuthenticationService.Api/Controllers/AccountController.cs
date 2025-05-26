@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Security.Principal;
-using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Options;
 
 namespace AuthenticationService.Api.Controllers
@@ -26,7 +25,7 @@ namespace AuthenticationService.Api.Controllers
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
-                return BadRequest(result.Error.Message);
+                return BadRequest(result.Error);
 
             return NoContent();
         }

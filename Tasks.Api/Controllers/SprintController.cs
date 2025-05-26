@@ -21,7 +21,7 @@ namespace Tasks.Api.Controllers
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
-                return BadRequest(result.Error.Message);
+                return BadRequest(result.Error);
 
             return Ok(result.Value);
         }
@@ -51,7 +51,7 @@ namespace Tasks.Api.Controllers
             var result = await mediator.Send(command);
 
             if (result.IsFailure)
-                return BadRequest(result.Error.Message);
+                return BadRequest(result.Error);
 
             return NoContent();
         }
