@@ -48,6 +48,16 @@ namespace Tasks.Application.UseCases.Sprint.Queries
                                    .AsNoTracking()
                                    .Where(spec);
 
+            if (!string.IsNullOrWhiteSpace(filter.SortBy))
+            {
+                switch(filter.SortBy)
+                {
+                    case nameof(SprintEntity.CreatedDate):
+                        dbQuery = filter.SortDesc ? dbQuery.OrderByDescending(x => x.CreatedDate) : dbQuery.OrderBy(x => x.CreatedDate);
+                        break;
+                }
+            }
+
             var count = await dbQuery.CountAsync(cancellationToken);
 
             var data = await dbQuery.Skip(filter.Skip)
