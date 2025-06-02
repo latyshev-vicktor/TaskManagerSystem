@@ -50,5 +50,8 @@ namespace AuthenticationService.Domain.Errors
 
         public static Error NotFoundByEmailOrPassword()
             => new(ResultCode.BadRequest, "Неправильные email или пароль");
+
+        public static Error UserByRefreshTokenNotFound()
+            => new(ResultCode.UnAuthorize, "Пользователь по переданному refresh токену не найден");
     }
 }

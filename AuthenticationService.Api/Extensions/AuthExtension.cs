@@ -29,7 +29,7 @@ namespace AuthenticationService.Api.Extensions
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
-                    ClockSkew = jwtSettings.ExpireAccessToken
+                    ClockSkew = TimeSpan.Zero
                 };
                 options.SaveToken = true;
 
@@ -37,7 +37,8 @@ namespace AuthenticationService.Api.Extensions
                 {
                     OnMessageReceived = context =>
                     {
-                        context.Token = context.HttpContext.Request.Cookies["access_token"];
+                        var token = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                        context.Token = token;
                         return Task.CompletedTask;
                     }
                 };

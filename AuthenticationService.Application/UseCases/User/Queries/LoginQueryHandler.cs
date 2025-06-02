@@ -11,7 +11,8 @@ namespace AuthenticationService.Application.UseCases.User.Queries
 {
     public class LoginQueryHandler(
         AuthenticationDbContext dbContext, 
-        ITokenGenerator tokenGenerator) : IRequestHandler<LoginQuery, IExecutionResult<LoginResponse>>
+        ITokenGenerator tokenGenerator,
+        IRefreshTokenGenerator refreshTokenGenerator) : IRequestHandler<LoginQuery, IExecutionResult<LoginResponse>>
     {
         public async Task<IExecutionResult<LoginResponse>> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
@@ -21,7 +22,9 @@ namespace AuthenticationService.Application.UseCases.User.Queries
                                       .FirstOrDefaultAsync(UserSpecification.ByEmail(request.Email), cancellationToken);
 
             var accessToken = tokenGenerator.GenerateToken(user!);
-            return ExecutionResult.Success(new LoginResponse(accessToken, user.Id, user.UserName.Value, user.Email.Value, user.FullName.FirstName, user.FullName.LastName));
+            var refreshToken = await refreshTokenGenerator.GenerateAsync(user!.Id);
+
+            return ExecutionResult.Success(new LoginResponse(accessToken, refreshToken, user.Id, user.UserName.Value, user.Email.Value, user.FullName.FirstName, user.FullName.LastName));
         }
     }
 }

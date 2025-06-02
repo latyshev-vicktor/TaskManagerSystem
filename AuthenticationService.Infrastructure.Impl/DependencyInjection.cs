@@ -10,6 +10,7 @@ namespace AuthenticationService.Infrastructure.Impl
         {
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
 
             return services;
         }

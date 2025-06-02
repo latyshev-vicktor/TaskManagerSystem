@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Security.Principal;
+using TaskManagerSystem.Common.Enums;
 using TaskManagerSystem.Common.Options;
 
 namespace AuthenticationService.Api.Controllers
@@ -18,8 +19,8 @@ namespace AuthenticationService.Api.Controllers
     {
         private readonly JwtSettings _jwtSettings = options.Value;
 
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody]CreateUserDto dto)
+        [HttpPost("registration")]
+        public async Task<IActionResult> Registration([FromBody]CreateUserDto dto)
         {
             var command = new CreateUserRequest(dto);
             var result = await mediator.Send(command);
@@ -36,22 +37,44 @@ namespace AuthenticationService.Api.Controllers
             var query = new LoginQuery(request.Email, request.Password);
             var response = await mediator.Send(query);
 
-            SetResponseCookies(response.Value.AccessToken);
+            SetResponseCookies(response.Value.RefreshToken);
 
             return Ok(response.Value);
         }
 
-        private void SetResponseCookies(string accessToken)
+        [HttpGet("refreshToken")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refresh_token"];
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                return Unauthorized();
+            }
+
+            var query = new RefreshTokenQuery(refreshToken);
+            var result = await mediator.Send(query);
+
+            if (result.IsFailure && result.Error.Result == ResultCode.UnAuthorize)
+            {
+                return Unauthorized();
+            }
+
+            SetResponseCookies(result.Value.RefreshToken);
+
+            return Ok(new { accessToken = result.Value.AccessToken });
+        }
+
+        private void SetResponseCookies(string refreshToken)
         {
             var cookieOption = new CookieOptions()
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTime.Now.AddDays(_jwtSettings.DaysToExpirationAccessToken),
+                Expires = DateTime.Now.AddDays(_jwtSettings.RefreshTokenExpiredMinute),
                 Secure = true
             };
 
-            Response.Cookies.Append("access_token", accessToken, cookieOption);
+            Response.Cookies.Append("refresh_token", refreshToken, cookieOption);
         }
     }
 }
