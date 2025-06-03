@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using System.Security.Principal;
 using TaskManagerSystem.Common.Enums;
 using TaskManagerSystem.Common.Options;
@@ -62,6 +63,26 @@ namespace AuthenticationService.Api.Controllers
             SetResponseCookies(result.Value.RefreshToken);
 
             return Ok(new { accessToken = result.Value.AccessToken });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var userIdClaims = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            if(!long.TryParse(userIdClaims, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            var query = new LogoutQuery(userId);
+            var result = await mediator.Send(query);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            Response.Cookies.Delete("refresh_token");
+
+            return Ok();
         }
 
         private void SetResponseCookies(string refreshToken)
