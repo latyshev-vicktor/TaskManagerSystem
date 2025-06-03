@@ -9,7 +9,7 @@ namespace AuthenticationService.Infrastructure.Impl
         public static IServiceCollection AddImplementation(this IServiceCollection services)
         {
             services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<ITokenService, TokenService>();
 
             return services;
         }

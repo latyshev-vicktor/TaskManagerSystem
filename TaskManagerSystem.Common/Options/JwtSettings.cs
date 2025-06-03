@@ -5,7 +5,7 @@
         public string Key { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public int DaysToExpirationAccessToken { get; set; }
-        public TimeSpan ExpireAccessToken => TimeSpan.FromMinutes(DaysToExpirationAccessToken);
+        public int AccessTokenExpiredMinute { get; set; }
+        public int RefreshTokenExpiredMinute { get; set; }
     }
 }

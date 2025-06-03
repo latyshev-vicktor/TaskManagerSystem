@@ -55,6 +55,14 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    var connection = builder.Configuration.GetConnectionString("Redis") 
+        ?? throw new InvalidOperationException("Строка подключения к Redis не найдена");
+
+    options.Configuration = connection;
+});
+
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
