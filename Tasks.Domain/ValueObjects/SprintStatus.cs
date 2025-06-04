@@ -7,7 +7,7 @@ namespace Tasks.Domain.ValueObjects
 {
     public class SprintStatus : ValueObject
     {
-        private static readonly SprintStatus[] _all = [Created, Completed];
+        public static readonly SprintStatus[] All = [Created, InProgress, Completed];
 
         public string Value { get; }
         public string Description { get; }
@@ -27,10 +27,10 @@ namespace Tasks.Domain.ValueObjects
             if (string.IsNullOrWhiteSpace(value))
                 return ExecutionResult.Failure<SprintStatus>(SprintStatusError.NotEmpty());
 
-            if (_all.Any(x => x.Value == value))
+            if (All.Any(x => x.Value == value))
                 return ExecutionResult.Failure<SprintStatus>(SprintStatusError.NotCorrect());
 
-            return ExecutionResult.Success(_all.First(x => x.Value == value));
+            return ExecutionResult.Success(All.First(x => x.Value == value));
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -7,7 +7,7 @@ namespace Tasks.Domain.ValueObjects
 {
     public class TasksStatus : ValueObject
     {
-        private static readonly TasksStatus[] _all = [Created, InWork, Completed];
+        public static readonly TasksStatus[] All = [Created, InWork, Completed];
 
         public string Value { get; }
 
@@ -29,10 +29,10 @@ namespace Tasks.Domain.ValueObjects
             if (string.IsNullOrWhiteSpace(value))
                 return ExecutionResult.Failure<TasksStatus>(TaskStatusError.NotEmpty());
 
-            if (_all.Any(x => x.Value == value) == false)
+            if (All.Any(x => x.Value == value) == false)
                 return ExecutionResult.Failure<TasksStatus>(TaskStatusError.NotCorrect());
 
-            return ExecutionResult.Success(_all.First(x => x.Value == value));
+            return ExecutionResult.Success(All.First(x => x.Value == value));
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -13,7 +13,7 @@ namespace TaskManagerSystem.Common.Extensions
         };
 
         public static async Task<T?> GetOrAddAsync<T>(
-            IDistributedCache cache,
+            this IDistributedCache cache,
             string key,
             Func<Task<T>> func,
             TimeSpan? absoluteExpireMinute = null,
