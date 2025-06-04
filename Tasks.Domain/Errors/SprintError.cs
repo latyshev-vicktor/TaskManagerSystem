@@ -22,5 +22,8 @@ namespace Tasks.Domain.Errors
 
         public static Error NotFoundFieldActivity()
             => new(ResultCode.BadRequest, "Не указана сфера деятельности");
+
+        public static Error SprintNotFoundById()
+            => new(ResultCode.BadRequest, "Не найден спринт по переданному идентификатору");
     }
 }

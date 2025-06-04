@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
 using TaskManagerSystem.Common.Dtos;
 using TaskManagerSystem.Common.Extensions;
@@ -52,6 +53,15 @@ namespace Tasks.Api.Controllers
             var result = await mediator.Send(query);
 
             return Ok(result.Value);
+        }
+
+        [HttpGet("{id:long}")]
+        public async Task<IActionResult> GetById([FromRoute][Required] long id)
+        {
+            var query = new GetSprintByIdQuery(id);
+            var sprintResult = await mediator.Send(query);
+
+            return Ok(sprintResult.Value);
         }
 
         [HttpDelete("{id:long}")]

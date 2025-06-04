@@ -8,6 +8,7 @@ using Tasks.Application.Mappings;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Entities;
 using Tasks.Domain.Specifications;
+using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Application.UseCases.Sprint.Queries
 {

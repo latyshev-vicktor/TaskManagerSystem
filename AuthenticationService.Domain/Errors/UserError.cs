@@ -53,5 +53,11 @@ namespace AuthenticationService.Domain.Errors
 
         public static Error UserByRefreshTokenNotFound()
             => new(ResultCode.UnAuthorize, "Пользователь по переданному refresh токену не найден");
+
+        public static Error UserByIdNotFound()
+            => new(ResultCode.BadRequest, "Пользователь по переданному идентификатору не найден");
+
+        public static Error UserIdNotNull()
+            => new(ResultCode.BadRequest, "Идентификатор пользователя не может быть пустым");
     }
 }
