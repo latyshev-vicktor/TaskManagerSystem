@@ -13,6 +13,7 @@ namespace Tasks.Application.Mappings
                 CreatedDate = entity.CreatedDate,
                 SprintId = entity.SprintId,
                 Sprint = entity.Sprint?.ToDto(),
+                Name = entity.Name.Name,
                 Tasks = [.. entity.Tasks.Select(x => x.ToDto())],
             };
         }
