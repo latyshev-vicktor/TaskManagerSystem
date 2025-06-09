@@ -8,8 +8,7 @@
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public SprintStatusDto SprintStatus { get; set; }
-        public long FieldActivityId { get; set; }
-        public FieldActivityDto? FieldActivity { get; set; }
+        public List<FieldActivityDto> FieldActivities { get; set; } = [];
         public List<TargetDto> Targets { get; set; }
     }
 }

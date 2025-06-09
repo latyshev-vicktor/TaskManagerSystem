@@ -20,8 +20,8 @@ namespace Tasks.Domain.Errors
         public static Error SprintDoesNotBelongForCurrentUser()
             => new(ResultCode.BadRequest, "Спринт не принадлежит текущему пользователю");
 
-        public static Error NotFoundFieldActivity()
-            => new(ResultCode.BadRequest, "Не указана сфера деятельности");
+        public static Error NotFoundFieldActivities()
+            => new(ResultCode.BadRequest, "Не указаны сферы деятельности");
 
         public static Error SprintNotFoundById()
             => new(ResultCode.BadRequest, "Не найден спринт по переданному идентификатору");

@@ -29,7 +29,7 @@ namespace Tasks.Application.UseCases.FIeldActivity.Commands
             if (fieldActivity.UserId != request.UserId)
                 return ExecutionResult.Failure(FieldActivityError.NotBelongForCurrentUser());
 
-            var existSprintByActivity = await _dbContext.Sprints.AnyAsync(SprintSpecification.ByFieldActivity(fieldActivity.Id), cancellationToken);
+            var existSprintByActivity = await _dbContext.Sprints.AnyAsync(SprintSpecification.ByFieldActivities([fieldActivity.Id]), cancellationToken);
 
             if (existSprintByActivity == true)
                 return ExecutionResult.Failure(FieldActivityError.ExistSprintForDeleteCurrentActivity());

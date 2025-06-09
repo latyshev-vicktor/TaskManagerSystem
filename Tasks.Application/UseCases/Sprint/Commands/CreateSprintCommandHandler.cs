@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Entities;
+using Tasks.Domain.Specifications;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
 {
@@ -10,13 +12,18 @@ namespace Tasks.Application.UseCases.Sprint.Commands
     {
         public async Task<IExecutionResult<long>> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
         {
+
+            var fieldActivities = await dbContext.FieldActivities
+                                                 .Where(FieldActivitySpecification.ByIds(request.Dto.FieldActivityIds))
+                                                 .ToListAsync(cancellationToken);
+
             var sprintResult = SprintEntity.Create(
                 request.UserId,
                 request.Dto.Name,
                 request.Dto.Description,
-                request.Dto.FieldActivityId,
                 request.Dto.StartDate,
-                request.Dto.EndDate);
+                request.Dto.EndDate,
+                fieldActivities);
 
             if (sprintResult.IsFailure)
                 return ExecutionResult.Failure<long>(sprintResult.Error);

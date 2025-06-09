@@ -41,8 +41,8 @@ namespace Tasks.Application.UseCases.Sprint.Queries
             if (!string.IsNullOrEmpty(filter.Description))
                 spec &= SprintSpecification.ByDescription(filter.Description);
 
-            if (filter.FieldActivityId.HasValue)
-                spec &= SprintSpecification.ByFieldActivity(filter.FieldActivityId.Value);
+            if (filter.FieldActivityIds != null)
+                spec &= SprintSpecification.ByFieldActivities(filter.FieldActivityIds);
 
             var result = await dbContext.Sprints.AsNoTracking()
                                                 .Where(spec)

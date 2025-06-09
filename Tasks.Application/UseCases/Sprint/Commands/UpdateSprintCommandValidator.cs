@@ -19,7 +19,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(SprintName.Create);
             RuleFor(x => x.Dto.Description).MustBeValueObject(SprintDescription.Create);
-            RuleFor(x => x.Dto.FieldActivityId).NotNull().NotEqual(0).WithMessage(SprintError.NotFoundFieldActivity().Message);
+            RuleFor(x => x.Dto.FieldActivities).NotEqual([]).WithMessage(SprintError.NotFoundFieldActivities().Message);
         }
 
         public async override Task<IExecutionResult> RequestValidateAsync(UpdateSprintCommand request, CancellationToken cancellationToken)
