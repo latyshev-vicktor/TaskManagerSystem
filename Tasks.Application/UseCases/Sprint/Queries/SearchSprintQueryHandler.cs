@@ -65,8 +65,6 @@ namespace Tasks.Application.UseCases.Sprint.Queries
 
             var data = await dbQuery.Skip(filter.Skip)
                                     .Take(filter.Take)
-                                    .Include(x => x.SprintFieldActivities)
-                                        .ThenInclude(x => x.FieldActivity)
                                     .Select(x => x.ToDto())
                                     .ToListAsync(cancellationToken);
 

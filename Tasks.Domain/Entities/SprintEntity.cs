@@ -21,9 +21,6 @@ namespace Tasks.Domain.Entities
 
         public List<SprintFieldActivityEntity> SprintFieldActivities { get; private set; } = [];
 
-        private List<TargetEntity> _targets = [];
-        public IReadOnlyList<TargetEntity> Targets => _targets;
-
         #region Конструкторы
         protected SprintEntity()
         {
@@ -128,9 +125,6 @@ namespace Tasks.Domain.Entities
 
         public override void Delete()
         {
-            foreach(var target in _targets)
-                target.Delete();
-
             base.Delete();
 
             RiseDomainEvents(new DeleteSprintEvent(Name.Name, UserId));

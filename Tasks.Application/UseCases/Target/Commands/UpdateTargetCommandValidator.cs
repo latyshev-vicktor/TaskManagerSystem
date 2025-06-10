@@ -20,7 +20,7 @@ namespace Tasks.Application.UseCases.Target.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(TargetName.Create);
-            RuleFor(x => x.Dto.SprintId).NotNull().NotEqual(default(long)).WithMessage(TargetError.SprintNotBeNull().Message);
+            RuleFor(x => x.Dto.SprintFieldActivityId).NotNull().NotEqual(default(long)).WithMessage(TargetError.SprintNotBeNull().Message);
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(UpdateTargetCommand request, CancellationToken cancellationToken)

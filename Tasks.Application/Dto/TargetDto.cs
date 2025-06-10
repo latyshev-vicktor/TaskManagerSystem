@@ -3,8 +3,7 @@
     public class TargetDto : BaseDto
     {
         public string Name { get; set; }
-        public long SprintId { get; set; }
-        public SprintDto? Sprint { get; set; }
+        public long SprintFieldActivityId { get; set; }
         public List<TaskDto> Tasks = [];
     }
 }

@@ -11,8 +11,7 @@ namespace Tasks.Application.Mappings
             {
                 Id = entity.Id,
                 CreatedDate = entity.CreatedDate,
-                SprintId = entity.SprintId,
-                Sprint = entity.Sprint?.ToDto(),
+                SprintFieldActivityId = entity.SprintFieldActivityId,
                 Name = entity.Name.Name,
                 Tasks = [.. entity.Tasks.Select(x => x.ToDto())],
             };

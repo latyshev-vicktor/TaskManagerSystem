@@ -16,6 +16,8 @@ namespace Tasks.Application.UseCases.Target.Commands
                                         .FirstOrDefaultAsync(cancellationToken);
 
             target!.SetName(request.Dto.Name);
+            target.SetSprintFieldActivity(request.Dto.SprintFieldActivityId);
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return ExecutionResult.Success(target.Id);

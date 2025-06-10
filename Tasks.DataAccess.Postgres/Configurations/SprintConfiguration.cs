@@ -12,13 +12,6 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.ToTable("Sprints");
 
             ConfigureValueObjects(builder);
-
-            builder.HasMany(x => x.Targets)
-                   .WithOne(x => x.Sprint)
-                   .HasForeignKey(x => x.SprintId);
-
-            var navigation = builder.Metadata.FindNavigation(nameof(SprintEntity.Targets));
-            navigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 
         private void ConfigureValueObjects(EntityTypeBuilder<SprintEntity> builder)

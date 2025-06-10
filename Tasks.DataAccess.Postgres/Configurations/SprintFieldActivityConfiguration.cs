@@ -10,7 +10,7 @@ namespace Tasks.DataAccess.Postgres.Configurations
         {
             builder.ToTable("Sprint_FieldActivities");
 
-            builder.HasKey(x => new { x.SprintId, x.FieldActivityId });
+            builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Sprint)
                    .WithMany(x => x.SprintFieldActivities)
@@ -19,6 +19,10 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.HasOne(x => x.FieldActivity)
                    .WithMany()
                    .HasForeignKey(x => x.FieldActivityId);
+
+            builder.HasMany(x => x.Targets)
+                   .WithOne(x => x.SprintFieldActivity)
+                   .HasForeignKey(x => x.SprintFieldActivityId);
         }
     }
 }
