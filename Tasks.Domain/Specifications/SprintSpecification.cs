@@ -24,6 +24,9 @@ namespace Tasks.Domain.Specifications
         public static Spec<SprintEntity> ByFieldActivities(long[] fieldActivityIds)
             => new(x => x.SprintFieldActivities.Any(sf => fieldActivityIds.Contains(sf.FieldActivityId)));
 
+        public static Spec<SprintEntity> ByFieldActivityId(long fieldActivityId)
+            => new(x => x.SprintFieldActivities.Any(sf => sf.FieldActivityId == fieldActivityId));
+
         public static Spec<SprintEntity> LessDateEnd(DateTimeOffset endDate)
             => new(x => x.EndDate < endDate);
 

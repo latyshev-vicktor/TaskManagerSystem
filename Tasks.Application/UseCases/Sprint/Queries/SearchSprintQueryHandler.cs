@@ -42,7 +42,7 @@ namespace Tasks.Application.UseCases.Sprint.Queries
                 spec &= SprintSpecification.ByDescription(filter.Description);
 
             if (filter.FieldActivityId != null)
-
+                spec &= SprintSpecification.ByFieldActivityId(filter.FieldActivityId.Value);
 
             if (filter.FieldActivityIds != null)
                 spec &= SprintSpecification.ByFieldActivities(filter.FieldActivityIds);
