@@ -28,10 +28,11 @@ namespace Tasks.Api.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("allByFilter")]
-        public async Task<ActionResult<List<SprintDto>>> GetAllByFilter([FromBody]SprintFilter filter)
+        [HttpGet("count-by-status")]
+        public async Task<IActionResult> GetSprintsCountByStatus()
         {
-            var query = new GetAllSprintByFilterQuery(filter);
+            var userId = principal.GetUserId();
+            var query = new GetSprintsCountByStatusQuery(userId);
             var result = await mediator.Send(query);
 
             return Ok(result.Value);
