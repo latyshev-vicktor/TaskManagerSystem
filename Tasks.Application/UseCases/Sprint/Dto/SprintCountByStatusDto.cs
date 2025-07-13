@@ -2,14 +2,15 @@
 {
     public class SprintCountByStatusDto
     {
-        public int CreatedCount { get; }
-        public int InProgressCount { get; }
-        public int CompletedCount { get; }
-        public SprintCountByStatusDto(int createdCount, int inProgressCount, int completedCount)
+        public int Created { get; set; }
+        public int InProgress { get; set; }
+        public int Completed { get; set; }
+
+        public SprintCountByStatusDto(int created, int inProgress, int completed)
         {
-            CreatedCount = createdCount;
-            InProgressCount = inProgressCount;
-            CompletedCount = completedCount;
+            Created = created;
+            InProgress = inProgress;
+            Completed = completed;
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Tasks.Application.UseCases.Sprint.Queries
         public async Task<IExecutionResult<SprintCountByStatusDto>> Handle(GetSprintCountByStatusQuery request, CancellationToken cancellationToken)
         {
             var data = await dbContext.Sprints
-                                        .AsNoTracking()
-                                        .Where(SprintSpecification.ByUserId(request.UserId))
-                                        .GroupBy(x => x.Status.Value)
-                                        .ToDictionaryAsync(x => x.Key, y => y.Count(), cancellationToken);
+                                      .AsNoTracking()
+                                      .Where(SprintSpecification.ByUserId(request.UserId))
+                                      .GroupBy(x => x.Status.Value)
+                                      .ToDictionaryAsync(x => x.Key, y => y.Count(), cancellationToken);
 
             var created = data.TryGetValue(SprintStatus.Created.Value, out int createdCount) ? createdCount : 0;
             var inProgress = data.TryGetValue(SprintStatus.InProgress.Value, out int inProgressCount) ? inProgressCount : 0;
