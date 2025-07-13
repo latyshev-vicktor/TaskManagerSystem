@@ -1,6 +1,7 @@
 ﻿using TaskManagerSystem.Common.Errors;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
+using Tasks.Domain.Errors;
 using Tasks.Domain.SeedWork;
 using Tasks.Domain.ValueObjects;
 
@@ -9,8 +10,8 @@ namespace Tasks.Domain.Entities
     public class TargetEntity : BaseEntity
     {
         public TargetName Name { get; private set; }
-        public long SprintId { get; private set; }
-        public SprintEntity? Sprint { get; private set; }
+        public long SprintFieldActivityId { get; private set; }
+        public SprintFieldActivityEntity SprintFieldActivity { get; private set; }
 
         private List<TaskEntity> _tasks = [];
         public IReadOnlyList<TaskEntity> Tasks => _tasks;
@@ -18,24 +19,24 @@ namespace Tasks.Domain.Entities
         #region Конструкторы
         protected TargetEntity() { }
 
-        protected TargetEntity(TargetName name, SprintEntity sprint)
+        protected TargetEntity(TargetName name, long sprintFieldActivityId)
         {
             Name = name;
-            Sprint = sprint;
+            SprintFieldActivityId = sprintFieldActivityId;
         }
         #endregion
 
         #region DDD-методы
-        public static IExecutionResult<TargetEntity> Create(string name, SprintEntity sprint)
+        public static IExecutionResult<TargetEntity> Create(string name, long sprintFieldActivityId)
         {
-            if (sprint == null)
-                return ExecutionResult.Failure<TargetEntity>(BaseEntityError.EntityNotFound("спринт"));
+            if (sprintFieldActivityId == default)
+                return ExecutionResult.Failure<TargetEntity>(TargetError.SprintNotBeNull());
 
             var nameResult = TargetName.Create(name);
             if (nameResult.IsFailure)
                 return ExecutionResult.Failure<TargetEntity>(nameResult.Error);
 
-            return ExecutionResult.Success(new TargetEntity(nameResult.Value, sprint));
+            return ExecutionResult.Success(new TargetEntity(nameResult.Value, sprintFieldActivityId));
         }
 
         public IExecutionResult SetName(string name)
@@ -47,6 +48,11 @@ namespace Tasks.Domain.Entities
             Name = nameResult.Value;
 
             return ExecutionResult.Success();
+        }
+
+        public void SetSprintFieldActivity(long sprintFieldActivityId)
+        {
+            SprintFieldActivityId = sprintFieldActivityId;
         }
 
         public void AddTask(TaskEntity task)

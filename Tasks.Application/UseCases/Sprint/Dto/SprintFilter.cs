@@ -11,5 +11,6 @@ namespace Tasks.Application.UseCases.Sprint.Dto
         public DateTimeOffset? EndDate { get; set; }
         public string? Status { get; set; }
         public long? FieldActivityId { get; set; }
+        public long[]? FieldActivityIds { get; set; }
     }
 }

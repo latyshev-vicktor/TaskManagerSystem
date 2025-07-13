@@ -19,11 +19,7 @@ namespace Tasks.Domain.Entities
         public DateTimeOffset EndDate { get; private set; }
         public SprintStatus Status { get; private set; }
 
-        public long FieldActivityId { get; private set; }
-        public FieldActivityEntity? FieldActivity { get; private set; }
-
-        private List<TargetEntity> _targets = [];
-        public IReadOnlyList<TargetEntity> Targets => _targets;
+        public List<SprintFieldActivityEntity> SprintFieldActivities { get; private set; } = [];
 
         #region Конструкторы
         protected SprintEntity()
@@ -35,17 +31,17 @@ namespace Tasks.Domain.Entities
             long userId,
             SprintName name,
             SprintDescription description,
-            long fieldActivityId,
             DateTimeOffset startDate,
-            DateTimeOffset endDate)
+            DateTimeOffset endDate,
+            List<FieldActivityEntity> fieldActivities)
         {
             UserId = userId;
             Name = name;
             Description = description;
-            FieldActivityId = fieldActivityId;
             StartDate = startDate;
             EndDate = endDate;
             Status = SprintStatus.Created;
+            AddFieldActivities(fieldActivities);
         }
         #endregion
 
@@ -54,9 +50,9 @@ namespace Tasks.Domain.Entities
             long userId,
             string name,
             string description,
-            long fieldActivityId,
             DateTimeOffset startDate,
-            DateTimeOffset endDate)
+            DateTimeOffset endDate,
+            List<FieldActivityEntity> fieldActivities)
         {
             if (userId == default)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.UserNotEmpty());
@@ -75,7 +71,10 @@ namespace Tasks.Domain.Entities
             if (descriptionResult.IsFailure)
                 return ExecutionResult.Failure<SprintEntity>(descriptionResult.Error);
 
-            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivityId, startDate, endDate));
+            if (fieldActivities.Count == 0)
+                return ExecutionResult.Failure<SprintEntity>(SprintError.NotFoundFieldActivities());
+
+            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, startDate, endDate, fieldActivities));
         }
 
         public IExecutionResult ChangeStatus(string status)
@@ -111,21 +110,21 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ChangeFieldActivity(long fieldActivityId)
+        public void AddFieldActivities(List<FieldActivityEntity> fieldActivities)
         {
-            if (fieldActivityId == default)
-                return ExecutionResult.Failure(SprintError.NotFoundFieldActivity());
-
-            FieldActivityId = fieldActivityId;
-
-            return ExecutionResult.Success();
+            var fieldActivitiesForAdd = fieldActivities.Where(x => !SprintFieldActivities.Select(x => x.FieldActivityId).Contains(x.Id));
+            foreach (var fieldActivity in fieldActivitiesForAdd)
+            {
+                SprintFieldActivities.Add(new SprintFieldActivityEntity
+                {
+                    FieldActivity = fieldActivity,
+                    Sprint = this
+                });
+            }
         }
 
         public override void Delete()
         {
-            foreach(var target in _targets)
-                target.Delete();
-
             base.Delete();
 
             RiseDomainEvents(new DeleteSprintEvent(Name.Name, UserId));

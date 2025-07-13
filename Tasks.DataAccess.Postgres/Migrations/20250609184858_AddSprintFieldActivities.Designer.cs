@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tasks.DataAccess.Postgres;
@@ -12,9 +13,11 @@ using Tasks.DataAccess.Postgres;
 namespace Tasks.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    partial class TaskDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250609184858_AddSprintFieldActivities")]
+    partial class AddSprintFieldActivities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,23 +128,15 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintFieldActivityEntity", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("SprintId")
                         .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("FieldActivityId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
+                    b.HasKey("SprintId", "FieldActivityId");
 
                     b.HasIndex("FieldActivityId");
-
-                    b.HasIndex("SprintId");
 
                     b.ToTable("Sprint_FieldActivities", (string)null);
                 });
@@ -165,7 +160,7 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("SprintFieldActivityId")
+                    b.Property<long>("SprintId")
                         .HasColumnType("bigint");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "Tasks.Domain.Entities.TargetEntity.Name#TargetName", b1 =>
@@ -180,7 +175,7 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SprintFieldActivityId");
+                    b.HasIndex("SprintId");
 
                     b.ToTable("Targets", (string)null);
                 });
@@ -265,13 +260,13 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
                 {
-                    b.HasOne("Tasks.Domain.Entities.SprintFieldActivityEntity", "SprintFieldActivity")
+                    b.HasOne("Tasks.Domain.Entities.SprintEntity", "Sprint")
                         .WithMany("Targets")
-                        .HasForeignKey("SprintFieldActivityId")
+                        .HasForeignKey("SprintId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SprintFieldActivity");
+                    b.Navigation("Sprint");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.TaskEntity", b =>
@@ -288,10 +283,7 @@ namespace Tasks.DataAccess.Postgres.Migrations
             modelBuilder.Entity("Tasks.Domain.Entities.SprintEntity", b =>
                 {
                     b.Navigation("SprintFieldActivities");
-                });
 
-            modelBuilder.Entity("Tasks.Domain.Entities.SprintFieldActivityEntity", b =>
-                {
                     b.Navigation("Targets");
                 });
 

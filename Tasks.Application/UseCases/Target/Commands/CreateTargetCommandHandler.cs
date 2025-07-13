@@ -12,10 +12,11 @@ namespace Tasks.Application.UseCases.Target.Commands
     {
         public async Task<IExecutionResult<long>> Handle(CreateTargetCommand request, CancellationToken cancellationToken)
         {
-            var sprint = await dbContext.Sprints.Where(SprintSpecification.ById(request.Dto.SprintId))
+            var sprintActivity = await dbContext.SprintFieldActivities
+                                                .Where(SprintFieldActivitySpecification.ById(request.Dto.SprintFieldActivityId))
                                                 .FirstOrDefaultAsync(cancellationToken);
 
-            var newTarget = TargetEntity.Create(request.Dto.Name, sprint!);
+            var newTarget = TargetEntity.Create(request.Dto.Name, sprintActivity!.Id);
 
             var savedTarget = await dbContext.AddAsync(newTarget.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);

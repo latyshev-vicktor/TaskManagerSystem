@@ -12,7 +12,7 @@ namespace Tasks.Application.UseCases.Sprint.Dto
         public string Description { get; set; }
 
         [Required]
-        public long FieldActivityId { get; set; }
+        public long[] FieldActivityIds { get; set; }
 
         [Required]
         public DateTimeOffset StartDate { get; set; }

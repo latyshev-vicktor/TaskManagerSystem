@@ -5,6 +5,8 @@ namespace Tasks.Domain.Specifications
 {
     public static class FieldActivitySpecification
     {
+        public static Spec<FieldActivityEntity> ByIds(long[] ids)
+            => new(x => ids.Contains(x.Id));
         public static Spec<FieldActivityEntity> ById(long id)
             => new(x => x.Id == id);
 

@@ -5,6 +5,7 @@ using System.Security.Principal;
 using TaskManagerSystem.Common.Dtos;
 using TaskManagerSystem.Common.Extensions;
 using Tasks.Application.Dto;
+using Tasks.Application.UseCases.FIeldActivity.Queires;
 using Tasks.Application.UseCases.Sprint.Commands;
 using Tasks.Application.UseCases.Sprint.Dto;
 using Tasks.Application.UseCases.Sprint.Queries;
@@ -28,10 +29,11 @@ namespace Tasks.Api.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("allByFilter")]
-        public async Task<ActionResult<List<SprintDto>>> GetAllByFilter([FromBody]SprintFilter filter)
+        [HttpGet("count-by-status")]
+        public async Task<IActionResult> GetCountByStatus()
         {
-            var query = new GetAllSprintByFilterQuery(filter);
+            var userId = principal.GetUserId();
+            var query = new GetSprintCountByStatusQuery(userId);
             var result = await mediator.Send(query);
 
             return Ok(result.Value);
@@ -74,6 +76,19 @@ namespace Tasks.Api.Controllers
                 return BadRequest(result.Error);
 
             return NoContent();
+        }
+
+        [HttpGet("{sprintId:long}/field-activities")]
+        public async Task<ActionResult<List<FieldActivityForSprintDto>>> GetFieldActivitiesBySprint([FromRoute] long sprintId)
+        {
+            var userId = principal.GetUserId();
+            var query = new GetFieldActivitiesBySprintQuery(userId, sprintId);
+
+            var result = await mediator.Send(query);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
         }
     }
 }

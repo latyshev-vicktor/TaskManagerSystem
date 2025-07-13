@@ -35,11 +35,12 @@ namespace AuthenticationService.Infrastructure.Impl.Services
             var userAccessKey = $"{USER_ACCESS_KEY}:{user.Id}";
             var userRefreshKey = $"{USER_REFRESH_KEY}:{user.Id}";
 
-            await cache.SetAsync(accessKey, user.Id.ToString(), TimeSpan.FromMinutes(_jwtSettings.AccessTokenExpiredMinute));
-            await cache.SetAsync(refreshKey, user.Id.ToString(), TimeSpan.FromMinutes(_jwtSettings.RefreshTokenExpiredMinute));
-
-            await cache.SetAsync(userAccessKey, jti, TimeSpan.FromMinutes(_jwtSettings.AccessTokenExpiredMinute));
-            await cache.SetAsync(userRefreshKey, refreshToken, TimeSpan.FromMinutes(_jwtSettings.RefreshTokenExpiredMinute));
+            await Task.WhenAll(
+                cache.SetAsync(accessKey, user.Id.ToString(), TimeSpan.FromMinutes(_jwtSettings.AccessTokenExpiredMinute)),
+                cache.SetAsync(refreshKey, user.Id.ToString(), TimeSpan.FromMinutes(_jwtSettings.RefreshTokenExpiredMinute)),
+                cache.SetAsync(userAccessKey, jti, TimeSpan.FromMinutes(_jwtSettings.AccessTokenExpiredMinute)),
+                cache.SetAsync(userRefreshKey, refreshToken, TimeSpan.FromMinutes(_jwtSettings.RefreshTokenExpiredMinute))
+                );
 
             return (accessToken, refreshToken);
         }

@@ -41,8 +41,11 @@ namespace Tasks.Application.UseCases.Sprint.Queries
             if (!string.IsNullOrEmpty(filter.Description))
                 spec &= SprintSpecification.ByDescription(filter.Description);
 
-            if (filter.FieldActivityId.HasValue)
-                spec &= SprintSpecification.ByFieldActivity(filter.FieldActivityId.Value);
+            if (filter.FieldActivityId != null)
+                spec &= SprintSpecification.ByFieldActivityId(filter.FieldActivityId.Value);
+
+            if (filter.FieldActivityIds != null)
+                spec &= SprintSpecification.ByFieldActivities(filter.FieldActivityIds);
 
             var dbQuery = dbContext.Sprints
                                    .AsNoTracking()
@@ -62,7 +65,8 @@ namespace Tasks.Application.UseCases.Sprint.Queries
 
             var data = await dbQuery.Skip(filter.Skip)
                                     .Take(filter.Take)
-                                    .Include(x => x.FieldActivity)
+                                        .Include(x => x.SprintFieldActivities)
+                                            .ThenInclude(x => x.FieldActivity)
                                     .Select(x => x.ToDto())
                                     .ToListAsync(cancellationToken);
 

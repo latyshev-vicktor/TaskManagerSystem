@@ -8,6 +8,7 @@ using Tasks.Application.Dto;
 using Tasks.Application.UseCases.FIeldActivity.Commands;
 using Tasks.Application.UseCases.FIeldActivity.Dto;
 using Tasks.Application.UseCases.FIeldActivity.Queires;
+using Tasks.Application.UseCases.Sprint.Queries;
 
 namespace Tasks.Api.Controllers
 {
