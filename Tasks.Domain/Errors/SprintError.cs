@@ -25,5 +25,8 @@ namespace Tasks.Domain.Errors
 
         public static Error SprintNotFoundById()
             => new(ResultCode.BadRequest, "Не найден спринт по переданному идентификатору");
+
+        public static Error CurrentSprintHasNotUser()
+            => new(ResultCode.BadRequest, "Данный спринт не принадлежит текущему пользователю");
     }
 }

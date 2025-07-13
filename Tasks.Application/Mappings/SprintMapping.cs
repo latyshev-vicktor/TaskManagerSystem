@@ -21,7 +21,7 @@ namespace Tasks.Application.Mappings
                 },
                 StartDate = entity.StartDate,
                 EndDate = entity.EndDate,
-                FieldActivities = [.. entity.SprintFieldActivities.Select(x => new FieldActivityForSprintDto
+                FieldActivities = [.. entity.SprintFieldActivities.Count == 0 ? [] : entity.SprintFieldActivities.Select(x => new FieldActivityForSprintDto
                 {
                     Id = x.FieldActivityId,
                     UserId = x.FieldActivity?.UserId,
