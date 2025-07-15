@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManagerSystem.Common.Dtos
+﻿namespace TaskManagerSystem.Common.Dtos
 {
-    public class SearchData<T>
+    public class SearchData<T>(IReadOnlyList<T> data, int count)
         where T : class
     {
-        public IReadOnlyList<T> Data { get; set; }
-        public int Count { get; set; }
-
-        public SearchData(IReadOnlyList<T> data, int count)
-        {
-            Data = data;
-            Count = count;
-        }
+        public IReadOnlyList<T> Data { get; set; } = data;
+        public int Count { get; set; } = count;
     }
 }
