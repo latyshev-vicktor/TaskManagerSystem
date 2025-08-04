@@ -1,20 +1,20 @@
-﻿using MediatR;
+﻿using CSharpFunctionalExtensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSpecifications;
 using TaskManagerSystem.Common.Dtos;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Application.Dto;
-using Tasks.Application.Mappings;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Entities;
 using Tasks.Domain.Specifications;
 
 namespace Tasks.Application.UseCases.Sprint.Queries
 {
-    internal class SearchSprintQueryHandler(TaskDbContext dbContext) : IRequestHandler<SearchSprintQuery, IExecutionResult<SearchData<SprintDto>>>
+    internal class SearchSprintQueryHandler(TaskDbContext dbContext) : IRequestHandler<SearchSprintQuery, IExecutionResult<SearchData<SprintTableDto>>>
     {
-        public async Task<IExecutionResult<SearchData<SprintDto>>> Handle(SearchSprintQuery request, CancellationToken cancellationToken)
+        public async Task<IExecutionResult<SearchData<SprintTableDto>>> Handle(SearchSprintQuery request, CancellationToken cancellationToken)
         {
             var spec = Spec.Any<SprintEntity>();
 
@@ -65,12 +65,29 @@ namespace Tasks.Application.UseCases.Sprint.Queries
 
             var data = await dbQuery.Skip(filter.Skip)
                                     .Take(filter.Take)
-                                        .Include(x => x.SprintFieldActivities)
-                                            .ThenInclude(x => x.FieldActivity)
-                                    .Select(x => x.ToDto())
+                                    .Select(entity => new SprintTableDto
+                                    {
+                                        Id = entity.Id,
+                                        UserId = entity.UserId,
+                                        CreatedDate = entity.CreatedDate,
+                                        Name = entity.Name.Name,
+                                        Description = entity.Description.Description,
+                                        SprintStatus = new SprintStatusDto
+                                        {
+                                            Name = entity.Status.Value,
+                                            Description = entity.Status.Description,
+                                        },
+                                        StartDate = entity.StartDate,
+                                        EndDate = entity.EndDate,
+                                        FieldActivities = entity.SprintFieldActivities.Select(x => new FieldActivityShortDto
+                                        {
+                                            Id = x.Id,
+                                            Name = x.FieldActivity!.Name
+                                        }).ToList()
+                                    })
                                     .ToListAsync(cancellationToken);
 
-            var result = new SearchData<SprintDto>(data, count);
+            var result = new SearchData<SprintTableDto>(data, count);
 
             return ExecutionResult.Success(result);
         }
