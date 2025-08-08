@@ -28,5 +28,11 @@ namespace Tasks.Domain.Errors
 
         public static Error CurrentSprintHasNotUser()
             => new(ResultCode.BadRequest, "Данный спринт не принадлежит текущему пользователю");
+
+        public static Error SprintAlreadyStarted()
+            => new(ResultCode.BadRequest, "Спринт уже запущен");
+
+        public static Error SprintAlreadyCompleted()
+            => new(ResultCode.BadRequest, "Спринт уже завершен");
     }
 }

@@ -90,5 +90,18 @@ namespace Tasks.Api.Controllers
 
             return Ok(result.Value);
         }
+
+        [HttpPost("{stringId:long}/start-sprint")]
+        public async Task<ActionResult> StartSprint([FromRoute]long sprintId)
+        {
+            var userId = principal.GetUserId();
+            var command = new StartSprintCommand(sprintId, userId);
+            var result = await mediator.Send(command);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok();
+        }
     }
 }

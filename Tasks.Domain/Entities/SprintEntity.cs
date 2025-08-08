@@ -88,6 +88,19 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success();
         }
 
+        public IExecutionResult StartSprint()
+        {
+            if(Status == SprintStatus.InProgress)
+                return ExecutionResult.Failure(SprintError.SprintAlreadyStarted());
+            
+            if(Status == SprintStatus.Completed)
+                return ExecutionResult.Failure(SprintError.SprintAlreadyCompleted());
+
+            Status = SprintStatus.InProgress;
+            
+            return ExecutionResult.Success();
+        }
+
         public IExecutionResult SetName(string name)
         {
             var nameResult = SprintName.Create(name);
