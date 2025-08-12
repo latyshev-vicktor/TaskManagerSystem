@@ -19,5 +19,11 @@ namespace Tasks.Api.Controllers
                 ? Ok(result.Value)
                 : BadRequest(result.Error);
         }
+
+        [HttpGet("statuses")]
+        public async Task<ActionResult> GetTaskStatuses()
+        {
+
+        }
     }
 }

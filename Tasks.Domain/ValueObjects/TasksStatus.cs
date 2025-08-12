@@ -7,8 +7,6 @@ namespace Tasks.Domain.ValueObjects
 {
     public class TasksStatus : ValueObject
     {
-        public static readonly TasksStatus[] All = [Created, InWork, Completed];
-
         public string Value { get; }
 
         public string Description { get; }
@@ -16,6 +14,8 @@ namespace Tasks.Domain.ValueObjects
         public static readonly TasksStatus Created = new(nameof(Created), "Созданная");
         public static readonly TasksStatus InWork = new(nameof(InWork), "В работе");
         public static readonly TasksStatus Completed = new(nameof(Completed), "Завершенная");
+
+        public static readonly TasksStatus[] All = [Created, InWork, Completed];
 
         protected TasksStatus() { }
         protected TasksStatus(string value, string description)
