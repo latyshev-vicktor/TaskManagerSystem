@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using TaskManagerSystem.Common.Errors;
 using TaskManagerSystem.Common.Interfaces;
 
 namespace TaskManagerSystem.Common.Extensions
@@ -17,6 +18,13 @@ namespace TaskManagerSystem.Common.Extensions
 
                 context.AddFailure(result.Error.Message);
             });
+        }
+
+        public static IRuleBuilderOptions<T, TProperty> CustomErrorMessage<T, TProperty>(
+            this IRuleBuilderOptions<T, TProperty> ruleBuilder,
+            Error error)
+        {
+            return ruleBuilder.WithMessage(error.Message);
         }
     }
 }

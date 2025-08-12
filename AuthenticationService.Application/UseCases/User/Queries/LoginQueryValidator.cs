@@ -4,6 +4,7 @@ using AuthenticationService.Domain.Errors;
 using AuthenticationService.Domain.Specification;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 
@@ -18,8 +19,8 @@ namespace AuthenticationService.Application.UseCases.User.Queries
             _dbContext = dbContext;
             _passwordHasher = passwordHasher;
 
-            RuleFor(x => x.Email).NotEmpty().NotNull().WithMessage(UserError.EmailNotBeEmpty().Message);
-            RuleFor(x => x.Password).NotEmpty().NotNull().WithMessage(UserError.PasswordNotBeEmpty().Message);
+            RuleFor(x => x.Email).NotEmpty().NotNull().CustomErrorMessage(UserError.EmailNotBeEmpty());
+            RuleFor(x => x.Password).NotEmpty().NotNull().CustomErrorMessage(UserError.PasswordNotBeEmpty());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(LoginQuery request, CancellationToken cancellationToken)

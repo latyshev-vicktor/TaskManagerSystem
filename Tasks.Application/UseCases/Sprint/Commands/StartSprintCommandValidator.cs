@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Errors;
+using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
@@ -16,8 +17,8 @@ namespace Tasks.Application.UseCases.Sprint.Commands
         {
             _dbContext = dbContext;
 
-            RuleFor(x => x.SprintId).NotEqual(0).WithMessage(SprintError.SprintNotFoundById().Message);
-            RuleFor(x => x.UserId).NotEqual(0).WithMessage(SprintError.UserNotEmpty().Message);
+            RuleFor(x => x.SprintId).NotEqual(0).CustomErrorMessage(SprintError.SprintNotFoundById());
+            RuleFor(x => x.UserId).NotEqual(0).CustomErrorMessage(SprintError.UserNotEmpty());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(StartSprintCommand request, CancellationToken cancellationToken)
