@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Tasks.Application.UseCases.Task.Commands;
 using Tasks.Application.UseCases.Task.Dto;
+using Tasks.Application.UseCases.Task.Queries;
 
 namespace Tasks.Api.Controllers
 {
@@ -21,9 +22,12 @@ namespace Tasks.Api.Controllers
         }
 
         [HttpGet("statuses")]
-        public async Task<ActionResult> GetTaskStatuses()
+        public async Task<ActionResult> GetSprintStatus()
         {
+            var query = new GetTaskStatusesQuery();
+            var result = await mediator.Send(query);
 
+            return Ok(result.Value);
         }
     }
 }

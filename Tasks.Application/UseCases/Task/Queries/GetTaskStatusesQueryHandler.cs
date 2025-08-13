@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Application.Dto;
+using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Application.UseCases.Task.Queries
 {
@@ -8,7 +10,13 @@ namespace Tasks.Application.UseCases.Task.Queries
     {
         public Task<IExecutionResult<IReadOnlyList<TaskStatusDto>>> Handle(GetTaskStatusesQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = TasksStatus.All.Select(status => new TaskStatusDto
+            {
+                Name = status.Value,
+                Description = status.Description
+            }).ToList();
+
+            return System.Threading.Tasks.Task.FromResult<IExecutionResult<IReadOnlyList<TaskStatusDto>>>(ExecutionResult.Success<IReadOnlyList<TaskStatusDto>>(result));
         }
     }
 }
