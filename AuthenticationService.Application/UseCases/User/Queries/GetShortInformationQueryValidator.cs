@@ -3,6 +3,7 @@ using AuthenticationService.Domain.Errors;
 using AuthenticationService.Domain.Specification;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 
@@ -16,7 +17,7 @@ namespace AuthenticationService.Application.UseCases.User.Queries
         {
             _dbContext = dbContext;
 
-            RuleFor(x => x.UserId).NotNull().WithMessage(UserError.UserIdNotNull().Message);
+            RuleFor(x => x.UserId).NotNull().CustomErrorMessage(UserError.UserIdNotNull());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(GetShortInformationQuery request, CancellationToken cancellationToken)

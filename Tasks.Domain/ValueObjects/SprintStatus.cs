@@ -7,13 +7,13 @@ namespace Tasks.Domain.ValueObjects
 {
     public class SprintStatus : ValueObject
     {
-        public static readonly SprintStatus[] All = [Created, InProgress, Completed];
-
         public string Value { get; }
         public string Description { get; }
         public static readonly SprintStatus Created = new(nameof(Created), "Созданный");
         public static readonly SprintStatus InProgress = new(nameof(InProgress), "В работе");
         public static readonly SprintStatus Completed = new(nameof(Completed), "Завершенный");
+
+        public static readonly SprintStatus[] All = [Created, InProgress, Completed];
 
         protected SprintStatus() { }
         protected SprintStatus(string value, string description)
@@ -37,6 +37,7 @@ namespace Tasks.Domain.ValueObjects
         {
             yield return Created;
             yield return Completed;
+            yield return InProgress;
         }
     }
 }

@@ -110,31 +110,6 @@ namespace AuthenticationService.Infrastructure.Impl.Services
             return userId;
         }
 
-        public async Task RevokeAccessTokenAsync(long userId)
-        {
-            var userAccessKey = $"{USER_ACCESS_KEY}:{userId}";
-            var token = await cache.GetAsync<string>(userAccessKey);
-
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-                await cache.RemoveAsync($"{ACCESS_KEY}:{token}");
-                await cache.RemoveAsync(userAccessKey);
-            }
-        }
-
-        public async Task RevokeRefreshToken(string refreshToken)
-        {
-            var refreshKey = $"{REFRESH_KEY}:{refreshToken}";
-            var userId = await GetUserIdByRefreshToken(refreshToken);
-            if (userId != null)
-            {
-                var userRefreshKey = $"{USER_REFRESH_KEY}:{userId.Value}";
-                await cache.RemoveAsync(userRefreshKey);
-            }
-
-            await cache.RemoveAsync(refreshKey);
-        }
-
         private string GenerateRefreshToken()
         {
             var randomNumber = new byte[64];

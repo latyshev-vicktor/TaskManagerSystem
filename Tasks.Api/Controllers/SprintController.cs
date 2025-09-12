@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
@@ -9,6 +10,7 @@ using Tasks.Application.UseCases.FIeldActivity.Queires;
 using Tasks.Application.UseCases.Sprint.Commands;
 using Tasks.Application.UseCases.Sprint.Dto;
 using Tasks.Application.UseCases.Sprint.Queries;
+using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Api.Controllers
 {
@@ -87,6 +89,28 @@ namespace Tasks.Api.Controllers
             var result = await mediator.Send(query);
             if (result.IsFailure)
                 return BadRequest(result.Error);
+
+            return Ok(result.Value);
+        }
+
+        [HttpPost("{stringId:long}/start-sprint")]
+        public async Task<ActionResult> StartSprint([FromRoute]long sprintId)
+        {
+            var userId = principal.GetUserId();
+            var command = new StartSprintCommand(sprintId, userId);
+            var result = await mediator.Send(command);
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok();
+        }
+
+        [HttpGet("statuses")]
+        public async Task<ActionResult> GetSprintStatus()
+        {
+            var query = new GetSprintStatusesQuery();
+            var result = await mediator.Send(query);
 
             return Ok(result.Value);
         }

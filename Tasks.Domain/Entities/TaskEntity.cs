@@ -25,7 +25,7 @@ namespace Tasks.Domain.Entities
         }
 
         #region DDD-методы
-        public IExecutionResult<TaskEntity> Create(
+        public static IExecutionResult<TaskEntity> Create(
             string name,
             string description,
             long targetId)

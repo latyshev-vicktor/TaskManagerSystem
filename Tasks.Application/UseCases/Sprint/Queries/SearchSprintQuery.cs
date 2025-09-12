@@ -6,5 +6,5 @@ using Tasks.Application.UseCases.Sprint.Dto;
 
 namespace Tasks.Application.UseCases.Sprint.Queries
 {
-    public record SearchSprintQuery(SprintFilter Filter) : IRequest<IExecutionResult<SearchData<SprintDto>>>;
+    public record SearchSprintQuery(SprintFilter Filter) : IRequest<IExecutionResult<SearchData<SprintTableDto>>>;
 }

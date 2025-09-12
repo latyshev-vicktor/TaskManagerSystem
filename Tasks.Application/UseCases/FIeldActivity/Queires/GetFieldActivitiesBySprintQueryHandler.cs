@@ -28,15 +28,31 @@ namespace Tasks.Application.UseCases.FIeldActivity.Queires
             var data = await dbContext.SprintFieldActivities
                                       .AsNoTracking()
                                       .Where(spec)
-                                      .Include(x => x.FieldActivity)
-                                      .Include(x => x.Targets)
-                                        .ThenInclude(x => x.Tasks)
                                       .Select(x => new FieldActivityForSprintDto
                                       {
                                           Id = x.Id,
                                           CreatedDate = x.FieldActivity!.CreatedDate,
                                           Name = x.FieldActivity!.Name,
-                                          Targets = x.Targets.Select(t => t.ToDto()).ToList(),
+                                          Targets = x.Targets.Select(t => new TargetDto
+                                          {
+                                              Id = t.Id,
+                                              Name = t.Name.Name,
+                                              CreatedDate = t.CreatedDate,
+                                              SprintFieldActivityId = t.SprintFieldActivityId,
+                                              Tasks = t.Tasks.Select(task => new TaskDto
+                                              {
+                                                  Id = task.Id,
+                                                  Name = task.Name.Name,
+                                                  Description = task.Description.Description,
+                                                  CreatedDate = task.CreatedDate,
+                                                  TargetId = task.TargetId,
+                                                  Status = new TaskStatusDto
+                                                  {
+                                                      Name = task.Status.Value,
+                                                      Description = task.Status.Description,
+                                                  },
+                                              }).ToList()
+                                          }).ToList(),
                                       })
                                       .ToListAsync(cancellationToken);
 
