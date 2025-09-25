@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagerSystem.Common.Extensions;
 using Tasks.Application.UseCases.Task.Commands;
 using Tasks.Application.UseCases.Task.Dto;
 using Tasks.Application.UseCases.Task.Queries;
@@ -16,9 +17,9 @@ namespace Tasks.Api.Controllers
             var command = new CreateTaskCommand(dto);
             var result = await mediator.Send(command);
 
-            return result.IsSuccess
-                ? Ok(result.Value)
-                : BadRequest(result.Error);
+            return result.Match(
+                () => Ok(result.Value),
+                error => BadRequest(error));
         }
 
         [HttpGet("statuses")]
