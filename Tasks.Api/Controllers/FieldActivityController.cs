@@ -17,19 +17,18 @@ namespace Tasks.Api.Controllers
     public class FieldActivityController(IMediator mediator, IPrincipal principal) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateFieldActivityDto request)
+        public async Task<ActionResult> Create([FromBody]CreateFieldActivityDto request)
         {
             var command = new CreateFieldActivityCommand(request.Name, principal.GetUserId());
             var result = await mediator.Send(command);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok(result.Value);
+            return result.Match(
+                () => Ok(result.Value),
+                error => BadRequest(error));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] FieldActivityDto request)
+        public async Task<ActionResult> Update([FromBody] FieldActivityDto request)
         {
             var userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value);
             request.UserId = userId;
@@ -37,14 +36,13 @@ namespace Tasks.Api.Controllers
             var command = new UpdateFieldActivityCommand(request);
             var result = await mediator.Send(command);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok(result.Value);
+            return result.Match(
+                () => Ok(result.Value),
+                error => BadRequest(error));
         }
 
         [HttpDelete("{id:long}")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<ActionResult> Delete(long id)
         {
             var userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value);
             var command = new DeleteFieldActivityCommand(id, userId);

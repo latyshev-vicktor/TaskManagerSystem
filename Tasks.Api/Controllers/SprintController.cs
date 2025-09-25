@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
@@ -10,7 +9,6 @@ using Tasks.Application.UseCases.FIeldActivity.Queires;
 using Tasks.Application.UseCases.Sprint.Commands;
 using Tasks.Application.UseCases.Sprint.Dto;
 using Tasks.Application.UseCases.Sprint.Queries;
-using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Api.Controllers
 {
@@ -25,10 +23,9 @@ namespace Tasks.Api.Controllers
             var command = new CreateSprintCommand(request, userId);
             var result = await mediator.Send(command);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok(result.Value);
+            return result.Match(
+                () => Ok(result.Value), 
+                error => BadRequest(result.Error));
         }
 
         [HttpGet("count-by-status")]
@@ -74,10 +71,7 @@ namespace Tasks.Api.Controllers
             var command = new DeleteSprintCommand(id);
             var result = await mediator.Send(command);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return NoContent();
+            return result.Match(() => NoContent(), error => BadRequest(error));
         }
 
         [HttpGet("{sprintId:long}/field-activities")]
@@ -87,10 +81,10 @@ namespace Tasks.Api.Controllers
             var query = new GetFieldActivitiesBySprintQuery(userId, sprintId);
 
             var result = await mediator.Send(query);
-            if (result.IsFailure)
-                return BadRequest(result.Error);
 
-            return Ok(result.Value);
+            return result.Match(
+                () => Ok(result.Value),
+                error => BadRequest(error));
         }
 
         [HttpPost("{stringId:long}/start-sprint")]
@@ -100,10 +94,9 @@ namespace Tasks.Api.Controllers
             var command = new StartSprintCommand(sprintId, userId);
             var result = await mediator.Send(command);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok();
+            return result.Match(
+                () => NoContent(),
+                error => BadRequest(error));
         }
 
         [HttpGet("statuses")]
