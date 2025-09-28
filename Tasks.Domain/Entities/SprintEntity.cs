@@ -15,11 +15,45 @@ namespace Tasks.Domain.Entities
         public long UserId { get; private set; }
         public SprintName Name { get; private set; }
         public SprintDescription Description { get; private set; }
-        public DateTimeOffset StartDate { get; private set; }
-        public DateTimeOffset EndDate { get; private set; }
+        public DateTimeOffset StartDate 
+        { 
+            get
+            {
+                if (!SprintWeeks.Any())
+                {
+                    return DateTimeOffset.Now;
+                }
+
+                return SprintWeeks.SingleOrDefault(x => x.WeekNumber == 1)!.StartDate;
+            }
+        }
+   
+        public DateTimeOffset EndDate
+        {
+            get
+            {
+                if(!SprintWeeks.Any())
+                {
+                    return DateTimeOffset.Now;
+                }
+
+                var countWeeks = SprintWeeks.Count;
+
+                return SprintWeeks.SingleOrDefault(x => x.WeekNumber == countWeeks)!.EndDate;
+            }
+        }
         public SprintStatus Status { get; private set; }
 
         public List<SprintFieldActivityEntity> SprintFieldActivities { get; private set; } = [];
+
+        /// <summary>
+        /// Связь с неделями, на которые разбивается спринт
+        /// </summary>
+        private List<SprintWeekEntity> _sprintWeeks = [];
+        public IReadOnlyList<SprintWeekEntity> SprintWeeks => _sprintWeeks;
+
+        private List<TargetEntity> _targets = [];
+        public IReadOnlyList<TargetEntity> Targets => _targets;
 
         #region Конструкторы
         protected SprintEntity()
@@ -31,15 +65,11 @@ namespace Tasks.Domain.Entities
             long userId,
             SprintName name,
             SprintDescription description,
-            DateTimeOffset startDate,
-            DateTimeOffset endDate,
             List<FieldActivityEntity> fieldActivities)
         {
             UserId = userId;
             Name = name;
             Description = description;
-            StartDate = startDate;
-            EndDate = endDate;
             Status = SprintStatus.Created;
             AddFieldActivities(fieldActivities);
         }
@@ -50,18 +80,10 @@ namespace Tasks.Domain.Entities
             long userId,
             string name,
             string description,
-            DateTimeOffset startDate,
-            DateTimeOffset endDate,
             List<FieldActivityEntity> fieldActivities)
         {
             if (userId == default)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.UserNotEmpty());
-
-            if (startDate.Date < DateTimeOffset.Now.Date)
-                return ExecutionResult.Failure<SprintEntity>(SprintError.StartDateNotBeLessNow());
-
-            if (startDate.Date > endDate.Date)
-                return ExecutionResult.Failure<SprintEntity>(SprintError.EndDateNotBeLessNow());
 
             var nameResult = SprintName.Create(name);
             if (nameResult.IsFailure)
@@ -74,7 +96,7 @@ namespace Tasks.Domain.Entities
             if (fieldActivities.Count == 0)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.NotFoundFieldActivities());
 
-            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, startDate, endDate, fieldActivities));
+            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivities));
         }
 
         public IExecutionResult ChangeStatus(string status)
@@ -133,6 +155,14 @@ namespace Tasks.Domain.Entities
                     FieldActivity = fieldActivity,
                     Sprint = this
                 });
+            }
+        }
+
+        public void AddWeek(SprintWeekEntity week)
+        {
+            if(_sprintWeeks.Any(x => x.Id != week.Id))
+            {
+                _sprintWeeks.Add(week);
             }
         }
 

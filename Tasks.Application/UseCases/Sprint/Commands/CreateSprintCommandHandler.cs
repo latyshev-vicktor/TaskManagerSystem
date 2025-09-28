@@ -21,8 +21,6 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 request.UserId,
                 request.Dto.Name,
                 request.Dto.Description,
-                request.Dto.StartDate,
-                request.Dto.EndDate,
                 fieldActivities);
 
             if (sprintResult.IsFailure)

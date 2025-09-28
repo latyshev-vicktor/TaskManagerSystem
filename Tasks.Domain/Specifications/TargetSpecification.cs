@@ -9,6 +9,6 @@ namespace Tasks.Domain.Specifications
             => new(x => x.Id == id);
 
         public static Spec<TargetEntity> BySprintId(long sprintId)
-            => new(x => x.SprintFieldActivity.SprintId == sprintId);
+            => new(x => x.SprintId == sprintId);
     }
 }
