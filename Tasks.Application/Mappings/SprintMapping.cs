@@ -27,7 +27,6 @@ namespace Tasks.Application.Mappings
                     UserId = x.FieldActivity?.UserId,
                     CreatedDate = x.FieldActivity!.CreatedDate,
                     Name = x.FieldActivity.Name,
-                    Targets = x.Targets.Select(t => t.ToDto()).ToList()
                 })]
             };
         }

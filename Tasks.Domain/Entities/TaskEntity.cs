@@ -13,14 +13,17 @@ namespace Tasks.Domain.Entities
         public long TargetId { get; private set; }
         public TargetEntity? Target { get; private set; }
         public TasksStatus Status { get; private set; }
+        public long WeekId { get; set; }
+        public SprintWeekEntity? Week { get; private set; }
 
         protected TaskEntity() { }
 
-        protected TaskEntity(TaskName name, TaskDescription description, long targetId)
+        protected TaskEntity(TaskName name, TaskDescription description, long targetId, long weekId)
         {
             Name = name;
             Description = description;
             TargetId = targetId;
+            WeekId = weekId;
             Status = TasksStatus.Created;
         }
 
@@ -28,7 +31,8 @@ namespace Tasks.Domain.Entities
         public static IExecutionResult<TaskEntity> Create(
             string name,
             string description,
-            long targetId)
+            long targetId,
+            long weekId)
         {
             var nameResult = TaskName.Create(name);
             if (nameResult.IsFailure)
@@ -41,7 +45,10 @@ namespace Tasks.Domain.Entities
             if (targetId == default)
                 return ExecutionResult.Failure<TaskEntity>(TaskError.TargetIdNotFound());
 
-            return ExecutionResult.Success(new TaskEntity(nameResult.Value, descriptionResult.Value, targetId));
+            if (weekId == default)
+                return ExecutionResult.Failure<TaskEntity>(TaskError.WeekNotFound());
+
+            return ExecutionResult.Success(new TaskEntity(nameResult.Value, descriptionResult.Value, targetId, weekId));
         }
 
         public void Completed()

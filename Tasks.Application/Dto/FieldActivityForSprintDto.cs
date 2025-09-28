@@ -2,6 +2,7 @@
 {
     public class FieldActivityForSprintDto : FieldActivityDto
     {
-        public List<TargetDto> Targets { get; set; } = [];
+        public long SprintId { get; set; }
+        public SprintDto? Sprint { get; set; }
     }
 }

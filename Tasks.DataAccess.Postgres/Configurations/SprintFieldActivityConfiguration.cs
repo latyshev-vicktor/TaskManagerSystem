@@ -19,10 +19,6 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.HasOne(x => x.FieldActivity)
                    .WithMany()
                    .HasForeignKey(x => x.FieldActivityId);
-
-            builder.HasMany(x => x.Targets)
-                   .WithOne(x => x.SprintFieldActivity)
-                   .HasForeignKey(x => x.SprintFieldActivityId);
         }
     }
 }

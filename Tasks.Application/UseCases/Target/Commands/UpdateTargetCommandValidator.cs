@@ -1,11 +1,9 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Errors;
 using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
-using Tasks.Domain.Errors;
 using Tasks.Domain.Specifications;
 using Tasks.Domain.ValueObjects;
 
@@ -20,7 +18,6 @@ namespace Tasks.Application.UseCases.Target.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(TargetName.Create);
-            RuleFor(x => x.Dto.SprintFieldActivityId).NotNull().NotEqual(default(long)).CustomErrorMessage(TargetError.SprintNotBeNull());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(UpdateTargetCommand request, CancellationToken cancellationToken)

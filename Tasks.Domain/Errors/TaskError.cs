@@ -7,5 +7,8 @@ namespace Tasks.Domain.Errors
     {
         public static Error TargetIdNotFound()
             => new(ResultCode.BadRequest, "Не указана цель для задачи");
+
+        public static Error WeekNotFound()
+            => new(ResultCode.BadRequest, "Не указана неделя");
     }
 }
