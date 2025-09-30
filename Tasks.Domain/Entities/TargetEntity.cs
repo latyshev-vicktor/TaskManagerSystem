@@ -18,24 +18,24 @@ namespace Tasks.Domain.Entities
         #region Конструкторы
         protected TargetEntity() { }
 
-        protected TargetEntity(TargetName name, long sprintId)
+        protected TargetEntity(TargetName name, SprintEntity sprint)
         {
             Name = name;
-            SprintId = sprintId;
+            Sprint = sprint;
         }
         #endregion
 
         #region DDD-методы
-        public static IExecutionResult<TargetEntity> Create(string name, long sprintId)
+        public static IExecutionResult<TargetEntity> Create(string name, SprintEntity sprint)
         {
-            if (sprintId == default)
+            if (sprint == null)
                 return ExecutionResult.Failure<TargetEntity>(TargetError.SprintNotBeNull());
 
             var nameResult = TargetName.Create(name);
             if (nameResult.IsFailure)
                 return ExecutionResult.Failure<TargetEntity>(nameResult.Error);
 
-            return ExecutionResult.Success(new TargetEntity(nameResult.Value, sprintId));
+            return ExecutionResult.Success(new TargetEntity(nameResult.Value, sprint));
         }
 
         public IExecutionResult SetName(string name)

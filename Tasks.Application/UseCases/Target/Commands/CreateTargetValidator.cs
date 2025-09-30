@@ -24,9 +24,9 @@ namespace Tasks.Application.UseCases.Target.Commands
 
         public override async Task<IExecutionResult> RequestValidateAsync(CreateTargetCommand request, CancellationToken cancellationToken)
         {
-            var existSprint = await _dbContext.SprintFieldActivities
+            var existSprint = await _dbContext.Sprints
                                               .AsNoTracking()
-                                              .AnyAsync(SprintFieldActivitySpecification.ById(request.Dto.SprintId), cancellationToken);
+                                              .AnyAsync(SprintSpecification.ById(request.Dto.SprintId), cancellationToken);
 
             if (existSprint == false)
                 return ExecutionResult.Failure(SprintError.SprintNotFoundById());

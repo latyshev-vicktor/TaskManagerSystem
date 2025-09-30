@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tasks.Application.Dto;
 
 namespace Tasks.Application.UseCases.Sprint.Dto
 {
@@ -14,8 +15,7 @@ namespace Tasks.Application.UseCases.Sprint.Dto
         [Required]
         public long[] FieldActivityIds { get; set; }
 
-        [Required]
-        [MinLength(1)]
-        public int WeekCount { get; set; }
+        [Required, MinLength(1)]
+        public List<TargetDto> Targets { get; set; } = [];
     }
 }

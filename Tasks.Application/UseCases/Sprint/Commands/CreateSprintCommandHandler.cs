@@ -26,7 +26,20 @@ namespace Tasks.Application.UseCases.Sprint.Commands
             if (sprintResult.IsFailure)
                 return ExecutionResult.Failure<long>(sprintResult.Error);
 
+            foreach (var target in request.Dto.Targets)
+            {
+                var targetResult = TargetEntity.Create(
+                    target.Name,
+                    sprintResult.Value);
+
+                if (targetResult.IsFailure)
+                    return ExecutionResult.Failure<long>(targetResult.Error);
+
+                sprintResult.Value.AddTarget(targetResult.Value);
+            }
+
             var createdSprint = await dbContext.AddAsync(sprintResult.Value, cancellationToken);
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return ExecutionResult.Success(createdSprint.Entity.Id);

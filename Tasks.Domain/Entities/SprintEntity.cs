@@ -160,9 +160,29 @@ namespace Tasks.Domain.Entities
 
         public void AddWeek(SprintWeekEntity week)
         {
+            if (_sprintWeeks.Count == 0)
+            {
+                _sprintWeeks.Add(week);
+                return;
+            }
+
             if(_sprintWeeks.Any(x => x.Id != week.Id))
             {
                 _sprintWeeks.Add(week);
+            }
+        }
+
+        public void AddTarget(TargetEntity target)
+        {
+            if (_targets.Count == 0)
+            {
+                _targets.Add(target);
+                return;
+            }
+
+            if (_targets.Any(x => x.Id != target.Id))
+            {
+                _targets.Add(target);
             }
         }
 
