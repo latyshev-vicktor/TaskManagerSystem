@@ -10,7 +10,7 @@ namespace AuthenticationService.Api.Controllers
     [ApiController]
     public class UserController(IMediator mediator, IPrincipal principal) : ControllerBase
     {
-        [HttpGet("getShortInformation")]
+        [HttpGet("short-information")]
         public async Task<IActionResult> GetShortInformation()
         {
             var userId = principal.GetUserId();
