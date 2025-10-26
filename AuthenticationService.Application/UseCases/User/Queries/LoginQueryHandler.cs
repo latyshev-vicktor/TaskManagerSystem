@@ -20,9 +20,9 @@ namespace AuthenticationService.Application.UseCases.User.Queries
                                       .Include(x => x.Roles)
                                       .FirstOrDefaultAsync(UserSpecification.ByEmail(request.Email), cancellationToken);
 
-            var tokenResult = await tokenService.GenerateTokenAsync(user!);
+            var (AccessToken, RefreshToken) = await tokenService.GenerateTokenAsync(user!);
 
-            return ExecutionResult.Success(new LoginResponse(tokenResult.AccessToken, tokenResult.RefreshToken, user.Id, user.UserName.Value, user.Email.Value, user.FullName.FirstName, user.FullName.LastName));
+            return ExecutionResult.Success(new LoginResponse(AccessToken, RefreshToken));
         }
     }
 }

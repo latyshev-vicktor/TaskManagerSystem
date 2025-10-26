@@ -40,10 +40,10 @@ namespace AuthenticationService.Api.Controllers
 
             SetResponseCookies(response.Value.RefreshToken);
 
-            return Ok(response.Value);
+            return Ok(new { response.Value.AccessToken});
         }
 
-        [HttpGet("refreshToken")]
+        [HttpGet("refresh-token")]
         public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refresh_token"];
