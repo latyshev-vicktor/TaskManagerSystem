@@ -99,17 +99,6 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivities));
         }
 
-        public IExecutionResult ChangeStatus(string status)
-        {
-            var statusResult = SprintStatus.Create(status);
-            if (statusResult.IsFailure)
-                return ExecutionResult.Failure(statusResult.Error);
-
-            Status = statusResult.Value;
-
-            return ExecutionResult.Success();
-        }
-
         public IExecutionResult StartSprint()
         {
             if(Status == SprintStatus.InProgress)
@@ -160,6 +149,12 @@ namespace Tasks.Domain.Entities
 
         public void AddWeek(SprintWeekEntity week)
         {
+            if(_sprintWeeks.Count == 0)
+            {
+                _sprintWeeks.Add(week);
+                return;
+            }
+
             if(_sprintWeeks.Any(x => x.Id != week.Id))
             {
                 _sprintWeeks.Add(week);

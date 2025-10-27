@@ -16,6 +16,9 @@ namespace Tasks.DataAccess.Postgres.Configurations
                    .WithOne(x => x.Week)
                    .HasForeignKey(x => x.WeekId);
 
+            //var navigation = builder.Metadata.FindNavigation(nameof(SprintWeekEntity.Tasks));
+            //navigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
+
             builder.Property(x => x.StartDate).IsRequired();
             builder.Property(x => x.EndDate).IsRequired();
         }

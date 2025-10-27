@@ -10,7 +10,7 @@ namespace Tasks.Application.UseCases.Task.Commands
     {
         public async Task<IExecutionResult<long>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
-            var newTask = TaskEntity.Create(request.CreateDto.Name, request.CreateDto.Description, request.CreateDto.TargetId);
+            var newTask = TaskEntity.Create(request.CreateDto.Name, request.CreateDto.Description, request.CreateDto.TargetId, request.CreateDto.WeekId);
 
             var taskResult = await dbContext.Tasks.AddAsync(newTask.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);

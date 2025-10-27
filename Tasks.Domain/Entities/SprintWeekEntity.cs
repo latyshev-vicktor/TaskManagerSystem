@@ -40,8 +40,7 @@ namespace Tasks.Domain.Entities
             SprintEntity sprint,
             int weekNumber,
             DateTime startDate,
-            DateTime endDate
-            )
+            DateTime endDate)
         {
             if (sprint == null)
                 return ExecutionResult.Failure<SprintWeekEntity>(SprintWeekError.SprintIsNull());
