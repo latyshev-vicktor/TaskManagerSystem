@@ -19,7 +19,8 @@ builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
                 .AddCustomAuthentication(builder.Configuration)
                 .AddHttpContextAccessor()
-                .AddCustomCors();
+                .AddCustomCors()
+                .AddCustomSwagger();
 
 builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddProblemDetails();
@@ -35,7 +36,6 @@ builder.Services.AddControllers(options =>
                   .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
