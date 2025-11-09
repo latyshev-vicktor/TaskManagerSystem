@@ -24,8 +24,8 @@ namespace Tasks.Domain.Entities
         protected SprintWeekEntity(
             SprintEntity sprint,
             int weekNumber,
-            DateTime startDate,
-            DateTime endDate)
+            DateTimeOffset startDate,
+            DateTimeOffset endDate)
         {
             Sprint = sprint;
             WeekNumber = weekNumber;
@@ -39,8 +39,8 @@ namespace Tasks.Domain.Entities
         public static IExecutionResult<SprintWeekEntity> Create(
             SprintEntity sprint,
             int weekNumber,
-            DateTime startDate,
-            DateTime endDate)
+            DateTimeOffset startDate,
+            DateTimeOffset endDate)
         {
             if (sprint == null)
                 return ExecutionResult.Failure<SprintWeekEntity>(SprintWeekError.SprintIsNull());
