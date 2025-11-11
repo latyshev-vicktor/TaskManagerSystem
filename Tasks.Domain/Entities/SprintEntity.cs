@@ -155,7 +155,7 @@ namespace Tasks.Domain.Entities
                 return;
             }
 
-            if(_sprintWeeks.Any(x => x.Id != week.Id))
+            if(_sprintWeeks.Any(x => x.Id != week.Id) || week.Id == default)
             {
                 _sprintWeeks.Add(week);
             }

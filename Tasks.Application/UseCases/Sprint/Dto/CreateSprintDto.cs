@@ -15,7 +15,6 @@ namespace Tasks.Application.UseCases.Sprint.Dto
         public long[] FieldActivityIds { get; set; }
 
         [Required]
-        [MinLength(1)]
         public int WeekCount { get; set; }
     }
 }
