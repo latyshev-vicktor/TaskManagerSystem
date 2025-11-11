@@ -26,26 +26,24 @@ namespace Tasks.Application.UseCases.Sprint.Commands
             if (sprintResult.IsFailure)
                 return ExecutionResult.Failure<long>(sprintResult.Error);
 
-            var startDate = DateTimeOffset.Now.Date;
+            var startDate = DateTimeOffset.UtcNow.Date;
+            var dayWeekCount = 7;
 
-            var weeksResult = Enumerable.Range(0, request.Dto.WeekCount)
-                .Select(index =>
-                {
-                    var weekStart = startDate.AddDays(index * 7);
-                    return SprintWeekEntity.Create(
-                        sprintResult.Value,
-                        index + 1,
-                        weekStart,
-                        weekStart.AddDays(6));
-                });
-
-            var failedWeek = weeksResult.FirstOrDefault(r => r.IsFailure);
-            if(failedWeek != null)
-                return ExecutionResult.Failure<long>(failedWeek.Error);
-
-            foreach(var week in weeksResult)
+            for(int weekIndex = 0; weekIndex < request.Dto.WeekCount; weekIndex++)
             {
-                sprintResult.Value.AddWeek(week.Value);
+                var weekStart = startDate.AddDays(weekIndex * dayWeekCount);
+                var weekEnd = weekStart.AddDays(dayWeekCount - 1);
+
+                var weekResult = SprintWeekEntity.Create(
+                    sprintResult.Value,
+                    weekIndex + 1,
+                    weekStart,
+                    weekEnd);
+
+                if(weekResult.IsFailure)
+                    return ExecutionResult.Failure<long>(weekResult.Error);
+
+                sprintResult.Value.AddWeek(weekResult.Value);
             }
             
             var createdSprint = await dbContext.AddAsync(sprintResult.Value, cancellationToken);
