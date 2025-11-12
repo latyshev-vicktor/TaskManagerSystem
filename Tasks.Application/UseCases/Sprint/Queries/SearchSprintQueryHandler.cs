@@ -65,6 +65,7 @@ namespace Tasks.Application.UseCases.Sprint.Queries
 
             var data = await dbQuery.Skip(filter.Skip)
                                     .Take(filter.Take)
+                                    .Include(x => x.SprintWeeks)
                                     .Select(entity => new SprintTableDto
                                     {
                                         Id = entity.Id,
