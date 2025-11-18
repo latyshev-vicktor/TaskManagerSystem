@@ -15,33 +15,9 @@ namespace Tasks.Domain.Entities
         public long UserId { get; private set; }
         public SprintName Name { get; private set; }
         public SprintDescription Description { get; private set; }
-        public DateTimeOffset StartDate 
-        { 
-            get
-            {
-                if (!SprintWeeks.Any())
-                {
-                    return DateTimeOffset.Now;
-                }
-
-                return SprintWeeks.SingleOrDefault(x => x.WeekNumber == 1)!.StartDate;
-            }
-        }
+        public DateTimeOffset StartDate { get; private set; }
    
-        public DateTimeOffset EndDate
-        {
-            get
-            {
-                if(!SprintWeeks.Any())
-                {
-                    return DateTimeOffset.Now;
-                }
-
-                var countWeeks = SprintWeeks.Count;
-
-                return SprintWeeks.SingleOrDefault(x => x.WeekNumber == countWeeks)!.EndDate;
-            }
-        }
+        public DateTimeOffset EndDate { get; private set; }
         public SprintStatus Status { get; private set; }
 
         public List<SprintFieldActivityEntity> SprintFieldActivities { get; private set; } = [];
@@ -131,6 +107,21 @@ namespace Tasks.Domain.Entities
 
             Description = descriptionResult.Value;
 
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult SetStartDate(DateTimeOffset startDate)
+        {
+            if (Status != SprintStatus.Created)
+                return ExecutionResult.Failure(SprintError.SprintAlreadyStarted());
+
+            StartDate = startDate;
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult SetEndDate(DateTimeOffset endDate)
+        {
+            EndDate = endDate;
             return ExecutionResult.Success();
         }
 

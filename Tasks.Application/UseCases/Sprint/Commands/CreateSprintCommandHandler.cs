@@ -27,6 +27,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 return ExecutionResult.Failure<long>(sprintResult.Error);
 
             var startDate = DateTimeOffset.UtcNow.Date;
+
             var dayWeekCount = 7;
 
             for(int weekIndex = 0; weekIndex < request.Dto.WeekCount; weekIndex++)
@@ -46,6 +47,9 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 sprintResult.Value.AddWeek(weekResult.Value);
             }
             
+            sprintResult.Value.SetStartDate(startDate);
+            sprintResult.Value.SetEndDate(sprintResult.Value.SprintWeeks[sprintResult.Value.SprintWeeks.Count - 1].EndDate);
+
             var createdSprint = await dbContext.AddAsync(sprintResult.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
 

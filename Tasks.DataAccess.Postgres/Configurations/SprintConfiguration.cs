@@ -13,9 +13,6 @@ namespace Tasks.DataAccess.Postgres.Configurations
 
             ConfigureValueObjects(builder);
 
-            builder.Ignore(x => x.StartDate);
-            builder.Ignore(x => x.EndDate);
-
             var weekNavigation = builder.Metadata.FindNavigation(nameof(SprintEntity.SprintWeeks));
             weekNavigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
 
