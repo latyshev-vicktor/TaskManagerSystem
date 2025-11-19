@@ -28,16 +28,6 @@ namespace Tasks.Api.Controllers
                 error => BadRequest(result.Error));
         }
 
-        [HttpGet("count-by-status")]
-        public async Task<IActionResult> GetCountByStatus()
-        {
-            var userId = principal.GetUserId();
-            var query = new GetSprintCountByStatusQuery(userId);
-            var result = await mediator.Send(query);
-
-            return Ok(result.Value);
-        }
-
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] SprintDto dto)
         {
