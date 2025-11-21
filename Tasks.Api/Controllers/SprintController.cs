@@ -77,11 +77,11 @@ namespace Tasks.Api.Controllers
                 error => BadRequest(error));
         }
 
-        [HttpPost("{stringId:long}/start-sprint")]
+        [HttpPost("{sprintId:long}/start-sprint")]
         public async Task<ActionResult> StartSprint([FromRoute]long sprintId)
         {
             var userId = principal.GetUserId();
-            var command = new StartSprintCommand(sprintId, userId);
+            var command = new StartSprintCommand(userId, sprintId);
             var result = await mediator.Send(command);
 
             return result.Match(
