@@ -10,22 +10,31 @@ namespace AuthenticationService.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
+            var entryAssembly = Assembly.GetEntryAssembly();
+            var referencedAssemblies = entryAssembly!
+                .GetReferencedAssemblies()
+                .Where(x => x.Name.Contains("AuthenticationService.Application"))
+                .Select(Assembly.Load);
 
-            services.Scan(
-            x => {
-                var entryAssembly = Assembly.GetEntryAssembly();
-                var referencedAssemblies = entryAssembly.GetReferencedAssemblies().Where(x => x.Name.Contains("AuthenticationService.Application")).Select(Assembly.Load);
-                var assemblies = new List<Assembly> { entryAssembly }.Concat(referencedAssemblies);
-                x.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IRequestValidator<>)))
+            var assembliesToScan = new[] { entryAssembly }.Concat(referencedAssemblies).ToArray();
+
+            services.Scan(scan => scan
+                .FromAssemblies(assembliesToScan)
+
+                .AddClasses(c => c.AssignableTo(typeof(IBeforeRequestValidator<>)))
                     .AsImplementedInterfaces()
-                    .WithScopedLifetime();
-            });
+                    .WithScopedLifetime()
+
+                .AddClasses(c => c.AssignableTo(typeof(IRequestValidator<>)))
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime()
+            );
+
 
             services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+                options.AddOpenBehavior(typeof(BeforeRequestPipelineBehaviour<,>));
                 options.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
             });
 
