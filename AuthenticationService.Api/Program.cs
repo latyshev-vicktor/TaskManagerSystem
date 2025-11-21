@@ -5,10 +5,13 @@ using AuthenticationService.Application;
 using AuthenticationService.DataAccess.Postgres;
 using AuthenticationService.Infrastructure.Impl;
 using MassTransit;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
 using TaskManagerSystem.Common.CommonMiddlewares;
@@ -61,6 +64,20 @@ builder.Services.AddStackExchangeRedisCache(options =>
         ?? throw new InvalidOperationException("Строка подключения к Redis не найдена");
 
     options.Configuration = connection;
+});
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(options =>
+{
+    var connection = builder.Configuration.GetConnectionString("Redis")
+        ?? throw new InvalidOperationException("Строка подключения к Redis не найдена");
+
+    return ConnectionMultiplexer.Connect(connection);
+});
+
+builder.Services.AddSingleton<IDistributedLockProvider>(options =>
+{
+    var connectionMultiplexer = options.GetRequiredService<IConnectionMultiplexer>();
+    return new RedisDistributedSynchronizationProvider(connectionMultiplexer.GetDatabase());
 });
 
 var app = builder.Build();

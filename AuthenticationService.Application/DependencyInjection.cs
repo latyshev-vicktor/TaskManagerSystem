@@ -20,11 +20,6 @@ namespace AuthenticationService.Application
 
             services.Scan(scan => scan
                 .FromAssemblies(assembliesToScan)
-
-                .AddClasses(c => c.AssignableTo(typeof(IBeforeRequestValidator<>)))
-                    .AsImplementedInterfaces()
-                    .WithScopedLifetime()
-
                 .AddClasses(c => c.AssignableTo(typeof(IRequestValidator<>)))
                     .AsImplementedInterfaces()
                     .WithScopedLifetime()
@@ -34,7 +29,7 @@ namespace AuthenticationService.Application
             services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
-                options.AddOpenBehavior(typeof(BeforeRequestPipelineBehaviour<,>));
+                options.AddOpenBehavior(typeof(DistributionLockPipelineBehaviour<,>));
                 options.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
             });
 
