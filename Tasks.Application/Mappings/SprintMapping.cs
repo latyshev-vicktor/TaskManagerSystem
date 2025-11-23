@@ -20,14 +20,7 @@ namespace Tasks.Application.Mappings
                     Description = entity.Status.Description,
                 },
                 StartDate = entity.StartDate,
-                EndDate = entity.EndDate,
-                FieldActivities = [.. entity.SprintFieldActivities.Count == 0 ? [] : entity.SprintFieldActivities.Select(x => new FieldActivityForSprintDto
-                {
-                    Id = x.FieldActivityId,
-                    UserId = x.FieldActivity?.UserId,
-                    CreatedDate = x.FieldActivity!.CreatedDate,
-                    Name = x.FieldActivity.Name,
-                })]
+                EndDate = entity.EndDate
             };
         }
     }
