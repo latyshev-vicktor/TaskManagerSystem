@@ -15,6 +15,7 @@ namespace Tasks.Application.UseCases.Sprint.Queries
         {
             var targets = await taskDbContext.Targets
                 .AsNoTracking()
+                    .Include(x => x.Tasks)
                 .Where(TargetSpecification.BySprintId(request.SprintId))
                 .Select(x => x.ToDto())
                 .ToListAsync(cancellationToken);
