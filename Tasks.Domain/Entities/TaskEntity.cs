@@ -48,9 +48,19 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success(new TaskEntity(nameResult.Value, descriptionResult.Value, targetId, weekId));
         }
 
-        public void Completed()
+        public IExecutionResult Completed()
         {
+            if (Status == TasksStatus.Completed)
+                return ExecutionResult.Failure(TaskError.TaskAlreadyCompleted());
+
             Status = TasksStatus.Completed;
+
+            return ExecutionResult.Success();
+        }
+
+        public void SetCreatedStatus()
+        {
+            Status = TasksStatus.Created;
         }
 
         public IExecutionResult SetName(string name)

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using CSharpFunctionalExtensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
@@ -15,10 +16,27 @@ namespace Tasks.Application.UseCases.Sprint.Queries
         {
             var targets = await taskDbContext.Targets
                 .AsNoTracking()
-                    .Include(x => x.Tasks)
                 .Where(TargetSpecification.BySprintId(request.SprintId))
-                .Select(x => x.ToDto())
-                .ToListAsync(cancellationToken);
+                .Select(entity => new TargetDto
+                {
+                    Id = entity.Id,
+                    CreatedDate = entity.CreatedDate,
+                    SprintId = entity.SprintId,
+                    Name = entity.Name.Name,
+                    Tasks = entity.Tasks.Select(task => new TaskDto
+                    {
+                        Id = task.Id,
+                        CreatedDate = task.CreatedDate,
+                        Name = task.Name.Name,
+                        Description = task.Description.Description,
+                        Status = new TaskStatusDto
+                        {
+                            Name = task.Status.Value,
+                            Description = task.Status.Description
+                        },
+                        TargetId = task.TargetId
+                    }).ToList()
+                }).ToListAsync(cancellationToken);
 
             return ExecutionResult.Success(targets);
         }

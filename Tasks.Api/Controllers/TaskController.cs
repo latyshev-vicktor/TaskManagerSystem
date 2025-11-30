@@ -30,5 +30,16 @@ namespace Tasks.Api.Controllers
 
             return Ok(result.Value);
         }
+
+        [HttpPatch("{id:long}/complete")]
+        public async Task<ActionResult> CompleteTask([FromRoute]long id)
+        {
+            var command = new CompleteTaskCommand(id);
+            var result = await mediator.Send(command);
+
+            return result.Match(
+                () => Ok(),
+                error => BadRequest(error));
+        }
     }
 }

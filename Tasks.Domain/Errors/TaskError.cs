@@ -10,5 +10,8 @@ namespace Tasks.Domain.Errors
 
         public static Error WeekNotFound()
             => new(ResultCode.BadRequest, "Не указана неделя");
+
+        public static Error TaskAlreadyCompleted()
+            => new(ResultCode.BadRequest, "Задача уже завершена");
     }
 }
