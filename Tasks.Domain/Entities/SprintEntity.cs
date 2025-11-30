@@ -138,6 +138,15 @@ namespace Tasks.Domain.Entities
             }
         }
 
+        public void RemoveFieldActivities(List<FieldActivityEntity> fieldActivities)
+        {
+            var fieldActivitiesForRemove = SprintFieldActivities.Where(x => fieldActivities.Any(f => f.Id == x.FieldActivityId)).ToArray();
+            foreach(var fieldActivity in fieldActivitiesForRemove)
+            {
+                SprintFieldActivities.Remove(fieldActivity);
+            }
+        }
+
         public void AddWeek(SprintWeekEntity week)
         {
             if(_sprintWeeks.Count == 0)

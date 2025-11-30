@@ -33,7 +33,6 @@ namespace Tasks.Application.UseCases.FIeldActivity.Queires
                                           Id = x.Id,
                                           CreatedDate = x.FieldActivity!.CreatedDate,
                                           SprintId = x.Id,
-                                          Sprint = x.Sprint.ToDto(),
                                           Name = x.FieldActivity!.Name,
                                       })
                                       .ToListAsync(cancellationToken);
