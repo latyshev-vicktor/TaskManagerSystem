@@ -28,7 +28,7 @@ namespace Tasks.Domain.ValueObjects
             if (string.IsNullOrWhiteSpace(value))
                 return ExecutionResult.Failure<TasksStatus>(TaskStatusError.NotEmpty());
 
-            if (All.Any(x => x.Value == value) == false)
+            if (!All.Any(x => x.Value == value))
                 return ExecutionResult.Failure<TasksStatus>(TaskStatusError.NotCorrect());
 
             return ExecutionResult.Success(All.First(x => x.Value == value));

@@ -13,5 +13,8 @@ namespace Tasks.Domain.Errors
 
         public static Error TaskAlreadyCompleted()
             => new(ResultCode.BadRequest, "Задача уже завершена");
+
+        public static Error TaskAlreadyCreated()
+            => new(ResultCode.BadRequest, "Задача уже в статусе Создана");
     }
 }

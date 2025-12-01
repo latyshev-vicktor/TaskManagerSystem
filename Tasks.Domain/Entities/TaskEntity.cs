@@ -23,7 +23,7 @@ namespace Tasks.Domain.Entities
             Name = name;
             Description = description;
             TargetId = targetId;
-            Status = TasksStatus.Created;
+            SetCreatedStatus();
             WeekId = weekId;
         }
 
@@ -58,9 +58,14 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success();
         }
 
-        public void SetCreatedStatus()
+        public IExecutionResult SetCreatedStatus()
         {
+            if (Status == TasksStatus.Created)
+                return ExecutionResult.Failure(TaskError.TaskAlreadyCreated());
+
             Status = TasksStatus.Created;
+
+            return ExecutionResult.Success();
         }
 
         public IExecutionResult SetName(string name)

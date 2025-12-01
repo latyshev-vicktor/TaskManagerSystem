@@ -23,7 +23,7 @@ namespace Tasks.Application.UseCases.Sprint.Queries
                     CreatedDate = entity.CreatedDate,
                     SprintId = entity.SprintId,
                     Name = entity.Name.Name,
-                    Tasks = entity.Tasks.Select(task => new TaskDto
+                    Tasks = entity.Tasks.OrderByDescending(x => x.CreatedDate).Select(task => new TaskDto
                     {
                         Id = task.Id,
                         CreatedDate = task.CreatedDate,
