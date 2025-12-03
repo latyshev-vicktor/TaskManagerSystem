@@ -27,7 +27,7 @@ namespace Tasks.Domain.ValueObjects
             if (string.IsNullOrWhiteSpace(value))
                 return ExecutionResult.Failure<SprintStatus>(SprintStatusError.NotEmpty());
 
-            if (All.Any(x => x.Value == value))
+            if (!All.Any(x => x.Value == value))
                 return ExecutionResult.Failure<SprintStatus>(SprintStatusError.NotCorrect());
 
             return ExecutionResult.Success(All.First(x => x.Value == value));
@@ -35,9 +35,7 @@ namespace Tasks.Domain.ValueObjects
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return Created;
-            yield return Completed;
-            yield return InProgress;
+            yield return Value;
         }
     }
 }

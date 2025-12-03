@@ -13,22 +13,26 @@ namespace Tasks.Domain.Entities
         public long TargetId { get; private set; }
         public TargetEntity? Target { get; private set; }
         public TasksStatus Status { get; private set; }
+        public long? WeekId { get; set; }
+        public SprintWeekEntity? Week { get; private set; }
 
         protected TaskEntity() { }
 
-        protected TaskEntity(TaskName name, TaskDescription description, long targetId)
+        protected TaskEntity(TaskName name, TaskDescription description, long targetId, long? weekId)
         {
             Name = name;
             Description = description;
             TargetId = targetId;
-            Status = TasksStatus.Created;
+            SetCreatedStatus();
+            WeekId = weekId;
         }
 
         #region DDD-методы
         public static IExecutionResult<TaskEntity> Create(
             string name,
             string description,
-            long targetId)
+            long targetId,
+            long? weekId)
         {
             var nameResult = TaskName.Create(name);
             if (nameResult.IsFailure)
@@ -41,12 +45,27 @@ namespace Tasks.Domain.Entities
             if (targetId == default)
                 return ExecutionResult.Failure<TaskEntity>(TaskError.TargetIdNotFound());
 
-            return ExecutionResult.Success(new TaskEntity(nameResult.Value, descriptionResult.Value, targetId));
+            return ExecutionResult.Success(new TaskEntity(nameResult.Value, descriptionResult.Value, targetId, weekId));
         }
 
-        public void Completed()
+        public IExecutionResult Completed()
         {
+            if (Status == TasksStatus.Completed)
+                return ExecutionResult.Failure(TaskError.TaskAlreadyCompleted());
+
             Status = TasksStatus.Completed;
+
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult SetCreatedStatus()
+        {
+            if (Status == TasksStatus.Created)
+                return ExecutionResult.Failure(TaskError.TaskAlreadyCreated());
+
+            Status = TasksStatus.Created;
+
+            return ExecutionResult.Success();
         }
 
         public IExecutionResult SetName(string name)
@@ -67,6 +86,16 @@ namespace Tasks.Domain.Entities
                 return ExecutionResult.Failure(descriptionResult.Error);
 
             Description = descriptionResult.Value;
+
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult SetWeek(long weekId)
+        {
+            if (weekId == default)
+                return ExecutionResult.Failure<TaskEntity>(TaskError.WeekNotFound());
+
+            WeekId = weekId;
 
             return ExecutionResult.Success();
         }

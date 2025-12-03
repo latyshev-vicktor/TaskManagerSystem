@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using CSharpFunctionalExtensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
@@ -16,7 +17,29 @@ namespace Tasks.Application.UseCases.Sprint.Queries
             var sprint = await dbContext.Sprints
                                         .AsNoTracking()
                                         .Where(SprintSpecification.ById(request.Id))
-                                        .Select(x => x.ToDto())
+                                        .Select(entity => new SprintDto
+                                        {
+                                            Id = entity.Id,
+                                            UserId = entity.UserId,
+                                            CreatedDate = entity.CreatedDate,
+                                            Name = entity.Name.Name,
+                                            Description = entity.Description.Description,
+                                            SprintStatus = new SprintStatusDto
+                                            {
+                                                Name = entity.Status.Value,
+                                                Description = entity.Status.Description,
+                                            },
+                                            FieldActivities = entity.SprintFieldActivities.Select(fa => new FieldActivityForSprintDto
+                                            {
+                                                Id = fa.FieldActivity.Id,
+                                                CreatedDate = fa.FieldActivity.CreatedDate,
+                                                Name = fa.FieldActivity.Name,
+                                                UserId = fa.FieldActivity.UserId,
+                                                SprintId = fa.SprintId
+                                            }).ToList(),
+                                            StartDate = entity.StartDate,
+                                            EndDate = entity.EndDate
+                                        })
                                         .FirstOrDefaultAsync(cancellationToken);
 
             return ExecutionResult.Success(sprint!);

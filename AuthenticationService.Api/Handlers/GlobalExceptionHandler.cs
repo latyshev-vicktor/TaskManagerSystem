@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagerSystem.Common.Exceptions;
 
 namespace AuthenticationService.Api.Handlers
 {
@@ -17,6 +18,12 @@ namespace AuthenticationService.Api.Handlers
                 problemDetails.Title = "Ошибка валидации";
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 problemDetails.Extensions.Add("message", fluentException.Message);
+            }
+            else if(exception is LockOperationException lockOperationException)
+            {
+                problemDetails.Title = "Блокировка операции по ключу";
+                httpContext.Response.StatusCode= StatusCodes.Status409Conflict;
+                problemDetails.Extensions.Add("message", lockOperationException.Message);
             }
             else
             {

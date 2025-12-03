@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Security.Principal;
 using TaskManagerSystem.Common.Enums;
+using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Options;
 
 namespace AuthenticationService.Api.Controllers
@@ -26,10 +27,7 @@ namespace AuthenticationService.Api.Controllers
             var command = new CreateUserRequest(dto);
             var result = await mediator.Send(command);
 
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return NoContent();
+            return result.Match(() => NoContent(), error => BadRequest(result.Error));
         }
 
         [HttpPost("login")]

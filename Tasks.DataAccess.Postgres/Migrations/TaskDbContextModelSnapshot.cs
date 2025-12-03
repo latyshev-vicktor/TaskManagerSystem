@@ -146,6 +146,44 @@ namespace Tasks.DataAccess.Postgres.Migrations
                     b.ToTable("Sprint_FieldActivities", (string)null);
                 });
 
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<long>("SprintId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("WeekNumber")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SprintId");
+
+                    b.ToTable("SprintWeeks", (string)null);
+                });
+
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -165,7 +203,7 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("SprintFieldActivityId")
+                    b.Property<long>("SprintId")
                         .HasColumnType("bigint");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "Tasks.Domain.Entities.TargetEntity.Name#TargetName", b1 =>
@@ -180,7 +218,7 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SprintFieldActivityId");
+                    b.HasIndex("SprintId");
 
                     b.ToTable("Targets", (string)null);
                 });
@@ -207,6 +245,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
                     b.Property<long>("TargetId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("WeekId")
+                        .HasColumnType("bigint");
+
                     b.ComplexProperty<Dictionary<string, object>>("Description", "Tasks.Domain.Entities.TaskEntity.Description#TaskDescription", b1 =>
                         {
                             b1.IsRequired();
@@ -231,15 +272,22 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         {
                             b1.IsRequired();
 
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("StatusDescription");
+
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("Status");
+                                .HasColumnName("StatusName");
                         });
 
                     b.HasKey("Id");
 
                     b.HasIndex("TargetId");
+
+                    b.HasIndex("WeekId");
 
                     b.ToTable("Tasks", (string)null);
                 });
@@ -263,15 +311,26 @@ namespace Tasks.DataAccess.Postgres.Migrations
                     b.Navigation("Sprint");
                 });
 
-            modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
                 {
-                    b.HasOne("Tasks.Domain.Entities.SprintFieldActivityEntity", "SprintFieldActivity")
-                        .WithMany("Targets")
-                        .HasForeignKey("SprintFieldActivityId")
+                    b.HasOne("Tasks.Domain.Entities.SprintEntity", "Sprint")
+                        .WithMany("SprintWeeks")
+                        .HasForeignKey("SprintId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SprintFieldActivity");
+                    b.Navigation("Sprint");
+                });
+
+            modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
+                {
+                    b.HasOne("Tasks.Domain.Entities.SprintEntity", "Sprint")
+                        .WithMany("Targets")
+                        .HasForeignKey("SprintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sprint");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.TaskEntity", b =>
@@ -282,17 +341,27 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Tasks.Domain.Entities.SprintWeekEntity", "Week")
+                        .WithMany("Tasks")
+                        .HasForeignKey("WeekId");
+
                     b.Navigation("Target");
+
+                    b.Navigation("Week");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintEntity", b =>
                 {
                     b.Navigation("SprintFieldActivities");
+
+                    b.Navigation("SprintWeeks");
+
+                    b.Navigation("Targets");
                 });
 
-            modelBuilder.Entity("Tasks.Domain.Entities.SprintFieldActivityEntity", b =>
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
                 {
-                    b.Navigation("Targets");
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>

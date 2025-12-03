@@ -5,7 +5,6 @@ using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
-using Tasks.Domain.Errors;
 using Tasks.Domain.ValueObjects;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
@@ -19,7 +18,6 @@ namespace Tasks.Application.UseCases.Sprint.Commands
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(SprintName.Create);
             RuleFor(x => x.Dto.Description).MustBeValueObject(SprintDescription.Create);
-            RuleFor(x => x.Dto.FieldActivities).NotEqual([]).CustomErrorMessage(SprintError.NotFoundFieldActivities());
         }
 
         public async override Task<IExecutionResult> RequestValidateAsync(UpdateSprintCommand request, CancellationToken cancellationToken)

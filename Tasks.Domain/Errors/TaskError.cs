@@ -7,5 +7,14 @@ namespace Tasks.Domain.Errors
     {
         public static Error TargetIdNotFound()
             => new(ResultCode.BadRequest, "Не указана цель для задачи");
+
+        public static Error WeekNotFound()
+            => new(ResultCode.BadRequest, "Не указана неделя");
+
+        public static Error TaskAlreadyCompleted()
+            => new(ResultCode.BadRequest, "Задача уже завершена");
+
+        public static Error TaskAlreadyCreated()
+            => new(ResultCode.BadRequest, "Задача уже в статусе Создана");
     }
 }

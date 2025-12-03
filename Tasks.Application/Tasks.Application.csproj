@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Tasks.Domain\Tasks.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\SprintWeek\Commands\" />
+    <Folder Include="UseCases\Target\Queries\" />
+  </ItemGroup>
+
 </Project>

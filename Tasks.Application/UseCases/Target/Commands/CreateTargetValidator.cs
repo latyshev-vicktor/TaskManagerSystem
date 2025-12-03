@@ -19,16 +19,16 @@ namespace Tasks.Application.UseCases.Target.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(TargetName.Create);
-            RuleFor(x => x.Dto.SprintFieldActivityId).NotNull().NotEqual(default(long)).CustomErrorMessage(TargetError.SprintNotBeNull());
+            RuleFor(x => x.Dto.SprintId).NotNull().NotEqual(default(long)).CustomErrorMessage(TargetError.SprintNotBeNull());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(CreateTargetCommand request, CancellationToken cancellationToken)
         {
-            var existSprint = await _dbContext.SprintFieldActivities
+            var existSprint = await _dbContext.Sprints
                                               .AsNoTracking()
-                                              .AnyAsync(SprintFieldActivitySpecification.ById(request.Dto.SprintFieldActivityId), cancellationToken);
+                                              .AnyAsync(SprintSpecification.ById(request.Dto.SprintId), cancellationToken);
 
-            if (existSprint == false)
+            if (!existSprint)
                 return ExecutionResult.Failure(SprintError.SprintNotFoundById());
 
             return ExecutionResult.Success();

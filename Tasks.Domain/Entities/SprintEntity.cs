@@ -16,10 +16,20 @@ namespace Tasks.Domain.Entities
         public SprintName Name { get; private set; }
         public SprintDescription Description { get; private set; }
         public DateTimeOffset StartDate { get; private set; }
+   
         public DateTimeOffset EndDate { get; private set; }
         public SprintStatus Status { get; private set; }
 
         public List<SprintFieldActivityEntity> SprintFieldActivities { get; private set; } = [];
+
+        /// <summary>
+        /// Связь с неделями, на которые разбивается спринт
+        /// </summary>
+        private List<SprintWeekEntity> _sprintWeeks = [];
+        public IReadOnlyList<SprintWeekEntity> SprintWeeks => _sprintWeeks;
+
+        private List<TargetEntity> _targets = [];
+        public IReadOnlyList<TargetEntity> Targets => _targets;
 
         #region Конструкторы
         protected SprintEntity()
@@ -31,15 +41,11 @@ namespace Tasks.Domain.Entities
             long userId,
             SprintName name,
             SprintDescription description,
-            DateTimeOffset startDate,
-            DateTimeOffset endDate,
             List<FieldActivityEntity> fieldActivities)
         {
             UserId = userId;
             Name = name;
             Description = description;
-            StartDate = startDate;
-            EndDate = endDate;
             Status = SprintStatus.Created;
             AddFieldActivities(fieldActivities);
         }
@@ -50,18 +56,10 @@ namespace Tasks.Domain.Entities
             long userId,
             string name,
             string description,
-            DateTimeOffset startDate,
-            DateTimeOffset endDate,
             List<FieldActivityEntity> fieldActivities)
         {
             if (userId == default)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.UserNotEmpty());
-
-            if (startDate.Date < DateTimeOffset.Now.Date)
-                return ExecutionResult.Failure<SprintEntity>(SprintError.StartDateNotBeLessNow());
-
-            if (startDate.Date > endDate.Date)
-                return ExecutionResult.Failure<SprintEntity>(SprintError.EndDateNotBeLessNow());
 
             var nameResult = SprintName.Create(name);
             if (nameResult.IsFailure)
@@ -74,18 +72,7 @@ namespace Tasks.Domain.Entities
             if (fieldActivities.Count == 0)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.NotFoundFieldActivities());
 
-            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, startDate, endDate, fieldActivities));
-        }
-
-        public IExecutionResult ChangeStatus(string status)
-        {
-            var statusResult = SprintStatus.Create(status);
-            if (statusResult.IsFailure)
-                return ExecutionResult.Failure(statusResult.Error);
-
-            Status = statusResult.Value;
-
-            return ExecutionResult.Success();
+            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivities));
         }
 
         public IExecutionResult StartSprint()
@@ -123,6 +110,21 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success();
         }
 
+        public IExecutionResult SetStartDate(DateTimeOffset startDate)
+        {
+            if (Status != SprintStatus.Created)
+                return ExecutionResult.Failure(SprintError.SprintAlreadyStarted());
+
+            StartDate = startDate;
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult SetEndDate(DateTimeOffset endDate)
+        {
+            EndDate = endDate;
+            return ExecutionResult.Success();
+        }
+
         public void AddFieldActivities(List<FieldActivityEntity> fieldActivities)
         {
             var fieldActivitiesForAdd = fieldActivities.Where(x => !SprintFieldActivities.Select(x => x.FieldActivityId).Contains(x.Id));
@@ -133,6 +135,29 @@ namespace Tasks.Domain.Entities
                     FieldActivity = fieldActivity,
                     Sprint = this
                 });
+            }
+        }
+
+        public void RemoveFieldActivities(List<FieldActivityEntity> fieldActivities)
+        {
+            var fieldActivitiesForRemove = SprintFieldActivities.Where(x => fieldActivities.Any(f => f.Id == x.FieldActivityId)).ToArray();
+            foreach(var fieldActivity in fieldActivitiesForRemove)
+            {
+                SprintFieldActivities.Remove(fieldActivity);
+            }
+        }
+
+        public void AddWeek(SprintWeekEntity week)
+        {
+            if(_sprintWeeks.Count == 0)
+            {
+                _sprintWeeks.Add(week);
+                return;
+            }
+
+            if(_sprintWeeks.Any(x => x.Id != week.Id) || week.Id == default)
+            {
+                _sprintWeeks.Add(week);
             }
         }
 

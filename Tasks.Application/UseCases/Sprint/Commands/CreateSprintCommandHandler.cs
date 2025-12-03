@@ -21,12 +21,34 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 request.UserId,
                 request.Dto.Name,
                 request.Dto.Description,
-                request.Dto.StartDate,
-                request.Dto.EndDate,
                 fieldActivities);
 
             if (sprintResult.IsFailure)
                 return ExecutionResult.Failure<long>(sprintResult.Error);
+
+            var startDate = DateTimeOffset.UtcNow.Date;
+
+            var dayWeekCount = 7;
+
+            for(int weekIndex = 0; weekIndex < request.Dto.WeekCount; weekIndex++)
+            {
+                var weekStart = startDate.AddDays(weekIndex * dayWeekCount);
+                var weekEnd = weekStart.AddDays(dayWeekCount - 1);
+
+                var weekResult = SprintWeekEntity.Create(
+                    sprintResult.Value,
+                    weekIndex + 1,
+                    weekStart,
+                    weekEnd);
+
+                if(weekResult.IsFailure)
+                    return ExecutionResult.Failure<long>(weekResult.Error);
+
+                sprintResult.Value.AddWeek(weekResult.Value);
+            }
+            
+            sprintResult.Value.SetStartDate(startDate);
+            sprintResult.Value.SetEndDate(sprintResult.Value.SprintWeeks[sprintResult.Value.SprintWeeks.Count - 1].EndDate);
 
             var createdSprint = await dbContext.AddAsync(sprintResult.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);

@@ -7,8 +7,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
-using FluentEmail;
-using FluentEmail.Core;
 
 namespace AuthenticationService.Application.UseCases.User.Commands
 {

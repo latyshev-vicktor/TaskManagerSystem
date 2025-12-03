@@ -12,6 +12,12 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.ToTable("Sprints");
 
             ConfigureValueObjects(builder);
+
+            var weekNavigation = builder.Metadata.FindNavigation(nameof(SprintEntity.SprintWeeks));
+            weekNavigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            var targetsNavigation = builder.Metadata.FindNavigation(nameof(SprintEntity.Targets));
+            targetsNavigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 
         private void ConfigureValueObjects(EntityTypeBuilder<SprintEntity> builder)

@@ -16,6 +16,7 @@ namespace Tasks.Application.UseCases.FIeldActivity.Queires
             var result = await dbContext.FieldActivities
                                         .AsNoTracking()
                                         .Where(FieldActivitySpecification.ByUserId(request.UserId))
+                                        .OrderByDescending(x => x.CreatedDate)
                                         .Select(x => x.ToDto())
                                         .ToListAsync(cancellationToken);
 
