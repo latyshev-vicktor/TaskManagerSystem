@@ -15,7 +15,9 @@ namespace Tasks.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SprintController(IMediator mediator, IPrincipal principal) : ControllerBase
+    public class SprintController(
+        IMediator mediator, 
+        IPrincipal principal) : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]CreateSprintDto request, CancellationToken cancellationToken)
@@ -108,7 +110,6 @@ namespace Tasks.Api.Controllers
             var userId = principal.GetUserId();
             var command = new StartSprintCommand(userId, sprintId);
             var result = await mediator.Send(command, cancellationToken);
-
             return result.Match(
                 () => NoContent(),
                 error => BadRequest(error));

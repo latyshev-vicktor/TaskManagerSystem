@@ -84,7 +84,8 @@ namespace Tasks.Domain.Entities
                 return ExecutionResult.Failure(SprintError.SprintAlreadyCompleted());
 
             Status = SprintStatus.InProgress;
-            
+            RiseDomainEvents(new SprintStatusUpdatedEvent(Id));
+
             return ExecutionResult.Success();
         }
 

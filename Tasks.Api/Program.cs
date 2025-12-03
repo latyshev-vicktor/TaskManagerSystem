@@ -1,15 +1,16 @@
-using Newtonsoft.Json;
-using Tasks.DataAccess.Postgres;
-using Tasks.Application;
-using System.Text.Json.Serialization;
-using Tasks.Api.Extensions;
-using System.Security.Principal;
-using TaskManagerSystem.Common.Options;
-using Tasks.Api.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using TaskManagerSystem.Common.CommonMiddlewares;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Security.Principal;
+using System.Text.Json.Serialization;
+using TaskManagerSystem.Common.CommonMiddlewares;
+using TaskManagerSystem.Common.Options;
+using Tasks.Api.Extensions;
+using Tasks.Api.Handlers;
+using Tasks.Application;
+using Tasks.Application.Hubs;
+using Tasks.DataAccess.Postgres;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = connection;
 });
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -70,5 +73,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<SprintNotificationHub>("/sprint-notification-hub");
 
 app.Run();
