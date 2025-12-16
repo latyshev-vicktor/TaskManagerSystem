@@ -39,7 +39,7 @@ namespace Tasks.Api.Extensions
                     OnMessageReceived = context =>
                     {
                         var token = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-                        if(context.HttpContext.Request.Path.Value.Contains("hub"))
+                        if(context.HttpContext.Request.Path.Value!.Contains("hub"))
                         {
                             token = context.HttpContext.Request.Query["access_token"];
                         }

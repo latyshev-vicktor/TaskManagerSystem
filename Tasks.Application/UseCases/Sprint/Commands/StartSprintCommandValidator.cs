@@ -23,12 +23,27 @@ namespace Tasks.Application.UseCases.Sprint.Commands
 
         public override async Task<IExecutionResult> RequestValidateAsync(StartSprintCommand request, CancellationToken cancellationToken)
         {
-            var sprint = await _dbContext.Sprints.FirstOrDefaultAsync(SprintSpecification.ById(request.SprintId), cancellationToken);
+            var sprint = await _dbContext.Sprints
+                    .Include(x => x.Targets)
+                        .ThenInclude(x => x.Tasks)
+                    .FirstOrDefaultAsync(SprintSpecification.ById(request.SprintId), cancellationToken);
+
             if(sprint == null)
                 return ExecutionResult.Failure(BaseEntityError.EntityNotFound("спринт"));
 
             if(sprint.UserId != request.UserId)
                 return ExecutionResult.Failure(SprintError.SprintDoesNotBelongForCurrentUser());
+
+            if(sprint.UserId != request.UserId)
+                return ExecutionResult.Failure(SprintError.SprintDoesNotBelongForCurrentUser());
+
+            if (!sprint.Targets.Any())
+                return ExecutionResult.Failure(SprintError.TargetsEmpty());
+
+            var existTasks = sprint.Targets.SelectMany(x => x.Tasks).Any();
+
+            if (!existTasks)
+                return ExecutionResult.Failure(SprintError.TasksEmpty());
 
             return ExecutionResult.Success();
         }

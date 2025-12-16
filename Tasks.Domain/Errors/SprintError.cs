@@ -34,5 +34,11 @@ namespace Tasks.Domain.Errors
 
         public static Error SprintAlreadyCompleted()
             => new(ResultCode.BadRequest, "Спринт уже завершен");
+
+        public static Error TargetsEmpty()
+            => new(ResultCode.BadRequest, "Вы не можете стартовать спринт, так как отсутствуют цели. Добавьте цели перед стартом спринта");
+
+        public static Error TasksEmpty()
+            => new(ResultCode.BadRequest, "Вы не можете стартовать спринт, так как отсутствуют задачи внутри целей. Добавьте задачи перед стартом спринта");
     }
 }

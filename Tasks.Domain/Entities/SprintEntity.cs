@@ -1,4 +1,5 @@
-﻿using TaskManagerSystem.Common.Implementation;
+﻿using Azure.Core;
+using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Domain.DomainEvents;
 using Tasks.Domain.Errors;
@@ -111,19 +112,14 @@ namespace Tasks.Domain.Entities
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult SetStartDate(DateTimeOffset startDate)
+        public void SetStartDate(DateTimeOffset startDate)
         {
-            if (Status != SprintStatus.Created)
-                return ExecutionResult.Failure(SprintError.SprintAlreadyStarted());
-
             StartDate = startDate;
-            return ExecutionResult.Success();
         }
 
-        public IExecutionResult SetEndDate(DateTimeOffset endDate)
+        public void SetEndDate(DateTimeOffset endDate)
         {
             EndDate = endDate;
-            return ExecutionResult.Success();
         }
 
         public void AddFieldActivities(List<FieldActivityEntity> fieldActivities)
@@ -160,6 +156,27 @@ namespace Tasks.Domain.Entities
             {
                 _sprintWeeks.Add(week);
             }
+        }
+
+        public void RecalculationStartAndEndDateWeek()
+        {
+            var startDate = DateTimeOffset.UtcNow.Date;
+            var dayWeekCount = 7;
+
+            var weekIndex = 0;
+            foreach(var week in SprintWeeks.OrderBy(x => x.WeekNumber))
+            {
+                var weekStart = startDate.AddDays(weekIndex * dayWeekCount);
+                var weekEnd = weekStart.AddDays(dayWeekCount - 1);
+
+                week.SetStartDate(weekStart);
+                week.SetEndDate(weekEnd);
+
+                weekIndex++;
+            }
+
+            SetStartDate(startDate);
+            SetEndDate(SprintWeeks.Last().EndDate);
         }
 
         public override void Delete()

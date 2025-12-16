@@ -11,11 +11,18 @@ namespace Tasks.Application.UseCases.Sprint.Commands
     {
         public async Task<IExecutionResult> Handle(StartSprintCommand request, CancellationToken cancellationToken)
         {
-            var sprint = await dbContext.Sprints.FirstOrDefaultAsync(SprintSpecification.ById(request.SprintId), cancellationToken);
+            var sprint = await dbContext.Sprints
+                                        .Include(x => x.SprintWeeks)
+                                        .FirstOrDefaultAsync(SprintSpecification.ById(request.SprintId), cancellationToken);
 
             var result = sprint!.StartSprint();
-            if(result.IsFailure)
+            if (result.IsFailure)
                 return ExecutionResult.Failure(result.Error);
+
+            if (sprint.CreatedDate.Date != DateTimeOffset.UtcNow.Date)
+            {
+                sprint.RecalculationStartAndEndDateWeek();
+            }
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
