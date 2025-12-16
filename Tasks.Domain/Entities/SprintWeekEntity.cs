@@ -50,6 +50,16 @@ namespace Tasks.Domain.Entities
 
             return ExecutionResult.Success(new SprintWeekEntity(sprint, weekNumber, startDate, endDate));
         }
+
+        public void SetStartDate(DateTimeOffset startDate)
+        {
+            StartDate = startDate;
+        }
+
+        public void SetEndDate(DateTimeOffset endDate)
+        {
+            EndDate = endDate;
+        }
         #endregion
     }
 }

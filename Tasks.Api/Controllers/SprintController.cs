@@ -102,11 +102,11 @@ namespace Tasks.Api.Controllers
         }
 
 
-        [HttpPost("{sprintId:long}/start-sprint")]
-        public async Task<ActionResult> StartSprint([FromRoute]long sprintId, CancellationToken cancellationToken)
+        [HttpPatch("{id:long}/start-sprint")]
+        public async Task<ActionResult> StartSprint([FromRoute]long id, CancellationToken cancellationToken)
         {
             var userId = principal.GetUserId();
-            var command = new StartSprintCommand(userId, sprintId);
+            var command = new StartSprintCommand(userId, id);
             var result = await mediator.Send(command, cancellationToken);
 
             return result.Match(

@@ -1,15 +1,18 @@
-using Newtonsoft.Json;
-using Tasks.DataAccess.Postgres;
-using Tasks.Application;
-using System.Text.Json.Serialization;
-using Tasks.Api.Extensions;
-using System.Security.Principal;
-using TaskManagerSystem.Common.Options;
-using Tasks.Api.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using TaskManagerSystem.Common.CommonMiddlewares;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Security.Principal;
+using System.Text.Json.Serialization;
+using TaskManagerSystem.Common.CommonMiddlewares;
+using TaskManagerSystem.Common.Options;
+using Tasks.Api.Extensions;
+using Tasks.Api.Handlers;
+using Tasks.Api.HubsProviders;
+using Tasks.Application;
+using Tasks.Application.Hubs;
+using Tasks.DataAccess.Postgres;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,8 @@ builder.Services.AddPostgres(builder.Configuration)
 builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserIdProvider, UserProvider>();
 
 builder.Services.AddControllers(options =>
                 {
@@ -70,5 +75,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<SprintHub>("/sprint-hub");
 app.Run();
