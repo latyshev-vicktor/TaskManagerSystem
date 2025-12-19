@@ -1,6 +1,6 @@
 ﻿namespace Notification.Application.Dto
 {
-    public class NotificationDto
+    public class EmailDto
     {
         public string Recivier { get; set; }
         public string Title { get; set; }

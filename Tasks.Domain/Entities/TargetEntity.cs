@@ -42,7 +42,7 @@ namespace Tasks.Domain.Entities
         {
             var nameResult = TargetName.Create(name);
             if (nameResult.IsFailure)
-                return ExecutionResult.Failure<TargetEntity>(nameResult.Error);
+                return ExecutionResult.Failure(nameResult.Error);
 
             Name = nameResult.Value;
 

@@ -11,7 +11,7 @@ namespace Notification.Application.Consumers
         {
             try
             {
-                var notification = new NotificationDto
+                var notification = new EmailDto
                 {
                     Title = "Регистрация пользователя",
                     Message = $"Здравствуйте, {context.Message.FirstName} {context.Message.LastName}. Спасибо большое что выбрали нашу систему по планированию задач. Надеемся вы хороший котик и будете лапочкой. Всего наилучшего",
