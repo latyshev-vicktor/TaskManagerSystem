@@ -13,7 +13,6 @@ namespace Notification.Application.UseCases.Notification.Commands
         {
             var notification = await notificationDbContext
                 .Notifications
-                .AsNoTracking()
                 .Where(NotificationSpecification.ById(request.Id))
                 .FirstOrDefaultAsync(cancellationToken);
 

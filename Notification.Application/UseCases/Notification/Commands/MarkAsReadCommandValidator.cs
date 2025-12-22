@@ -12,7 +12,7 @@ namespace Notification.Application.UseCases.Notification.Commands
         public override async Task<IExecutionResult> RequestValidateAsync(MarkAsReadCommand request, CancellationToken cancellationToken)
         {
             var existNotification = await notificationDbContext.Notifications.AnyAsync(NotificationSpecification.ById(request.Id), cancellationToken);
-            if (existNotification)
+            if (!existNotification)
             {
                 return ExecutionResult.Failure(BaseEntityError.EntityNotFound("уведомление"));
             }

@@ -1,4 +1,5 @@
-﻿using Notification.Domain.Errors;
+﻿using Notification.Domain.Enums;
+using Notification.Domain.Errors;
 using Notification.Domain.SeedWork;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
@@ -15,6 +16,7 @@ namespace Notification.Domain.Entities
         /// </summary>
         public long UserId { get; private set; }
         public DateTimeOffset? ReadDate { get; set; }
+        public NotificationType Type { get; private set; }
 
         #region Конструкторы
         protected NotificationEntity()
@@ -22,12 +24,13 @@ namespace Notification.Domain.Entities
             
         }
 
-        private NotificationEntity(string title, string message, long userId)
+        private NotificationEntity(string title, string message, long userId, NotificationType type)
         {
             Title = title;
             Message = message;
             UserId = userId;
             IsRead = false;
+            Type = type;
         }
         #endregion
 
@@ -35,7 +38,8 @@ namespace Notification.Domain.Entities
         public static IExecutionResult<NotificationEntity> Create(
             string title,
             string message,
-            long userId)
+            long userId,
+            NotificationType type)
         {
             if(string.IsNullOrWhiteSpace(title))
             {
@@ -52,7 +56,7 @@ namespace Notification.Domain.Entities
                 return ExecutionResult.Failure<NotificationEntity>(NotificationError.UserIdNotBeEmpty());
             }
 
-            return ExecutionResult.Success(new NotificationEntity(title, message, userId));
+            return ExecutionResult.Success(new NotificationEntity(title, message, userId, type));
         }
 
         public IExecutionResult MarkAsRead()
