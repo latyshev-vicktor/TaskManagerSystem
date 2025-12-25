@@ -2,6 +2,7 @@
 using Notification.Domain.Enums;
 using Notification.Domain.Errors;
 using Notification.Domain.SeedWork;
+using Notification.Domain.ValueObjects;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 
@@ -19,19 +20,24 @@ namespace Notification.Domain.Entities
         public DateTimeOffset? ReadDate { get; set; }
         public NotificationType Type { get; private set; }
 
+        private List<NotificationChannelValue> _channels = [];
+        public IReadOnlyList<NotificationChannelValue> Channels => _channels;
+
         #region Конструкторы
         protected NotificationEntity()
         {
             
         }
 
-        private NotificationEntity(string title, string message, long userId, NotificationType type)
+        private NotificationEntity(string title, string message, long userId, NotificationType type, NotificationChannel[] channels)
         {
             Title = title;
             Message = message;
             UserId = userId;
             IsRead = false;
             Type = type;
+
+            _channels = [.. channels.Select(c => new NotificationChannelValue(c))];
 
             RiseDomainEvents(new NotificationCreatedEvent(UserId));
         }
@@ -42,7 +48,8 @@ namespace Notification.Domain.Entities
             string title,
             string message,
             long userId,
-            NotificationType type)
+            NotificationType type,
+            NotificationChannel[] channels)
         {
             if(string.IsNullOrWhiteSpace(title))
             {
@@ -59,7 +66,7 @@ namespace Notification.Domain.Entities
                 return ExecutionResult.Failure<NotificationEntity>(NotificationError.UserIdNotBeEmpty());
             }
 
-            return ExecutionResult.Success(new NotificationEntity(title, message, userId, type));
+            return ExecutionResult.Success(new NotificationEntity(title, message, userId, type, channels));
         }
 
         public IExecutionResult MarkAsRead()

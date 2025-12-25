@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Notification.Domain.Entities;
-using Notification.Domain.Enums;
 
 namespace Notification.DataAccess.Postgres.Configurations
 {
@@ -19,6 +18,22 @@ namespace Notification.DataAccess.Postgres.Configurations
             builder.Property(x => x.Type).HasConversion<int>().IsRequired();
 
             builder.HasIndex(x => x.UserId);
+
+            builder.OwnsMany(x => x.Channels,
+                channelBuilder =>
+            {
+                channelBuilder.ToTable("NotificationChannels");
+                channelBuilder.WithOwner()
+                    .HasForeignKey("NotificationId");
+
+                channelBuilder.Property<long>("Id");
+                channelBuilder.HasKey("Id");
+
+                channelBuilder.Property(x => x.Channel)
+                    .HasConversion<int>()
+                    .HasColumnName("Channel")
+                    .IsRequired();
+            });
         }
     }
 }

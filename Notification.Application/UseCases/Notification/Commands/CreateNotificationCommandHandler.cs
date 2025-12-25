@@ -14,7 +14,8 @@ namespace Notification.Application.UseCases.Notification.Commands
                 request.CreatedDto.Title, 
                 request.CreatedDto.Message,
                 request.CreatedDto.UserId,
-                request.CreatedDto.Type);
+                request.CreatedDto.Type, 
+                request.CreatedDto.Channels);
 
             if (notificationResult.IsFailure)
                 return ExecutionResult.Failure(notificationResult.Error);
