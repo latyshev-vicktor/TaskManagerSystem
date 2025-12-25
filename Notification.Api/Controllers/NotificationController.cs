@@ -39,5 +39,15 @@ namespace Notification.Api.Controllers
 
             return result.Match(() => NoContent(), error => BadRequest(result.Error));
         }
+
+        [HttpPatch("read-all")]
+        public async Task<ActionResult> MarkAllAsRead()
+        {
+            var userId = principal.GetUserId();
+            var command = new MarkAllAsReadCommand(userId);
+            var result = await mediator.Send(command);
+
+            return NoContent();
+        }
     }
 }

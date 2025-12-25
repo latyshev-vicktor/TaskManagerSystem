@@ -38,7 +38,7 @@ namespace Notification.Api.Extension
                     OnMessageReceived = context =>
                     {
                         var token = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-                        if (context.HttpContext.Request.Path.Value!.Contains("hub"))
+                        if (context.HttpContext.Request.Path.Value!.Contains("/hubs"))
                         {
                             token = context.HttpContext.Request.Query["access_token"];
                         }

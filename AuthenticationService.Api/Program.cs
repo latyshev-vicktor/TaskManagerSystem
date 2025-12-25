@@ -26,9 +26,9 @@ builder.Services.AddPostgres(builder.Configuration)
                 .AddImplementation()
                 .AddHttpContextAccessor()
                 .AddCustomAuthentication(builder.Configuration)
-                .AddCustomCors();
+                .AddCustomCors()
+                .AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 
-builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 

@@ -1,4 +1,5 @@
-﻿using Notification.Domain.Enums;
+﻿using Notification.Domain.DomainEvents;
+using Notification.Domain.Enums;
 using Notification.Domain.Errors;
 using Notification.Domain.SeedWork;
 using TaskManagerSystem.Common.Implementation;
@@ -31,6 +32,8 @@ namespace Notification.Domain.Entities
             UserId = userId;
             IsRead = false;
             Type = type;
+
+            RiseDomainEvents(new NotificationCreatedEvent(UserId));
         }
         #endregion
 

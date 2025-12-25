@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Notification.Api.Extension;
 using Notification.Application;
+using Notification.Application.Hubs;
 using Notification.Application.Options;
 using Notification.DataAccess.Postgres;
 using Notification.Infrastructure.Impl;
@@ -22,10 +23,10 @@ builder.Services.AddInfrastructure()
                 .AddCustomAuthentication(builder.Configuration)
                 .AddCustomMassTransit()
                 .AddApplication()
-                .AddHttpContextAccessor();
+                .AddHttpContextAccessor()
+                .AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User)
+                .AddSignalR();
 
-
-builder.Services.AddScoped<IPrincipal>(x => x.GetService<IHttpContextAccessor>().HttpContext?.User);
 builder.Services.AddControllers(options =>
                 {
                     var policy = new AuthorizationPolicyBuilder()
@@ -64,4 +65,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHub<NotificationHub>("/hubs/notification");
 app.Run();

@@ -14,6 +14,7 @@ namespace Notification.Application.UseCases.Notification.Queries
             var result = await notificationDbContext.Notifications
                 .AsNoTracking()
                 .Where(NotificationSpecification.ByUserId(request.UserId))
+                .OrderByDescending(x => x.CreatedDate)
                 .Select(x => new NotificationDto
                 {
                     Id = x.Id,
