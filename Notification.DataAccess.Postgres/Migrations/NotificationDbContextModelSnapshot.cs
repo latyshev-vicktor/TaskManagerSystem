@@ -24,11 +24,9 @@ namespace Notification.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Notification.Domain.Entities.NotificationEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -72,11 +70,9 @@ namespace Notification.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Notification.Domain.Entities.UserNotificationProfileEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -117,18 +113,16 @@ namespace Notification.DataAccess.Postgres.Migrations
                 {
                     b.OwnsMany("Notification.Domain.ValueObjects.NotificationChannelValue", "Channels", b1 =>
                         {
-                            b1.Property<long>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("bigint");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<long>("Id"));
+                                .HasColumnType("uuid");
 
                             b1.Property<int>("Channel")
                                 .HasColumnType("integer")
                                 .HasColumnName("Channel");
 
-                            b1.Property<long>("NotificationId")
-                                .HasColumnType("bigint");
+                            b1.Property<Guid>("NotificationId")
+                                .HasColumnType("uuid");
 
                             b1.HasKey("Id");
 

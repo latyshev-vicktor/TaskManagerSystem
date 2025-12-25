@@ -3,20 +3,12 @@ using Notification.Domain.SeedWork;
 
 namespace Notification.Domain.Entities
 {
-    public class UserNotificationProfileEntity : BaseEntity
+    public class UserNotificationProfileEntity(long userId, string email) : BaseEntity
     {
-        public long UserId { get; private set; }
-        public string Email { get; private set; }
-        public bool EnableEmail { get; private set; }
-        public bool EnableSignalR { get; private set; }
-
-        public UserNotificationProfileEntity(long userId, string email)
-        {
-            UserId = userId;
-            Email = email;
-            EnableEmail = true;
-            EnableSignalR = true;
-        }
+        public long UserId { get; private set; } = userId;
+        public string Email { get; private set; } = email;
+        public bool EnableEmail { get; private set; } = true;
+        public bool EnableSignalR { get; private set; } = true;
 
         #region DDD-методы
         public bool IsChannelEnabled(NotificationChannel channel)

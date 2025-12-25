@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Notification.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20251225085025_AddNotififcationUserProfile")]
-    partial class AddNotififcationUserProfile
+    [Migration("20251225112014_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,9 @@ namespace Notification.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Notification.Domain.Entities.NotificationEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -75,11 +73,9 @@ namespace Notification.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Notification.Domain.Entities.UserNotificationProfileEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -114,6 +110,34 @@ namespace Notification.DataAccess.Postgres.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserNotificationProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("Notification.Domain.Entities.NotificationEntity", b =>
+                {
+                    b.OwnsMany("Notification.Domain.ValueObjects.NotificationChannelValue", "Channels", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Channel")
+                                .HasColumnType("integer")
+                                .HasColumnName("Channel");
+
+                            b1.Property<Guid>("NotificationId")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("NotificationId");
+
+                            b1.ToTable("NotificationChannels", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("NotificationId");
+                        });
+
+                    b.Navigation("Channels");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,7 @@ namespace Notification.Domain.SeedWork
 {
     public abstract class BaseEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public bool IsDeleted { get; private set; }
         public DateTimeOffset? DeletedDate { get; private set; }
         public DateTimeOffset CreatedDate { get; } = DateTime.UtcNow;

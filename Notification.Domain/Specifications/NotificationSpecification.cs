@@ -5,7 +5,7 @@ namespace Notification.Domain.Specifications
 {
     public static class NotificationSpecification
     {
-        public static Spec<NotificationEntity> ById(long id)
+        public static Spec<NotificationEntity> ById(Guid id)
             => new(x => x.Id == id);
 
         public static Spec<NotificationEntity> IsReaded()

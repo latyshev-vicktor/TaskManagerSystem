@@ -1,5 +1,4 @@
-﻿using Notification.Domain.DomainEvents;
-using Notification.Domain.Enums;
+﻿using Notification.Domain.Enums;
 using Notification.Domain.Errors;
 using Notification.Domain.SeedWork;
 using Notification.Domain.ValueObjects;
@@ -38,8 +37,6 @@ namespace Notification.Domain.Entities
             Type = type;
 
             _channels = [.. channels.Select(c => new NotificationChannelValue(c))];
-
-            RiseDomainEvents(new NotificationCreatedEvent(UserId));
         }
         #endregion
 

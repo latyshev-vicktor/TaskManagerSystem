@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TaskManagerSystem.Common\TaskManagerSystem.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DomainEventHandlers\" />
+  </ItemGroup>
+
 </Project>

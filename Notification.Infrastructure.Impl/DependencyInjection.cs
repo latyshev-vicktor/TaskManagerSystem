@@ -9,6 +9,9 @@ namespace Notification.Infrastructure.Impl
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<INotificationSender, NotificationSender>();
+            services.AddScoped<INotificationChannelStrategy, NotificationChannelEmailStrategy>();
+            services.AddScoped<INotificationChannelStrategy, SignalRNotificationChannelStrategy>();
 
             return services;
         }

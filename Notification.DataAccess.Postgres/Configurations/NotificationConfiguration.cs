@@ -26,7 +26,7 @@ namespace Notification.DataAccess.Postgres.Configurations
                 channelBuilder.WithOwner()
                     .HasForeignKey("NotificationId");
 
-                channelBuilder.Property<long>("Id");
+                channelBuilder.Property<Guid>("Id");
                 channelBuilder.HasKey("Id");
 
                 channelBuilder.Property(x => x.Channel)

@@ -31,8 +31,8 @@ namespace Notification.Api.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPatch("{id:long}/read")]
-        public async Task<ActionResult> MarkAsRead(long id)
+        [HttpPatch("{id:Guid}/read")]
+        public async Task<ActionResult> MarkAsRead(Guid id)
         {
             var command = new MarkAsReadCommand(id);
             var result = await mediator.Send(command);
