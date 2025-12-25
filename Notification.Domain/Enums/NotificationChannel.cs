@@ -2,7 +2,7 @@
 {
     public enum NotificationChannel
     {
-        InApp = 1,
+        SignalR = 1,
         Email = 2
     }
 }

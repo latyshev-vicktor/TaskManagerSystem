@@ -3,16 +3,20 @@ using AuthenticationService.DataAccess.Postgres;
 using AuthenticationService.Domain.Entities;
 using AuthenticationService.Domain.Errors;
 using AuthenticationService.Domain.Specification;
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TaskManagerSystem.Common.Contracts;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
+using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace AuthenticationService.Application.UseCases.User.Commands
 {
     public class CreateUserRequestHandler(
         AuthenticationDbContext dbContext, 
-        IPasswordHasher passwordHasher) : IRequestHandler<CreateUserRequest, IExecutionResult>
+        IPasswordHasher passwordHasher,
+        IPublishEndpoint publishEndpoint) : IRequestHandler<CreateUserRequest, IExecutionResult>
     {
         public async Task<IExecutionResult> Handle(CreateUserRequest request, CancellationToken cancellationToken)
         {
@@ -25,7 +29,6 @@ namespace AuthenticationService.Application.UseCases.User.Commands
                 return ExecutionResult.Failure(UserError.DublicateUserName());
 
             var hasPassword = passwordHasher.GenerateHash(request.Dto.Password);
-
             var newUserResult = UserEntity.Create(request.Dto.UserName,
                                             request.Dto.FirstName,
                                             request.Dto.LastName,
@@ -38,8 +41,14 @@ namespace AuthenticationService.Application.UseCases.User.Commands
             if (newUserResult.IsFailure)
                 return ExecutionResult.Failure(newUserResult.Error);
 
-            await dbContext.Users.AddAsync(newUserResult.Value, cancellationToken);
+            var addedUser = await dbContext.Users.AddAsync(newUserResult.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            await publishEndpoint.Publish(new CreatedNewUser
+            {
+                UserId = addedUser.Entity.Id,
+                Email = addedUser.Entity.Email.Value,
+            }, cancellationToken);
 
             return ExecutionResult.Success();
         }

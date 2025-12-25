@@ -8,6 +8,7 @@ namespace Notification.DataAccess.Postgres
     public class NotificationDbContext(DbContextOptions<NotificationDbContext> options, IMediator mediator) : DbContext(options)
     {
         public DbSet<NotificationEntity> Notifications { get; set; }
+        public DbSet<UserNotificationProfileEntity> UserNotificationProfiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
