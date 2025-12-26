@@ -9,7 +9,7 @@ namespace Notification.DataAccess.Postgres
         public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DbConnection")
-                ?? throw new InvalidOperationException("Не найдена строка подключения к БД сервиса Tasks");
+                ?? throw new InvalidOperationException("Не найдена строка подключения к БД сервиса NotificationApi");
 
             services.AddDbContext<NotificationDbContext>(options =>
             {
