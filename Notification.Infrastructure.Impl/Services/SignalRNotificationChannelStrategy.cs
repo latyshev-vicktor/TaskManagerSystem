@@ -19,12 +19,14 @@ namespace Notification.Infrastructure.Impl.Services
 
             var notificationSenderDto = new NotificationDto
             {
+                Id = notification.Id,
+                CreatedDate = notification.CreatedDate,
                 Title = notification.Title,
                 Message = notification.Message,
                 UserId = notification.UserId,
             };
 
-            await hub.Clients.Group($"userId:{profile.UserId}").Receive(notificationSenderDto);
+            await hub.Clients.Group($"user:{profile.UserId}").Receive(notificationSenderDto);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Notification.Api.Extension
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<CreatedNewUserConsumer>();
+                x.AddConsumer<SprintChangedStatusConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
