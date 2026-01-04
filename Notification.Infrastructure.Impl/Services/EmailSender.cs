@@ -11,7 +11,7 @@ namespace Notification.Infrastructure.Impl.Services
     {
         private readonly SmptSetting _smptSettings = options.Value;
 
-        public async Task SendEmail(NotificationDto notification)
+        public async Task SendEmail(EmailDto notification)
         {
             try
             {

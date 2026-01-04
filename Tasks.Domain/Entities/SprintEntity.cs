@@ -86,7 +86,7 @@ namespace Tasks.Domain.Entities
 
             Status = SprintStatus.InProgress;
 
-            RiseDomainEvents(new SprintChangeStatusEvent(UserId.ToString(), Status));
+            RiseDomainEvents(new SprintChangeStatusEvent(UserId, Name.Name, Status));
             return ExecutionResult.Success();
         }
 

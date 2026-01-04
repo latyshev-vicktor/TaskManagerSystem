@@ -11,6 +11,7 @@ namespace Tasks.DataAccess.Postgres.Configurations
             builder.ToTable("FieldActivities");
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.UserId).IsRequired();
+            builder.HasIndex(x => x.UserId);
         }
     }
 }

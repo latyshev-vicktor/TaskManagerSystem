@@ -18,6 +18,8 @@ namespace Tasks.DataAccess.Postgres.Configurations
 
             var targetsNavigation = builder.Metadata.FindNavigation(nameof(SprintEntity.Targets));
             targetsNavigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.HasIndex(x => x.UserId);
         }
 
         private void ConfigureValueObjects(EntityTypeBuilder<SprintEntity> builder)

@@ -51,6 +51,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("FieldActivities", (string)null);
                 });
 
@@ -119,6 +121,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         });
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Sprints", (string)null);
                 });
