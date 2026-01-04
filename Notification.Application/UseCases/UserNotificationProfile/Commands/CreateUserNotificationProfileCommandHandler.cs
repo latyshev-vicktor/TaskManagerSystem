@@ -4,7 +4,7 @@ using Notification.DataAccess.Postgres;
 using Notification.Domain.Entities;
 using Notification.Domain.Specifications;
 
-namespace Notification.Application.UseCases.UserNotificationProfile
+namespace Notification.Application.UseCases.UserNotificationProfile.Commands
 {
     public class CreateUserNotificationProfileCommandHandler(NotificationDbContext dbContext) : IRequestHandler<CreateUserNotificationProfileCommand>
     {

@@ -1,4 +1,6 @@
-﻿using AuthenticationService.Application.UseCases.User.Queries;
+﻿using AuthenticationService.Application.UseCases.User.Commands;
+using AuthenticationService.Application.UseCases.User.Dto;
+using AuthenticationService.Application.UseCases.User.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
@@ -18,6 +20,25 @@ namespace AuthenticationService.Api.Controllers
             var result = await mediator.Send(query);
 
             return Ok(result.Value);
+        }
+
+        [HttpGet("user-profile")]
+        public async Task<IActionResult> GetUserProfileInfo()
+        {
+            var userId = principal.GetUserId();
+            var query = new GetUserProfileInfoQuery(userId);
+            var result = await mediator.Send(query);
+
+            return Ok(result.Value);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody]UpdatedUserRequest request)
+        {
+            var command = new UpdateUserCommand(request);
+            var result = await mediator.Send(command);
+
+            return NoContent();
         }
     }
 }

@@ -16,8 +16,4 @@
     <ProjectReference Include="..\TaskManagerSystem.Common\TaskManagerSystem.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DomainEvents\" />
-  </ItemGroup>
-
 </Project>

@@ -10,7 +10,7 @@ namespace Notification.Infrastructure.Impl.Services
 
         public async Task SendAsync(NotificationEntity notification, UserNotificationProfileEntity profile)
         {
-            if (!profile.EnableEmail)
+            if (!profile.IsChannelEnabled(Channel))
                 return;
 
             //TODO: Эмуляция отправки email уведы

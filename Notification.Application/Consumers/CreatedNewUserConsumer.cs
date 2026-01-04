@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MediatR;
 using Notification.Application.UseCases.UserNotificationProfile;
+using Notification.Application.UseCases.UserNotificationProfile.Commands;
 using TaskManagerSystem.Common.Contracts;
 
 namespace Notification.Application.Consumers

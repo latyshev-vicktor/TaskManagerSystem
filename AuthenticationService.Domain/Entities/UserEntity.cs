@@ -1,4 +1,5 @@
-﻿using AuthenticationService.Domain.Errors;
+﻿using AuthenticationService.Domain.DomainEvents;
+using AuthenticationService.Domain.Errors;
 using AuthenticationService.Domain.SeedWork;
 using AuthenticationService.Domain.ValueObjects.User;
 using TaskManagerSystem.Common.Implementation;
@@ -12,7 +13,7 @@ namespace AuthenticationService.Domain.Entities
         public Phone Phone { get; private set; }
         public FullName FullName { get; private set; }
         public Email Email { get; private set; }
-        public DateTime BirthDay { get; private set; }
+        public DateTimeOffset BirthDay { get; private set; }
         public string PasswordHash { get; private set; }
 
         public List<RoleEntity> Roles { get; set; } = [];
@@ -109,8 +110,16 @@ namespace AuthenticationService.Domain.Entities
             if (emailResult.IsFailure)
                 return ExecutionResult.Failure(emailResult.Error);
 
+            if(Email != emailResult.Value)
+                RiseDomainEvents(new UserUpdatedEmailEvent(Id, emailResult.Value.Value));
+
             Email = emailResult.Value;
             return ExecutionResult.Success();
+        }
+
+        public void SetBirthDay(DateTimeOffset birthDay)
+        {
+            BirthDay = birthDay;
         }
 
         #endregion
