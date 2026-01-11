@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using MediatR;
-using TaskManagerSystem.Common.Contracts;
+using TaskManagerSystem.Common.Contracts.Events;
 using Tasks.Domain.DomainEvents;
 
 namespace Tasks.Application.DomainEventHandlers

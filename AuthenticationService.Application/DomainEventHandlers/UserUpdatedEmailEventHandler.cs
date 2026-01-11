@@ -1,7 +1,7 @@
 ﻿using AuthenticationService.Domain.DomainEvents;
 using MassTransit;
 using MediatR;
-using TaskManagerSystem.Common.Contracts;
+using TaskManagerSystem.Common.Contracts.Events;
 
 namespace AuthenticationService.Application.DomainEventHandlers
 {

@@ -6,7 +6,7 @@ using AuthenticationService.Domain.Specification;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TaskManagerSystem.Common.Contracts;
+using TaskManagerSystem.Common.Contracts.Events;
 using TaskManagerSystem.Common.Interfaces;
 using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
