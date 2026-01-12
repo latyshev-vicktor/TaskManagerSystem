@@ -5,7 +5,8 @@
         DateTime OccurredAt,
         long TaskId,
         long SprintId,
-        long UserId) : IIntegrationEvent
+        long UserId,
+        string Status) : IIntegrationEvent
     {
         public int Version => 1;
     }

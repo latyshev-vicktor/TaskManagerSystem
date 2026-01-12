@@ -18,5 +18,10 @@ namespace AnalyticsService.Domain.Entities.AnalitycsModels
             TaskId = taskId;
             Status = TasksStatus.Created;
         }
+
+        public void UpdateStatus(TasksStatus status)
+        {
+            Status = status;
+        }
     }
 }
