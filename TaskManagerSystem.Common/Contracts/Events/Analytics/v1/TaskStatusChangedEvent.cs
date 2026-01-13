@@ -2,7 +2,7 @@
 {
     public record TaskStatusChangedEvent(
         Guid EventId,
-        DateTime OccurredAt,
+        DateTimeOffset OccurredAt,
         long TaskId,
         long SprintId,
         long UserId,

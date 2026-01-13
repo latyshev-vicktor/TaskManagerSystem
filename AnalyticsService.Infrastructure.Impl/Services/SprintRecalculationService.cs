@@ -1,4 +1,4 @@
-﻿using AnalyticsService.Application.Interfaces;
+﻿using AnalyticsService.Application.Interfaces.Services;
 using AnalyticsService.Domain.Entities.AnalitycsModels;
 using AnalyticsService.Domain.Enums;
 using AnalyticsService.Domain.Repositories;

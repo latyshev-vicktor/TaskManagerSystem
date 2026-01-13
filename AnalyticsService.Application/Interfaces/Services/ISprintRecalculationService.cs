@@ -1,4 +1,4 @@
-﻿namespace AnalyticsService.Application.Interfaces
+﻿namespace AnalyticsService.Application.Interfaces.Services
 {
     public interface ISprintRecalculationService
     {

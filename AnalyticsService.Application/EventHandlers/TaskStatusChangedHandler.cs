@@ -3,7 +3,7 @@ using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 using AnalyticsService.Domain.Repositories;
 using AnalyticsService.Domain.Enums;
 using AnalyticsService.Domain.Entities.AnalitycsModels;
-using AnalyticsService.Application.Interfaces;
+using AnalyticsService.Application.Interfaces.Services;
 
 namespace AnalyticsService.Application.EventHandlers
 {

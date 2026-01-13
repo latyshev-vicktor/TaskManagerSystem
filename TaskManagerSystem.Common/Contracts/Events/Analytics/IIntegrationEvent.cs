@@ -6,7 +6,7 @@
         /// <summary>
         /// Дата когда произошел event
         /// </summary>
-        DateTime OccurredAt { get; }
+        DateTimeOffset OccurredAt { get; }
         int Version { get; }
     }
 }
