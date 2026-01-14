@@ -17,6 +17,7 @@ namespace AnalyticsService.Infrastructure.Impl
             services.AddScoped<ISprintTaskAnalyticsRepository, SprintTaskAnalyticsRepository>();
             services.AddScoped<ISprintAnalitycsRepository, SprintAnalitycsRepository>();
             services.AddScoped<ISprintRecalculationService, SprintRecalculationService>();
+            services.AddScoped<ITaskStatusChangedService, TaskStatusChangedService>();
 
             services.AddScoped<IInsightDetector<SprintAnalyticsContext>, LowCompletionDetector>();
             services.AddScoped<InsightDetectionPipeline>();

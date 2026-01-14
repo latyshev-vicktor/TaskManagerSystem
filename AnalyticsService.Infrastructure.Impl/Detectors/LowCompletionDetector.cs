@@ -26,7 +26,8 @@ namespace AnalyticsService.Infrastructure.Impl.Detectors
                     severity: Severity.Warning,
                     confidence: calculateConfidence,
                     sprintId: context.SprintId,
-                    userId: context.UserId
+                    userId: context.UserId,
+                    $"Слишком мало закрытых задач по отношению ко всем задачам в спринте {context.Name}"
                 )
             );
         }

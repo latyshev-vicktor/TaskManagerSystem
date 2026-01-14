@@ -1,4 +1,5 @@
-﻿using AnalyticsService.Domain.Entities.AnalitycsModels;
+﻿using AnalyticsService.Domain.Entities;
+using AnalyticsService.Domain.Entities.AnalitycsModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnalyticsService.DataAccess.Postgres
@@ -7,6 +8,7 @@ namespace AnalyticsService.DataAccess.Postgres
     {
         public DbSet<SprintAnalyticsEntity> SprintAnalitycs { get; set; }
         public DbSet<SprintTaskAnalyticsEntity> SprintTaskAnalytics { get; set; }
+        public DbSet<InsightEntity> Insights { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

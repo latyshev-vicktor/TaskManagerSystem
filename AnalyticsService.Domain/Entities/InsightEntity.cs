@@ -10,6 +10,7 @@ namespace AnalyticsService.Domain.Entities
         public double Confidence { get; }
         public long SprintId { get; }
         public long UserId { get; }
+        public string Message { get; }
         public DateTimeOffset DetectAt { get; } = DateTimeOffset.UtcNow;
 
         public InsightEntity(
@@ -17,13 +18,15 @@ namespace AnalyticsService.Domain.Entities
             Severity severity,
             double confidence,
             long sprintId,
-            long userId)
+            long userId,
+            string message)
         {
             Type = type;
             Severity = severity;
             Confidence = confidence;
             SprintId = sprintId;
             UserId = userId;
+            Message = message;
         }
     }
 }
