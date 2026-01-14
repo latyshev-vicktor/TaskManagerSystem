@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsService.Infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsService.Application", "AnalyticsService.Application\AnalyticsService.Application.csproj", "{026B5700-A759-44A0-AA3F-632285BC22FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalyticsService.Api", "AnalyticsService.Api\AnalyticsService.Api.csproj", "{38BCD3A6-C1B7-4240-8CB6-8E1C8DCF4066}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,10 @@ Global
 		{026B5700-A759-44A0-AA3F-632285BC22FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{026B5700-A759-44A0-AA3F-632285BC22FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{026B5700-A759-44A0-AA3F-632285BC22FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38BCD3A6-C1B7-4240-8CB6-8E1C8DCF4066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38BCD3A6-C1B7-4240-8CB6-8E1C8DCF4066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38BCD3A6-C1B7-4240-8CB6-8E1C8DCF4066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38BCD3A6-C1B7-4240-8CB6-8E1C8DCF4066}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +232,7 @@ Global
 		{0CCD874E-A3B3-499C-863B-E92DA5DB85A2} = {EBA7DEA9-7F56-4163-AA14-9D7884E7A7D9}
 		{867DFDD4-65D6-4894-99B9-D1AD469150FB} = {EBA7DEA9-7F56-4163-AA14-9D7884E7A7D9}
 		{026B5700-A759-44A0-AA3F-632285BC22FF} = {EE1B962E-2C58-4692-81CD-27BB15B2530F}
+		{38BCD3A6-C1B7-4240-8CB6-8E1C8DCF4066} = {DF12432D-A111-4FD6-93BC-93E6AFB9D133}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11A4E9F6-C907-4BF5-921E-8881B0EA289A}

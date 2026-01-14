@@ -7,7 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.4.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AnalyticsService.DataAccess.Postgres\AnalyticsService.DataAccess.Postgres.csproj" />
+    <ProjectReference Include="..\AnalyticsService.Infrastructure.Impl\AnalyticsService.Infrastructure.Impl.csproj" />
   </ItemGroup>
 
 </Project>
