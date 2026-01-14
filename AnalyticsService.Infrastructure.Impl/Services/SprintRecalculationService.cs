@@ -1,5 +1,4 @@
 ﻿using AnalyticsService.Application.Interfaces.Services;
-using AnalyticsService.Domain.Entities.AnalitycsModels;
 using AnalyticsService.Domain.Enums;
 using AnalyticsService.Domain.Repositories;
 
@@ -18,14 +17,11 @@ namespace AnalyticsService.Infrastructure.Impl.Services
             var sprint = await sprintAnalitycsRepository.GetBySprintId(sprintId);
             if(sprint == null)
             {
-                sprint = new SprintAnalyticsEntity(userId, sprintId);
-                await sprintAnalitycsRepository.Add(sprint);
+                throw new ApplicationException($"Не найден спринт с Id {sprintId}");
             }
-            else
-            {
-                sprint.Update(total, completed);
-                await sprintAnalitycsRepository.Update(sprint);
-            }
+            
+            sprint.Update(total, completed);
+            await sprintAnalitycsRepository.Update(sprint);
         }
     }
 }

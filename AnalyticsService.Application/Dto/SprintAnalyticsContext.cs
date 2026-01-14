@@ -3,6 +3,7 @@
     public class SprintAnalyticsContext
     {
         public long SprintId { get; }
+        public string Name { get; }
         public long UserId { get; }
 
         public int TotalTasks { get; }
@@ -14,5 +15,29 @@
         public int TasksAddedAfterStart { get; }
 
         public int BadSprintsInRow { get; }
+
+        public SprintAnalyticsContext()
+        {
+            
+        }
+
+        public SprintAnalyticsContext(
+            long sprintId,
+            long userId,
+            int totalTasks,
+            int completedTasks,
+            string name,
+            int tasksAddedAfterStart = 0,
+            int badSprintsInRow = 0
+            )
+        {
+            SprintId = sprintId;
+            UserId = userId;
+            TotalTasks = totalTasks;
+            CompletedTasks = completedTasks;
+            Name = name;
+            TasksAddedAfterStart = tasksAddedAfterStart;
+            BadSprintsInRow = badSprintsInRow;
+        }
     }
 }

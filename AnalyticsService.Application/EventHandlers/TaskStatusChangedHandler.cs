@@ -4,12 +4,16 @@ using AnalyticsService.Domain.Repositories;
 using AnalyticsService.Domain.Enums;
 using AnalyticsService.Domain.Entities.AnalitycsModels;
 using AnalyticsService.Application.Interfaces.Services;
+using AnalyticsService.Application.DetectorPipelines;
+using AnalyticsService.Application.Dto;
 
 namespace AnalyticsService.Application.EventHandlers
 {
     public class TaskStatusChangedHandler(
         ISprintTaskAnalyticsRepository sprintTaskAnalyticsRepository,
-        ISprintRecalculationService sprintRecalculationService) : IConsumer<TaskStatusChangedEvent>
+        ISprintAnalitycsRepository sprintAnalitycsRepository,
+        ISprintRecalculationService sprintRecalculationService,
+        InsightDetectionPipeline detectionPipeline) : IConsumer<TaskStatusChangedEvent>
     {
         public async Task Consume(ConsumeContext<TaskStatusChangedEvent> context)
         {
@@ -28,6 +32,12 @@ namespace AnalyticsService.Application.EventHandlers
             }
 
             await sprintRecalculationService.RecalculateSprint(contractMessage.SprintId, contractMessage.UserId);
+
+            var savedSprint = await sprintAnalitycsRepository.GetBySprintId(contractMessage.SprintId);
+
+            var sprintAnalyticsContext = new SprintAnalyticsContext(savedSprint.SprintId, savedSprint.UserId, savedSprint.TotalTasks, savedSprint.CompletedTasks, savedSprint.Name);
+
+            await detectionPipeline.Deletect(sprintAnalyticsContext);
         }
     }
 }

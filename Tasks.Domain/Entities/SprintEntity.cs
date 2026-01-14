@@ -99,6 +99,7 @@ namespace Tasks.Domain.Entities
                 return ExecutionResult.Failure(nameResult.Error);
 
             Name = nameResult.Value;
+            RiseDomainEvents(new SprintChangeNameEvent(Name.Name, Id));
 
             return ExecutionResult.Success();
         }
