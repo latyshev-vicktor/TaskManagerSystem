@@ -3,9 +3,9 @@ using AnalyticsService.Domain.Repositories;
 using MassTransit;
 using TaskManagerSystem.Common.Contracts.Events;
 
-namespace AnalyticsService.Application.EventHandlers
+namespace AnalyticsService.Application.Consumers
 {
-    public class SprintCreatedHandler(ISprintAnalitycsRepository sprintAnalitycsRepository) : IConsumer<CreatedNewSprint>
+    public class SprintCreatedConsumer(ISprintAnalitycsRepository sprintAnalitycsRepository) : IConsumer<CreatedNewSprint>
     {
         public async Task Consume(ConsumeContext<CreatedNewSprint> context)
         {

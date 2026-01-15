@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DomainEventHandlers\**" />
+    <EmbeddedResource Remove="DomainEventHandlers\**" />
+    <None Remove="DomainEventHandlers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="MassTransit" Version="8.4.0" />
@@ -18,10 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Notification.DataAccess.Postgres\Notification.DataAccess.Postgres.csproj" />
     <ProjectReference Include="..\TaskManagerSystem.Common\TaskManagerSystem.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DomainEventHandlers\" />
   </ItemGroup>
 
 </Project>

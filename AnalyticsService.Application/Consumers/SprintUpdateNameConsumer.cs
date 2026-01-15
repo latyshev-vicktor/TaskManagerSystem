@@ -2,9 +2,9 @@
 using MassTransit;
 using TaskManagerSystem.Common.Contracts.Events;
 
-namespace AnalyticsService.Application.EventHandlers
+namespace AnalyticsService.Application.Consumers
 {
-    public class SprintUpdateNameHandler(ISprintAnalitycsRepository sprintAnalitycsRepository) : IConsumer<UpdatedSprint>
+    public class SprintUpdateNameConsumer(ISprintAnalitycsRepository sprintAnalitycsRepository) : IConsumer<UpdatedSprint>
     {
         public async Task Consume(ConsumeContext<UpdatedSprint> context)
         {

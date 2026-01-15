@@ -2,9 +2,9 @@
 using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 using AnalyticsService.Application.Interfaces.Services;
 
-namespace AnalyticsService.Application.EventHandlers
+namespace AnalyticsService.Application.Consumers
 {
-    public class TaskStatusChangedHandler(ITaskStatusChangedService taskStatusChangedService) : IConsumer<TaskStatusChangedEvent>
+    public class TaskStatusChangedConsumer(ITaskStatusChangedService taskStatusChangedService) : IConsumer<TaskStatusChangedEvent>
     {
         public async Task Consume(ConsumeContext<TaskStatusChangedEvent> context)
         {

@@ -17,7 +17,11 @@ namespace AnalyticsService.Infrastructure.Impl.Services
     {
         public async Task Handle(TaskStatusChangedEvent contractMessage, CancellationToken ct)
         {
-            var status = TasksStatus.Created;
+            if(!Enum.TryParse<TasksStatus>(contractMessage.Status, out var status))
+            {
+                throw new InvalidOperationException($"Не удалось распарсить строку contract.Message {contractMessage.Status} к enum {typeof(TasksStatus).Name}");
+            }
+
             var task = await sprintTaskAnalyticsRepository.GetByTask(contractMessage.TaskId);
             if (task == null)
             {

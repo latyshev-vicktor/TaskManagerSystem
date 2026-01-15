@@ -1,4 +1,4 @@
-﻿using AnalyticsService.Application.EventHandlers;
+﻿using AnalyticsService.Application.Consumers;
 using MassTransit;
 
 namespace AnalyticsService.Api.Extensions
@@ -9,9 +9,9 @@ namespace AnalyticsService.Api.Extensions
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<SprintCreatedHandler>();
-                x.AddConsumer<SprintUpdateNameHandler>();
-                x.AddConsumer<TaskStatusChangedHandler>();
+                x.AddConsumer<SprintCreatedConsumer>();
+                x.AddConsumer<SprintUpdateNameConsumer>();
+                x.AddConsumer<TaskStatusChangedConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
