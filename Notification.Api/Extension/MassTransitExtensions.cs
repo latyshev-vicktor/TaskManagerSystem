@@ -12,6 +12,7 @@ namespace Notification.Api.Extension
                 x.AddConsumer<CreatedNewUserConsumer>();
                 x.AddConsumer<SprintChangedStatusConsumer>();
                 x.AddConsumer<UpdatedUserEmailConsumer>();
+                x.AddConsumer<InsightPublishedConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {

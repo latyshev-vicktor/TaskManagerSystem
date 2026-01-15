@@ -1,14 +1,17 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TaskManagerSystem.Common.Contracts.Events;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Entities;
 using Tasks.Domain.Specifications;
+using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
 {
-    public class CreateSprintCommandHandler(TaskDbContext dbContext) : IRequestHandler<CreateSprintCommand, IExecutionResult<long>>
+    public class CreateSprintCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<CreateSprintCommand, IExecutionResult<long>>
     {
         public async Task<IExecutionResult<long>> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
         {
@@ -52,6 +55,8 @@ namespace Tasks.Application.UseCases.Sprint.Commands
 
             var createdSprint = await dbContext.AddAsync(sprintResult.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            await publishEndpoint.Publish(new CreatedNewSprint(createdSprint.Entity.Id, createdSprint.Entity.UserId, createdSprint.Entity.Name.Name), cancellationToken);
 
             return ExecutionResult.Success(createdSprint.Entity.Id);
         }

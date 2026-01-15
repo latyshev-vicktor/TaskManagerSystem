@@ -3,6 +3,7 @@
     public enum NotificationType
     {
         UserRegistered = 1,
-        SprintStatusChanged
+        SprintStatusChanged,
+        Analytics
     }
 }

@@ -13,10 +13,10 @@ namespace AnalyticsService.Infrastructure.Impl.Detectors
         {
             //Мало задач в спринте
             if (context.TotalTasks < THERESHOLD_TOTAL_TASKS)
-                return null!;
+                return Task.FromResult<InsightEntity>(null!)!;
 
             if (context.CompletionRate >= THERESHOLD)
-                return null!;
+                return Task.FromResult<InsightEntity>(null!)!;
 
             var calculateConfidence = CalculateConfidence(context.CompletionRate);
 

@@ -14,7 +14,7 @@ namespace AnalyticsService.DataAccess.Postgres
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AnalyticsDbContext).GetType().Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AnalyticsDbContext).Assembly);
         }
     }
 }

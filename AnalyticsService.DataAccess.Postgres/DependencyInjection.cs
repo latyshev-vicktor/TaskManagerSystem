@@ -8,7 +8,7 @@ namespace AnalyticsService.DataAccess.Postgres
     {
         public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("Default")
+            var connectionString = configuration.GetConnectionString("DbConnection")
                 ?? throw new InvalidOperationException("Не указана строка подключения к БД сервиса AnalyticsService");
 
             services.AddDbContext<AnalyticsDbContext>(options =>

@@ -27,7 +27,7 @@ namespace Notification.Api.Extension
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience,
+                    ValidAudiences = jwtSettings.Audiences,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
                     ClockSkew = TimeSpan.Zero
                 };
