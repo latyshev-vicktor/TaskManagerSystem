@@ -32,5 +32,8 @@ namespace Tasks.Domain.Specifications
 
         public static Spec<SprintEntity> ModeStartEnd(DateTimeOffset startDate)
             => new(x => x.StartDate < startDate);
+
+        public static Spec<SprintEntity> ByTaskId(long taskId)
+            => new(x => x.Targets.Any(target => target.Tasks.Any(task => task.Id == taskId)));
     }
 }

@@ -1,4 +1,5 @@
-﻿using TaskManagerSystem.Common.Implementation;
+﻿using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
+using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Domain.Errors;
 using Tasks.Domain.SeedWork;

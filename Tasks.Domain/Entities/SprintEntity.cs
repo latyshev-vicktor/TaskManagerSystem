@@ -10,6 +10,8 @@ namespace Tasks.Domain.Entities
 {
     public class SprintEntity : BaseEntity
     {
+        private const int MAX_DAYS_SHORT_SPRINT = 14;
+
         /// <summary>
         /// Id пользователя из сервиса авторизации
         /// </summary>
@@ -97,6 +99,7 @@ namespace Tasks.Domain.Entities
                 return ExecutionResult.Failure(nameResult.Error);
 
             Name = nameResult.Value;
+            RiseDomainEvents(new SprintChangeNameEvent(Name.Name, Id));
 
             return ExecutionResult.Success();
         }
@@ -184,6 +187,11 @@ namespace Tasks.Domain.Entities
             base.Delete();
 
             RiseDomainEvents(new DeleteSprintEvent(Name.Name, UserId));
+        }
+
+        public bool IsShortSprint()
+        {
+            return (EndDate - StartDate).Days <= MAX_DAYS_SHORT_SPRINT;
         }
         #endregion
     }

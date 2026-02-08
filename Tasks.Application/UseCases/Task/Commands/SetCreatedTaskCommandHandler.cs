@@ -1,13 +1,15 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TaskManagerSystem.Common.Implementation;
+using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Specifications;
+using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace Tasks.Application.UseCases.Task.Commands
 {
-    public class SetCreatedTaskCommandHandler(TaskDbContext dbContext) : IRequestHandler<SetCreatedTaskCommand, IExecutionResult>
+    public class SetCreatedTaskCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<SetCreatedTaskCommand, IExecutionResult>
     {
         public async Task<IExecutionResult> Handle(SetCreatedTaskCommand request, CancellationToken cancellationToken)
         {
@@ -18,6 +20,20 @@ namespace Tasks.Application.UseCases.Task.Commands
                 return ExecutionResult.Failure(createdTaskResult.Error);
 
             await dbContext.SaveChangesAsync(cancellationToken);
+
+            var linkagesSprintInfo = await dbContext.Sprints
+                .AsNoTracking()
+                .Where(SprintSpecification.ByTaskId(task.Id))
+                .Select(x => new { x.Id, x.UserId })
+                .FirstAsync(cancellationToken);
+
+            await publishEndpoint.Publish(new TaskStatusChangedEvent(
+                Guid.NewGuid(),
+                DateTimeOffset.UtcNow,
+                task.Id,
+                linkagesSprintInfo.Id,
+                linkagesSprintInfo.UserId,
+                task.Status.Value.ToString()), cancellationToken);
 
             return ExecutionResult.Success();
         }

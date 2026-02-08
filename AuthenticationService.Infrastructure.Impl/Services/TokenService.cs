@@ -7,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using TaskManagerSystem.Common.Extensions;
 using TaskManagerSystem.Common.Options;
 
@@ -89,14 +88,19 @@ namespace AuthenticationService.Infrastructure.Impl.Services
             foreach (var role in user.Roles)
                 claims.Add(new("Roles", role.Name.Name));
 
+            foreach (var audience in _jwtSettings.Audiences)
+                claims.Add(new(JwtRegisteredClaimNames.Aud, audience));
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            var expires = DateTime.UtcNow.AddHours(_jwtSettings.AccessTokenExpiredMinute);
+
             var tokenSecutity = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
+                //audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(_jwtSettings.AccessTokenExpiredMinute),
+                expires: expires,
                 signingCredentials: creds);
 
 

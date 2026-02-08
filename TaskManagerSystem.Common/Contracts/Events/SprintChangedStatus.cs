@@ -1,4 +1,4 @@
-﻿namespace TaskManagerSystem.Common.Contracts
+﻿namespace TaskManagerSystem.Common.Contracts.Events
 {
     public class SprintChangedStatus
     {
