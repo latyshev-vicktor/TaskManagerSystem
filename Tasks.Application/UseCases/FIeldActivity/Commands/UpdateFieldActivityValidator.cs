@@ -17,7 +17,7 @@ namespace Tasks.Application.UseCases.FIeldActivity.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Dto.Name).NotEmpty().WithMessage("Наименование сферы деятельности не может быть пустым");
-            RuleFor(x => x.Dto.UserId).NotNull().NotEqual(0).WithMessage("Пользователь не найден");
+            RuleFor(x => x.Dto.UserId).NotNull().NotEmpty().WithMessage("Пользователь не найден");
         }
 
         public async override Task<IExecutionResult> RequestValidateAsync(UpdateFieldActivityCommand request, CancellationToken cancellationToken)

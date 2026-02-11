@@ -10,7 +10,7 @@ namespace AnalyticsService.DataAccess.Postgres.Configurations
         {
             builder.ToTable("SprintAnalytics");
             builder.HasKey(e => e.Id);
-            builder.Property(x => x.UserId).IsUnicode();
+            builder.Property(x => x.UserId).IsRequired();
             builder.Property(x => x.SprintId).IsRequired();
             builder.Property(x => x.Name).IsRequired();
 

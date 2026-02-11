@@ -8,7 +8,7 @@ namespace AnalyticsService.Infrastructure.Impl.Services
         ISprintAnalitycsRepository sprintAnalitycsRepository,
         ISprintTaskAnalyticsRepository sprintTaskAnalyticsRepository) : ISprintRecalculationService
     {
-        public async Task RecalculateSprint(long sprintId, long userId)
+        public async Task RecalculateSprint(Guid sprintId, Guid userId)
         {
             var tasks = await sprintTaskAnalyticsRepository.GetBySprintId(sprintId);
             var total = tasks.Count;

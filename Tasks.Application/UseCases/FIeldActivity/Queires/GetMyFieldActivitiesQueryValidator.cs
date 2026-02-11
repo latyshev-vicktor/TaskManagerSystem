@@ -9,7 +9,7 @@ namespace Tasks.Application.UseCases.FIeldActivity.Queires
     {
         public GetMyFieldActivitiesQueryValidator()
         {
-            RuleFor(x => x.UserId).NotEqual(0).CustomErrorMessage(FieldActivityError.NotFoundUserId());
+            RuleFor(x => x.UserId).NotNull().NotEmpty().CustomErrorMessage(FieldActivityError.NotFoundUserId());
         }
     }
 }

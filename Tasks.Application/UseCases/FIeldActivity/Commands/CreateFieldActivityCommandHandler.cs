@@ -6,16 +6,15 @@ using Tasks.Domain.Entities;
 
 namespace Tasks.Application.UseCases.FIeldActivity.Commands
 {
-    public class CreateFieldActivityCommandHandler(TaskDbContext dbContext) : IRequestHandler<CreateFieldActivityCommand, IExecutionResult<long>>
+    public class CreateFieldActivityCommandHandler(TaskDbContext dbContext) : IRequestHandler<CreateFieldActivityCommand, IExecutionResult<Guid>>
     {
-        public async Task<IExecutionResult<long>> Handle(CreateFieldActivityCommand request, CancellationToken cancellationToken)
+        public async Task<IExecutionResult<Guid>> Handle(CreateFieldActivityCommand request, CancellationToken cancellationToken)
         {
             var newFieldActivity = new FieldActivityEntity(request.Name, request.UserId);
-            var savedFieldActivity = await dbContext.AddAsync(newFieldActivity, cancellationToken);
-
+            await dbContext.AddAsync(newFieldActivity, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return ExecutionResult.Success(savedFieldActivity.Entity.Id);
+            return ExecutionResult.Success(newFieldActivity.Id);
         }
     }
 }

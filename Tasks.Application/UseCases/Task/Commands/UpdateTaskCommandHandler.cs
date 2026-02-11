@@ -7,9 +7,9 @@ using Tasks.Domain.Specifications;
 
 namespace Tasks.Application.UseCases.Task.Commands
 {
-    public class UpdateTaskCommandHandler(TaskDbContext dbContext) : IRequestHandler<UpdateTaskCommand, IExecutionResult<long>>
+    public class UpdateTaskCommandHandler(TaskDbContext dbContext) : IRequestHandler<UpdateTaskCommand, IExecutionResult<Guid>>
     {
-        public async Task<IExecutionResult<long>> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
+        public async Task<IExecutionResult<Guid>> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
         {
             var task = await dbContext.Tasks
                 .Where(TaskSpecification.ById(request.Dto.Id))

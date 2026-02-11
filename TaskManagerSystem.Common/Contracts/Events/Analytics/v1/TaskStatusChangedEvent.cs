@@ -3,9 +3,9 @@
     public record TaskStatusChangedEvent(
         Guid EventId,
         DateTimeOffset OccurredAt,
-        long TaskId,
-        long SprintId,
-        long UserId,
+        Guid TaskId,
+        Guid SprintId,
+        Guid UserId,
         string Status) : IIntegrationEvent
     {
         public int Version => 1;

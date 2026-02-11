@@ -18,7 +18,7 @@ namespace Tasks.Application.UseCases.SprintWeek.Queries
         {
             _taskDbContext = taskDbContext;
 
-            RuleFor(x => x.SprintId).NotEqual(0).CustomErrorMessage(SprintError.SprintNotFoundById());
+            RuleFor(x => x.SprintId).NotNull().NotEmpty().CustomErrorMessage(SprintError.SprintNotFoundById());
         }
 
         public async override Task<IExecutionResult> RequestValidateAsync(GetWeeksBySprintIdQuery request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace Tasks.Application.UseCases.SprintWeek.Queries
                 .AnyAsync(SprintSpecification.ById(request.SprintId), cancellationToken);
 
             if (!existSprint)
-                return ExecutionResult.Failure<List<SprintWeekDto>>(SprintError.SprintNotFoundById());
+                return ExecutionResult.Failure(SprintError.SprintNotFoundById());
 
             return ExecutionResult.Success();
         }

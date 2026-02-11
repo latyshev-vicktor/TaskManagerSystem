@@ -4,5 +4,5 @@ using Tasks.Application.Dto;
 
 namespace Tasks.Application.UseCases.SprintWeek.Queries
 {
-    public record GetWeeksBySprintIdQuery(long SprintId) : IRequest<IExecutionResult<List<SprintWeekDto>>>;
+    public record GetWeeksBySprintIdQuery(Guid SprintId) : IRequest<IExecutionResult<List<SprintWeekDto>>>;
 }

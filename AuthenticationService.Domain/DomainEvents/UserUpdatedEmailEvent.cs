@@ -2,5 +2,5 @@
 
 namespace AuthenticationService.Domain.DomainEvents
 {
-    public record UserUpdatedEmailEvent(long UserId, string Email) : INotification;
+    public record UserUpdatedEmailEvent(Guid UserId, string Email) : INotification;
 }

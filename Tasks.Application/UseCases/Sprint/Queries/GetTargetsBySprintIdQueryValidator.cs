@@ -17,7 +17,7 @@ namespace Tasks.Application.UseCases.Sprint.Queries
         {
             _taskDbContext = taskDbContext;
 
-            RuleFor(x => x.SprintId).NotEqual(default(long)).CustomErrorMessage(TargetError.SprintNotBeNull());
+            RuleFor(x => x.SprintId).NotNull().NotEmpty().CustomErrorMessage(TargetError.SprintNotBeNull());
         }
 
         public async override Task<IExecutionResult> RequestValidateAsync(GetTargetsBySprintIdQuery request, CancellationToken cancellationToken)

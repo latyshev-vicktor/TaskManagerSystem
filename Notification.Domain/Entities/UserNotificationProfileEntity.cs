@@ -3,9 +3,9 @@ using Notification.Domain.SeedWork;
 
 namespace Notification.Domain.Entities
 {
-    public class UserNotificationProfileEntity(long userId, string email) : BaseEntity
+    public class UserNotificationProfileEntity(Guid userId, string email) : BaseEntity
     {
-        public long UserId { get; private set; } = userId;
+        public Guid UserId { get; private set; } = userId;
         public string Email { get; private set; } = email;
         public bool EnableEmail { get; private set; } = true;
         public bool EnableSignalR { get; private set; } = true;

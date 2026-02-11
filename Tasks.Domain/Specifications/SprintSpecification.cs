@@ -6,10 +6,10 @@ namespace Tasks.Domain.Specifications
 {
     public static class SprintSpecification
     {
-        public static Spec<SprintEntity> ById(long id)
+        public static Spec<SprintEntity> ById(Guid id)
             => new(x => x.Id == id);
 
-        public static Spec<SprintEntity> ByUserId(long userId)
+        public static Spec<SprintEntity> ByUserId(Guid userId)
             => new(x => x.UserId == userId);
 
         public static Spec<SprintEntity> ByStatus(string statusName)
@@ -21,10 +21,10 @@ namespace Tasks.Domain.Specifications
         public static Spec<SprintEntity> ByDescription(string description)
             => new(x => x.Description.Description.ToLower().Contains(description.ToLower()));
 
-        public static Spec<SprintEntity> ByFieldActivities(long[] fieldActivityIds)
+        public static Spec<SprintEntity> ByFieldActivities(Guid[] fieldActivityIds)
             => new(x => x.SprintFieldActivities.Any(sf => fieldActivityIds.Contains(sf.FieldActivityId)));
 
-        public static Spec<SprintEntity> ByFieldActivityId(long fieldActivityId)
+        public static Spec<SprintEntity> ByFieldActivityId(Guid fieldActivityId)
             => new(x => x.SprintFieldActivities.Any(sf => sf.FieldActivityId == fieldActivityId));
 
         public static Spec<SprintEntity> LessDateEnd(DateTimeOffset endDate)
@@ -33,7 +33,7 @@ namespace Tasks.Domain.Specifications
         public static Spec<SprintEntity> ModeStartEnd(DateTimeOffset startDate)
             => new(x => x.StartDate < startDate);
 
-        public static Spec<SprintEntity> ByTaskId(long taskId)
+        public static Spec<SprintEntity> ByTaskId(Guid taskId)
             => new(x => x.Targets.Any(target => target.Tasks.Any(task => task.Id == taskId)));
     }
 }

@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Tasks.DataAccess.Postgres.Migrations
+namespace AuthenticationService.DataAccess.Postgres.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeConfig : Migration
+    public partial class ChangeCreatedDateType2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

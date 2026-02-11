@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Contracts.Events;
-using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Entities;
@@ -11,9 +10,9 @@ using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
 {
-    public class CreateSprintCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<CreateSprintCommand, IExecutionResult<long>>
+    public class CreateSprintCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<CreateSprintCommand, IExecutionResult<Guid>>
     {
-        public async Task<IExecutionResult<long>> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
+        public async Task<IExecutionResult<Guid>> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
         {
 
             var fieldActivities = await dbContext.FieldActivities
@@ -27,7 +26,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 fieldActivities);
 
             if (sprintResult.IsFailure)
-                return ExecutionResult.Failure<long>(sprintResult.Error);
+                return ExecutionResult.Failure<Guid>(sprintResult.Error);
 
             var startDate = DateTimeOffset.UtcNow.Date;
 
@@ -45,7 +44,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                     weekEnd);
 
                 if(weekResult.IsFailure)
-                    return ExecutionResult.Failure<long>(weekResult.Error);
+                    return ExecutionResult.Failure<Guid>(weekResult.Error);
 
                 sprintResult.Value.AddWeek(weekResult.Value);
             }

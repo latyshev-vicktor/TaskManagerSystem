@@ -25,7 +25,7 @@ namespace AuthenticationService.Domain.Entities
         #endregion
 
         #region DDD-методы
-        public IExecutionResult<RoleEntity> Create(string name, string description, bool isDefault = false)
+        public static IExecutionResult<RoleEntity> Create(string name, string description, bool isDefault = false)
         {
             var nameResult = RoleName.Create(name);
             if (nameResult.IsFailure)

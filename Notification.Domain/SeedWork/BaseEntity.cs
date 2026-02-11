@@ -7,7 +7,7 @@ namespace Notification.Domain.SeedWork
         public Guid Id { get; set; } = Guid.NewGuid();
         public bool IsDeleted { get; private set; }
         public DateTimeOffset? DeletedDate { get; private set; }
-        public DateTimeOffset CreatedDate { get; } = DateTime.UtcNow;
+        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
 
         private List<INotification> _domainEvents = [];
         public IReadOnlyList<INotification> GetDomainEvents() => _domainEvents;

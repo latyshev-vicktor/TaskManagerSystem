@@ -27,7 +27,7 @@ namespace AuthenticationService.Api.Controllers
             var command = new CreateUserRequest(dto);
             var result = await mediator.Send(command);
 
-            return result.Match(() => NoContent(), error => BadRequest(result.Error));
+            return result.Match(() => NoContent(), error => BadRequest(result.Error.Message));
         }
 
         [HttpPost("login")]
@@ -67,7 +67,7 @@ namespace AuthenticationService.Api.Controllers
         public async Task<IActionResult> Logout()
         {
             var userIdClaims = User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            if(!long.TryParse(userIdClaims, out var userId))
+            if(!Guid.TryParse(userIdClaims, out var userId))
             {
                 return Unauthorized();
             }
@@ -76,7 +76,7 @@ namespace AuthenticationService.Api.Controllers
             var result = await mediator.Send(query);
 
             if (result.IsFailure)
-                return BadRequest(result.Error);
+                return BadRequest(result.Error.Message);
 
             Response.Cookies.Delete("refresh_token");
 

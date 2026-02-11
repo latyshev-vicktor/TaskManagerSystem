@@ -5,7 +5,6 @@ using Notification.Application.Services;
 using Notification.Application.UseCases.Notification.Commands;
 using Notification.Application.UseCases.Notification.Dto;
 using Notification.DataAccess.Postgres;
-using Notification.Domain.Entities;
 using Notification.Domain.Enums;
 using Notification.Domain.Specifications;
 using TaskManagerSystem.Common.Contracts.Events;

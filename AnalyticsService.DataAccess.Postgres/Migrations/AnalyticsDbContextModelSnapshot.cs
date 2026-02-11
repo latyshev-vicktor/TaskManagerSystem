@@ -38,15 +38,14 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("TotalTasks")
                         .HasColumnType("integer");
 
-                    b.Property<long>("UserId")
-                        .IsUnicode(true)
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -57,14 +56,12 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AnalyticsService.Domain.Entities.AnalitycsModels.SprintTaskAnalyticsEntity", b =>
                 {
-                    b.Property<long>("TaskId")
+                    b.Property<Guid>("TaskId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("TaskId"));
-
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -92,14 +89,14 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                     b.Property<int>("Severity")
                         .HasColumnType("integer");
 
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 

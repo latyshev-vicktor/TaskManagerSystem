@@ -2,10 +2,10 @@
 {
     public class SprintFieldActivityEntity
     {
-        public long Id { get; set; }
-        public long FieldActivityId { get; set; }
+        public Guid Id { get; set; }
+        public Guid FieldActivityId { get; set; }
         public FieldActivityEntity? FieldActivity { get; set; }
-        public long SprintId { get; set; }
+        public Guid SprintId { get; set; }
         public SprintEntity? Sprint { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 {
     public class SprintAnalyticsContext
     {
-        public long SprintId { get; }
+        public Guid SprintId { get; }
         public string Name { get; }
-        public long UserId { get; }
+        public Guid UserId { get; }
 
         public int TotalTasks { get; }
         public int CompletedTasks { get; }
@@ -22,8 +22,8 @@
         }
 
         public SprintAnalyticsContext(
-            long sprintId,
-            long userId,
+            Guid sprintId,
+            Guid userId,
             int totalTasks,
             int completedTasks,
             string name,

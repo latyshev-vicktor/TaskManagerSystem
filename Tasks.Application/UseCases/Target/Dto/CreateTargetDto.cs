@@ -3,6 +3,6 @@
     public class CreateTargetDto
     {
         public string Name { get; set; }
-        public long SprintId { get; set; }
+        public Guid SprintId { get; set; }
     }
 }

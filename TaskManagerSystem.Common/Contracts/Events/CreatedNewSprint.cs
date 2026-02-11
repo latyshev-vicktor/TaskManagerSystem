@@ -1,4 +1,4 @@
 ﻿namespace TaskManagerSystem.Common.Contracts.Events
 {
-    public record CreatedNewSprint(long SprintId, long UserId, string Name);
+    public record CreatedNewSprint(Guid SprintId, Guid UserId, string Name);
 }

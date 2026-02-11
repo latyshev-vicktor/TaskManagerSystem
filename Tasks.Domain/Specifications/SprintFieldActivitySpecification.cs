@@ -5,10 +5,10 @@ namespace Tasks.Domain.Specifications
 {
     public static class SprintFieldActivitySpecification
     {
-        public static Spec<SprintFieldActivityEntity> ById(long id)
+        public static Spec<SprintFieldActivityEntity> ById(Guid id)
             => new(x => x.Id == id);
 
-        public static Spec<SprintFieldActivityEntity> BySprintId(long sprintId)
+        public static Spec<SprintFieldActivityEntity> BySprintId(Guid sprintId)
             => new(x => x.SprintId == sprintId);
     }
 }

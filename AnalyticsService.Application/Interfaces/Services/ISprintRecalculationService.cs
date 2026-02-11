@@ -2,6 +2,6 @@
 {
     public interface ISprintRecalculationService
     {
-        Task RecalculateSprint(long sprintId, long userId);
+        Task RecalculateSprint(Guid sprintId, Guid userId);
     }
 }

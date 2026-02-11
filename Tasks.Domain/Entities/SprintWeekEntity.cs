@@ -7,7 +7,7 @@ namespace Tasks.Domain.Entities
 {
     public class SprintWeekEntity : BaseEntity
     {
-        public long SprintId { get; private set; }
+        public Guid SprintId { get; private set; }
         public SprintEntity? Sprint { get; private set; }
         public int WeekNumber { get; private set; }
         public DateTimeOffset StartDate { get; private set; }

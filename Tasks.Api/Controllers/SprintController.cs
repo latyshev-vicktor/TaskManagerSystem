@@ -50,8 +50,8 @@ namespace Tasks.Api.Controllers
         }
 
 
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetById([FromRoute][Required] long id, CancellationToken cancellationToken)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById([FromRoute][Required] Guid id, CancellationToken cancellationToken)
         {
             var query = new GetSprintByIdQuery(id);
             var sprintResult = await mediator.Send(query, cancellationToken);
@@ -60,8 +60,8 @@ namespace Tasks.Api.Controllers
         }
 
 
-        [HttpGet("{id:long}/targets")]
-        public async Task<IActionResult> GetTargetsBySprintId([FromRoute]long id, CancellationToken cancellationToken)
+        [HttpGet("{id:guid}/targets")]
+        public async Task<IActionResult> GetTargetsBySprintId([FromRoute]Guid id, CancellationToken cancellationToken)
         {
             var query = new GetTargetsBySprintIdQuery(id);
             var targetResult = await mediator.Send(query, cancellationToken);
@@ -69,8 +69,8 @@ namespace Tasks.Api.Controllers
             return targetResult.Match(() => Ok(targetResult.Value), error => BadRequest(targetResult.Error));
         }
 
-        [HttpGet("{id:long}/weeks")]
-        public async Task<IActionResult> GetWeeksBySprintId([FromRoute] long id, CancellationToken cancellationToken)
+        [HttpGet("{id:guid}/weeks")]
+        public async Task<IActionResult> GetWeeksBySprintId([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var query = new GetWeeksBySprintIdQuery(id);
             var sprintWeekResult = await mediator.Send(query, cancellationToken);
@@ -78,8 +78,8 @@ namespace Tasks.Api.Controllers
             return sprintWeekResult.Match(() => Ok(sprintWeekResult.Value), error => BadRequest(sprintWeekResult.Error));
         }
 
-        [HttpDelete("{id:long}")]
-        public async Task<IActionResult> Delete([FromRoute]long id, CancellationToken cancellationToken)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute]Guid id, CancellationToken cancellationToken)
         {
             var command = new DeleteSprintCommand(id);
             var result = await mediator.Send(command, cancellationToken);
@@ -88,8 +88,8 @@ namespace Tasks.Api.Controllers
         }
 
 
-        [HttpGet("{sprintId:long}/field-activities")]
-        public async Task<ActionResult<List<FieldActivityForSprintDto>>> GetFieldActivitiesBySprint([FromRoute] long sprintId, CancellationToken cancellationToken)
+        [HttpGet("{sprintId:guid}/field-activities")]
+        public async Task<ActionResult<List<FieldActivityForSprintDto>>> GetFieldActivitiesBySprint([FromRoute] Guid sprintId, CancellationToken cancellationToken)
         {
             var userId = principal.GetUserId();
             var query = new GetFieldActivitiesBySprintQuery(userId, sprintId);
@@ -102,8 +102,8 @@ namespace Tasks.Api.Controllers
         }
 
 
-        [HttpPatch("{id:long}/start-sprint")]
-        public async Task<ActionResult> StartSprint([FromRoute]long id, CancellationToken cancellationToken)
+        [HttpPatch("{id:guid}/start-sprint")]
+        public async Task<ActionResult> StartSprint([FromRoute]Guid id, CancellationToken cancellationToken)
         {
             var userId = principal.GetUserId();
             var command = new StartSprintCommand(userId, id);

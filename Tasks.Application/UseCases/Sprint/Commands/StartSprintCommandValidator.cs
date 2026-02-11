@@ -17,8 +17,8 @@ namespace Tasks.Application.UseCases.Sprint.Commands
         {
             _dbContext = dbContext;
 
-            RuleFor(x => x.SprintId).NotEqual(0).CustomErrorMessage(SprintError.SprintNotFoundById());
-            RuleFor(x => x.UserId).NotEqual(0).CustomErrorMessage(SprintError.UserNotEmpty());
+            RuleFor(x => x.SprintId).NotNull().NotEmpty().CustomErrorMessage(SprintError.SprintNotFoundById());
+            RuleFor(x => x.UserId).NotNull().NotEmpty().CustomErrorMessage(SprintError.UserNotEmpty());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(StartSprintCommand request, CancellationToken cancellationToken)

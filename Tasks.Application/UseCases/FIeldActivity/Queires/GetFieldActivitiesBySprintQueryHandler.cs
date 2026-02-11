@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Application.Dto;
-using Tasks.Application.Mappings;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Errors;
 using Tasks.Domain.Specifications;

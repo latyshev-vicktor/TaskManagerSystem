@@ -5,7 +5,7 @@ namespace Notification.Domain.Specifications
 {
     public static class UserNotificationProfileSpecification
     {
-        public static Spec<UserNotificationProfileEntity> ByUserId(long userId)
+        public static Spec<UserNotificationProfileEntity> ByUserId(Guid userId)
             => new(x => x.UserId == userId);
 
         public static Spec<UserNotificationProfileEntity> ById(Guid id)

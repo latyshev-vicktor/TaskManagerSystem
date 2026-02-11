@@ -3,5 +3,5 @@ using TaskManagerSystem.Common.Interfaces;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
 {
-    public record StartSprintCommand(long UserId, long SprintId) : IRequest<IExecutionResult>;
+    public record StartSprintCommand(Guid UserId, Guid SprintId) : IRequest<IExecutionResult>;
 }

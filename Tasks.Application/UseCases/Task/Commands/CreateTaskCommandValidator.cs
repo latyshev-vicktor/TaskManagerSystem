@@ -12,7 +12,7 @@ namespace Tasks.Application.UseCases.Task.Commands
         {
             RuleFor(x => x.CreateDto.Name).MustBeValueObject(TaskName.Create);
             RuleFor(x => x.CreateDto.Description).MustBeValueObject(TaskDescription.Create);
-            RuleFor(x => x.CreateDto.TargetId).NotEqual(default(long)).CustomErrorMessage(TaskError.TargetIdNotFound());
+            RuleFor(x => x.CreateDto.TargetId).NotNull().NotEmpty().CustomErrorMessage(TaskError.TargetIdNotFound());
         }
     }
 }

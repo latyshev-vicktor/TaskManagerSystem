@@ -2,7 +2,7 @@
 {
     public class FieldActivityForSprintDto : FieldActivityDto
     {
-        public long SprintId { get; set; }
+        public Guid SprintId { get; set; }
         public SprintDto? Sprint { get; set; }
     }
 }

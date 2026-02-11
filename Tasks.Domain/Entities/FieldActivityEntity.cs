@@ -5,13 +5,13 @@ namespace Tasks.Domain.Entities
     public class FieldActivityEntity : BaseEntity
     {
         public string Name { get; private set; }
-        public long UserId { get; private set; }
+        public Guid UserId { get; private set; }
         protected FieldActivityEntity()
         {
             
         }
 
-        public FieldActivityEntity(string name, long userId)
+        public FieldActivityEntity(string name, Guid userId)
         {
             Name = name;
             UserId = userId;

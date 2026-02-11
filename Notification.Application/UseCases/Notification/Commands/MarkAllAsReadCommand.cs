@@ -3,5 +3,5 @@ using TaskManagerSystem.Common.Interfaces;
 
 namespace Notification.Application.UseCases.Notification.Commands
 {
-    public record MarkAllAsReadCommand(long UserId) : IRequest<IExecutionResult>;
+    public record MarkAllAsReadCommand(Guid UserId) : IRequest<IExecutionResult>;
 }
