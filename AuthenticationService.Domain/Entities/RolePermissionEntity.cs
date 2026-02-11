@@ -2,9 +2,9 @@
 {
     public class RolePermissionEntity
     {
-        public long RoleId { get; set; }
+        public Guid RoleId { get; set; }
         public RoleEntity? Role { get; set; }
-        public long PermissionId {  get; set; }
+        public Guid PermissionId {  get; set; }
         public PermissionEntity? Permission { get; set; }
     }
 }

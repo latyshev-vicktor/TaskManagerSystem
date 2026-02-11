@@ -5,7 +5,7 @@ namespace AuthenticationService.Domain.Specification
 {
     public static class UserSpecification
     {
-        public static Spec<UserEntity> ById(long id)
+        public static Spec<UserEntity> ById(Guid id)
             => new(x => x.Id == id);
         public static Spec<UserEntity> ByEmail(string email)
             => new(x => x.Email.Value == email);

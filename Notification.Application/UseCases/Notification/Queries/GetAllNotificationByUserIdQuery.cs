@@ -4,5 +4,5 @@ using TaskManagerSystem.Common.Interfaces;
 
 namespace Notification.Application.UseCases.Notification.Queries
 {
-    public record GetAllNotificationByUserIdQuery(long UserId) : IRequest<IExecutionResult<List<NotificationDto>>>;
+    public record GetAllNotificationByUserIdQuery(Guid UserId) : IRequest<IExecutionResult<List<NotificationDto>>>;
 }

@@ -2,7 +2,7 @@
 {
     public class UserShortDto
     {
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }

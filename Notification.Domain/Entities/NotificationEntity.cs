@@ -15,7 +15,7 @@ namespace Notification.Domain.Entities
         /// <summary>
         /// UserId из сервиса авторизации
         /// </summary>
-        public long UserId { get; private set; }
+        public Guid UserId { get; private set; }
         public DateTimeOffset? ReadDate { get; set; }
         public NotificationType Type { get; private set; }
 
@@ -28,7 +28,7 @@ namespace Notification.Domain.Entities
             
         }
 
-        private NotificationEntity(string title, string message, long userId, NotificationType type, NotificationChannel[] channels)
+        private NotificationEntity(string title, string message, Guid userId, NotificationType type, NotificationChannel[] channels)
         {
             Title = title;
             Message = message;
@@ -44,7 +44,7 @@ namespace Notification.Domain.Entities
         public static IExecutionResult<NotificationEntity> Create(
             string title,
             string message,
-            long userId,
+            Guid userId,
             NotificationType type,
             NotificationChannel[] channels)
         {
@@ -58,7 +58,7 @@ namespace Notification.Domain.Entities
                 return ExecutionResult.Failure<NotificationEntity>(NotificationError.MessageNotBeEmpty());
             }
 
-            if (userId == 0)
+            if (userId == Guid.Empty)
             {
                 return ExecutionResult.Failure<NotificationEntity>(NotificationError.UserIdNotBeEmpty());
             }

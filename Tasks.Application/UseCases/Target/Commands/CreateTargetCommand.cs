@@ -4,5 +4,5 @@ using Tasks.Application.UseCases.Target.Dto;
 
 namespace Tasks.Application.UseCases.Target.Commands
 {
-    public record CreateTargetCommand(CreateTargetDto Dto) : IRequest<IExecutionResult<long>>;
+    public record CreateTargetCommand(CreateTargetDto Dto) : IRequest<IExecutionResult<Guid>>;
 }

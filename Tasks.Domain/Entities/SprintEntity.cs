@@ -15,7 +15,7 @@ namespace Tasks.Domain.Entities
         /// <summary>
         /// Id пользователя из сервиса авторизации
         /// </summary>
-        public long UserId { get; private set; }
+        public Guid UserId { get; private set; }
         public SprintName Name { get; private set; }
         public SprintDescription Description { get; private set; }
         public DateTimeOffset StartDate { get; private set; }
@@ -41,7 +41,7 @@ namespace Tasks.Domain.Entities
         }
 
         protected SprintEntity(
-            long userId,
+            Guid userId,
             SprintName name,
             SprintDescription description,
             List<FieldActivityEntity> fieldActivities)
@@ -56,7 +56,7 @@ namespace Tasks.Domain.Entities
 
         #region DDD-методы
         public static IExecutionResult<SprintEntity> Create(
-            long userId,
+            Guid userId,
             string name,
             string description,
             List<FieldActivityEntity> fieldActivities)

@@ -13,8 +13,8 @@ using Tasks.DataAccess.Postgres;
 namespace Tasks.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20250324122647_ChangeConfig")]
-    partial class ChangeConfig
+    [Migration("20260211184433_AddInitial")]
+    partial class AddInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,11 +28,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.FieldActivityEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -49,21 +47,21 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("FieldActivities", (string)null);
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -74,9 +72,6 @@ namespace Tasks.DataAccess.Postgres.Migrations
                     b.Property<DateTimeOffset>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("FieldActivityId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -85,8 +80,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                     b.Property<DateTimeOffset>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "Tasks.Domain.Entities.SprintEntity.Description#SprintDescription", b1 =>
                         {
@@ -113,26 +108,86 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         {
                             b1.IsRequired();
 
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("StatusDescription");
+
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("Status");
+                                .HasColumnName("StatusName");
                         });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sprints", (string)null);
+                });
+
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintFieldActivityEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FieldActivityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FieldActivityId");
 
-                    b.ToTable("Sprints", (string)null);
+                    b.HasIndex("SprintId");
+
+                    b.ToTable("Sprint_FieldActivities", (string)null);
+                });
+
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("WeekNumber")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SprintId");
+
+                    b.ToTable("SprintWeeks", (string)null);
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -145,8 +200,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "Tasks.Domain.Entities.TargetEntity.Name#TargetName", b1 =>
                         {
@@ -167,11 +222,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.TaskEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -184,8 +237,11 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("TargetId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("TargetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("WeekId")
+                        .HasColumnType("uuid");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "Tasks.Domain.Entities.TaskEntity.Description#TaskDescription", b1 =>
                         {
@@ -211,20 +267,27 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         {
                             b1.IsRequired();
 
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("StatusDescription");
+
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasColumnType("text")
-                                .HasColumnName("Status");
+                                .HasColumnName("StatusName");
                         });
 
                     b.HasKey("Id");
 
                     b.HasIndex("TargetId");
 
+                    b.HasIndex("WeekId");
+
                     b.ToTable("Tasks", (string)null);
                 });
 
-            modelBuilder.Entity("Tasks.Domain.Entities.SprintEntity", b =>
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintFieldActivityEntity", b =>
                 {
                     b.HasOne("Tasks.Domain.Entities.FieldActivityEntity", "FieldActivity")
                         .WithMany()
@@ -232,7 +295,26 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Tasks.Domain.Entities.SprintEntity", "Sprint")
+                        .WithMany("SprintFieldActivities")
+                        .HasForeignKey("SprintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("FieldActivity");
+
+                    b.Navigation("Sprint");
+                });
+
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
+                {
+                    b.HasOne("Tasks.Domain.Entities.SprintEntity", "Sprint")
+                        .WithMany("SprintWeeks")
+                        .HasForeignKey("SprintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sprint");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
@@ -254,12 +336,27 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Tasks.Domain.Entities.SprintWeekEntity", "Week")
+                        .WithMany("Tasks")
+                        .HasForeignKey("WeekId");
+
                     b.Navigation("Target");
+
+                    b.Navigation("Week");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintEntity", b =>
                 {
+                    b.Navigation("SprintFieldActivities");
+
+                    b.Navigation("SprintWeeks");
+
                     b.Navigation("Targets");
+                });
+
+            modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>

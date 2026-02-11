@@ -12,7 +12,7 @@ namespace Tasks.Application.UseCases.Sprint.Dto
         public string Description { get; set; }
 
         [Required]
-        public long[] FieldActivityIds { get; set; }
+        public Guid[] FieldActivityIds { get; set; }
 
         [Required]
         public int WeekCount { get; set; }

@@ -3,19 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.DataAccess.Postgres;
-using Tasks.Domain.Entities;
 using Tasks.Domain.Specifications;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
 {
-    public class UpdateSprintCommandHandler(TaskDbContext dbContext) : IRequestHandler<UpdateSprintCommand, IExecutionResult<long>>
+    public class UpdateSprintCommandHandler(TaskDbContext dbContext) : IRequestHandler<UpdateSprintCommand, IExecutionResult<Guid>>
     {
-        public async Task<IExecutionResult<long>> Handle(UpdateSprintCommand request, CancellationToken cancellationToken)
+        public async Task<IExecutionResult<Guid>> Handle(UpdateSprintCommand request, CancellationToken cancellationToken)
         {
             var sprint = await dbContext.Sprints
                 .Include(x => x.SprintFieldActivities)
                     .ThenInclude(x => x.FieldActivity)
-                .AsSingleQuery()
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(SprintSpecification.ById(request.Dto.Id), cancellationToken);
 
             sprint!.SetName(request.Dto.Name);

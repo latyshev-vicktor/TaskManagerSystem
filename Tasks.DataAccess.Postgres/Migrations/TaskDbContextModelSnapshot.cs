@@ -25,11 +25,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.FieldActivityEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -46,8 +44,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -58,11 +56,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -81,8 +77,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                     b.Property<DateTimeOffset>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "Tasks.Domain.Entities.SprintEntity.Description#SprintDescription", b1 =>
                         {
@@ -129,17 +125,15 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintFieldActivityEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    b.Property<Guid>("FieldActivityId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("FieldActivityId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -152,11 +146,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.SprintWeekEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -172,8 +164,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("StartDate")
                         .HasColumnType("timestamp with time zone");
@@ -190,11 +182,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.TargetEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -207,8 +197,8 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("SprintId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "Tasks.Domain.Entities.TargetEntity.Name#TargetName", b1 =>
                         {
@@ -229,11 +219,9 @@ namespace Tasks.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("Tasks.Domain.Entities.TaskEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -246,11 +234,11 @@ namespace Tasks.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<long>("TargetId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("TargetId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long?>("WeekId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("WeekId")
+                        .HasColumnType("uuid");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "Tasks.Domain.Entities.TaskEntity.Description#TaskDescription", b1 =>
                         {

@@ -5,7 +5,7 @@
 namespace AuthenticationService.DataAccess.Postgres.Migrations
 {
     /// <inheritdoc />
-    public partial class AddKeyForRoleUsersAndRolePermissions : Migration
+    public partial class ChangeCreatedDateType : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

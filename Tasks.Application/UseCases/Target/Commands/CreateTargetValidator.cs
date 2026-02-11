@@ -19,7 +19,7 @@ namespace Tasks.Application.UseCases.Target.Commands
             _dbContext = dbContext;
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(TargetName.Create);
-            RuleFor(x => x.Dto.SprintId).NotNull().NotEqual(default(long)).CustomErrorMessage(TargetError.SprintNotBeNull());
+            RuleFor(x => x.Dto.SprintId).NotNull().NotEmpty().CustomErrorMessage(TargetError.SprintNotBeNull());
         }
 
         public override async Task<IExecutionResult> RequestValidateAsync(CreateTargetCommand request, CancellationToken cancellationToken)

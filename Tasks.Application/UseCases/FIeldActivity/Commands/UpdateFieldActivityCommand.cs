@@ -4,5 +4,5 @@ using Tasks.Application.Dto;
 
 namespace Tasks.Application.UseCases.FIeldActivity.Commands
 {
-    public record UpdateFieldActivityCommand(FieldActivityDto Dto) : IRequest<IExecutionResult<long>>;
+    public record UpdateFieldActivityCommand(FieldActivityDto Dto) : IRequest<IExecutionResult<Guid>>;
 }

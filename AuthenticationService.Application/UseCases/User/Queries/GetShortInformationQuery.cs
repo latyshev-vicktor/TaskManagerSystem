@@ -4,5 +4,5 @@ using TaskManagerSystem.Common.Interfaces;
 
 namespace AuthenticationService.Application.UseCases.User.Queries
 {
-    public record GetShortInformationQuery(long UserId) : IRequest<IExecutionResult<UserShortDto>>;
+    public record GetShortInformationQuery(Guid UserId) : IRequest<IExecutionResult<UserShortDto>>;
 }

@@ -3,8 +3,8 @@
     public class SprintAnalyticsEntity
     {
         public Guid Id { get; private set; }
-        public long UserId { get; private set; }
-        public long SprintId { get; set; }
+        public Guid UserId { get; private set; }
+        public Guid SprintId { get; set; }
         public DateTimeOffset LastUpdatedAt { get; private set; }
 
         public int TotalTasks { get; private set; }
@@ -19,7 +19,7 @@
             
         }
 
-        public SprintAnalyticsEntity(long userId, long sprintId, string name)
+        public SprintAnalyticsEntity(Guid userId, Guid sprintId, string name)
         {
             UserId = userId;
             SprintId = sprintId;

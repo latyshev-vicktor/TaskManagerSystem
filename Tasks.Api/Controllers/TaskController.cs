@@ -43,8 +43,8 @@ namespace Tasks.Api.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPatch("{id:long}/complete")]
-        public async Task<ActionResult> CompleteTask([FromRoute]long id)
+        [HttpPatch("{id:guid}/complete")]
+        public async Task<ActionResult> CompleteTask([FromRoute]Guid id)
         {
             var command = new CompleteTaskCommand(id);
             var result = await mediator.Send(command);
@@ -54,8 +54,8 @@ namespace Tasks.Api.Controllers
                 error => BadRequest(error));
         }
 
-        [HttpPatch("{id:long}/set-created")]
-        public async Task<ActionResult> SetCreated([FromRoute]long id)
+        [HttpPatch("{id:guid}/set-created")]
+        public async Task<ActionResult> SetCreated([FromRoute]Guid id)
         {
             var command = new SetCreatedTaskCommand(id);
             var result = await mediator.Send(command);
@@ -65,8 +65,8 @@ namespace Tasks.Api.Controllers
                 error => BadRequest(error));
         }
 
-        [HttpDelete("{id:long}")]
-        public async Task<ActionResult> Delete([FromRoute]long id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete([FromRoute]Guid id)
         {
             var command = new DeleteTaskCommand(id);
             await mediator.Send(command);

@@ -4,10 +4,10 @@ namespace Tasks.Domain.SeedWork
 {
     public abstract class BaseEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public bool IsDeleted { get; private set; }
         public DateTime? DeletedDate { get; private set; }
-        public DateTime CreatedDate { get; } = DateTime.Now;
+        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
 
         private List<INotification> _domainEvents = [];
         public IReadOnlyList<INotification> GetDomainEvents() => _domainEvents;

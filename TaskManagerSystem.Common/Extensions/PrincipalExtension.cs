@@ -5,7 +5,7 @@ namespace TaskManagerSystem.Common.Extensions
 {
     public static class PrincipalExtension
     {
-        public static long GetUserId(this IPrincipal principal) => long.Parse(principal.GetClaimByName(ClaimTypes.NameIdentifier)?.Value);
+        public static Guid GetUserId(this IPrincipal principal) => Guid.Parse(principal.GetClaimByName(ClaimTypes.NameIdentifier)?.Value);
 
         public static Claim GetClaimByName(this IPrincipal principal, string name) =>
            GetClaimsByName(principal, name).SingleOrDefault();

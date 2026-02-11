@@ -4,5 +4,5 @@ using Tasks.Application.Dto;
 
 namespace Tasks.Application.UseCases.Sprint.Queries
 {
-    public record GetSprintByIdQuery(long Id) : IRequest<IExecutionResult<SprintDto>>;
+    public record GetSprintByIdQuery(Guid Id) : IRequest<IExecutionResult<SprintDto>>;
 }

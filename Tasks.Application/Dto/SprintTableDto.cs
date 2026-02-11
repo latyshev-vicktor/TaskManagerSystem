@@ -2,7 +2,7 @@
 {
     public class SprintTableDto : BaseDto
     {
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTimeOffset StartDate { get; set; }
@@ -13,7 +13,7 @@
 
     public class FieldActivityShortDto
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

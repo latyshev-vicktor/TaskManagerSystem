@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthenticationService.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20250324122556_ChangeConfig")]
-    partial class ChangeConfig
+    [Migration("20260211190206_ChangeCreatedDateType")]
+    partial class ChangeCreatedDateType
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,11 +28,9 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.PermissionEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -73,11 +71,9 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.RoleEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -121,11 +117,11 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.RolePermissionEntity", b =>
                 {
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("PermissionId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("RoleId", "PermissionId");
 
@@ -136,11 +132,11 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.RoleUserEntity", b =>
                 {
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("RoleId", "UserId");
 
@@ -151,11 +147,9 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.UserEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("BirthDay")
                         .HasColumnType("timestamp with time zone");
@@ -170,6 +164,10 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.ComplexProperty<Dictionary<string, object>>("Email", "AuthenticationService.Domain.Entities.UserEntity.Email#Email", b1 =>
                         {

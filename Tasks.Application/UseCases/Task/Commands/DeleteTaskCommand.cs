@@ -3,5 +3,5 @@ using TaskManagerSystem.Common.Interfaces;
 
 namespace Tasks.Application.UseCases.Task.Commands
 {
-    public record DeleteTaskCommand(long Id) : IRequest<IExecutionResult>;
+    public record DeleteTaskCommand(Guid Id) : IRequest<IExecutionResult>;
 }

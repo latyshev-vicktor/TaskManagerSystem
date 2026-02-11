@@ -14,7 +14,7 @@ namespace Notification.Domain.Specifications
         public static Spec<NotificationEntity> IsNotReaded()
             => new(x => x.IsRead == false);
 
-        public static Spec<NotificationEntity> ByUserId(long userId)
+        public static Spec<NotificationEntity> ByUserId(Guid userId)
             => new(x => x.UserId == userId);
     }
 }

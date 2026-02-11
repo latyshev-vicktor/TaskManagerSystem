@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthenticationService.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20250324152048_AddPasswordForUser")]
-    partial class AddPasswordForUser
+    [Migration("20260211191021_ChangeCreatedDateType2")]
+    partial class ChangeCreatedDateType2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,13 +28,11 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.PermissionEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -73,13 +71,11 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.RoleEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -121,11 +117,11 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.RolePermissionEntity", b =>
                 {
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("PermissionId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("RoleId", "PermissionId");
 
@@ -136,11 +132,11 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.RoleUserEntity", b =>
                 {
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("RoleId", "UserId");
 
@@ -151,16 +147,14 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AuthenticationService.Domain.Entities.UserEntity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("BirthDay")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -171,7 +165,7 @@ namespace AuthenticationService.DataAccess.Postgres.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("PassWordHash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 

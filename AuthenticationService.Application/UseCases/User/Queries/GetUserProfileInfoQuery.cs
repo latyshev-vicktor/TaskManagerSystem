@@ -4,5 +4,5 @@ using TaskManagerSystem.Common.Interfaces;
 
 namespace AuthenticationService.Application.UseCases.User.Queries
 {
-    public record GetUserProfileInfoQuery(long UserId) : IRequest<IExecutionResult<UserProfileDto>>;
+    public record GetUserProfileInfoQuery(Guid UserId) : IRequest<IExecutionResult<UserProfileDto>>;
 }

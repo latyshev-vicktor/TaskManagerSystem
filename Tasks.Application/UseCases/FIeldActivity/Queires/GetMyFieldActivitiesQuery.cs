@@ -4,5 +4,5 @@ using Tasks.Application.Dto;
 
 namespace Tasks.Application.UseCases.FIeldActivity.Queires
 {
-    public record GetMyFieldActivitiesQuery(long UserId) : IRequest<IExecutionResult<List<FieldActivityDto>>>;
+    public record GetMyFieldActivitiesQuery(Guid UserId) : IRequest<IExecutionResult<List<FieldActivityDto>>>;
 }

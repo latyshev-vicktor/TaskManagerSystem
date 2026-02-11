@@ -13,7 +13,7 @@ namespace AnalyticsService.Infrastructure.Impl.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<SprintAnalyticsEntity?> GetBySprintId(long sprintId)
+        public async Task<SprintAnalyticsEntity?> GetBySprintId(Guid sprintId)
         {
             return await dbContext.SprintAnalitycs
                 .FirstOrDefaultAsync(x => x.SprintId == sprintId);

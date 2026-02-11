@@ -3,6 +3,6 @@
     public class FieldActivityDto : BaseDto
     {
         public string Name { get; set; }
-        public long? UserId { get; set; }
+        public Guid? UserId { get; set; }
     }
 }

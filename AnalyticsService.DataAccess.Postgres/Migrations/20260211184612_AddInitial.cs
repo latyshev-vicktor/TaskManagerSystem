@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace AnalyticsService.DataAccess.Postgres.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AddInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +19,8 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                     Type = table.Column<int>(type: "integer", nullable: false),
                     Severity = table.Column<int>(type: "integer", nullable: false),
                     Confidence = table.Column<double>(type: "double precision", nullable: false),
-                    SprintId = table.Column<long>(type: "bigint", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    SprintId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Message = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -34,8 +33,8 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    SprintId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SprintId = table.Column<Guid>(type: "uuid", nullable: false),
                     LastUpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     TotalTasks = table.Column<int>(type: "integer", nullable: false),
                     CompletedTasks = table.Column<int>(type: "integer", nullable: false),
@@ -50,9 +49,8 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                 name: "SprintTaskAnalytics",
                 columns: table => new
                 {
-                    TaskId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SprintId = table.Column<long>(type: "bigint", nullable: false),
+                    TaskId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SprintId = table.Column<Guid>(type: "uuid", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

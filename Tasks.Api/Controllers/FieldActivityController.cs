@@ -30,7 +30,7 @@ namespace Tasks.Api.Controllers
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] FieldActivityDto request)
         {
-            var userId = long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value);
+            var userId = principal.GetUserId();
             request.UserId = userId;
 
             var command = new UpdateFieldActivityCommand(request);
@@ -41,8 +41,8 @@ namespace Tasks.Api.Controllers
                 error => BadRequest(error));
         }
 
-        [HttpDelete("{id:long}")]
-        public async Task<ActionResult> Delete(long id)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(Guid id)
         {
             var userId = principal.GetUserId();
             var command = new DeleteFieldActivityCommand(id, userId);

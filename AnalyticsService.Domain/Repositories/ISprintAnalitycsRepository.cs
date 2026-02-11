@@ -6,6 +6,6 @@ namespace AnalyticsService.Domain.Repositories
     {
         Task Add(SprintAnalyticsEntity sprintAnalitycs);
         Task Update(SprintAnalyticsEntity sprintAnalitycs);
-        Task<SprintAnalyticsEntity?> GetBySprintId(long sprintId);
+        Task<SprintAnalyticsEntity?> GetBySprintId(Guid sprintId);
     }
 }

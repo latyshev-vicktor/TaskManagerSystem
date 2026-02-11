@@ -21,7 +21,7 @@ namespace Tasks.Application.UseCases.Task.Commands
 
             RuleFor(x => x.Dto.Name).MustBeValueObject(TaskName.Create);
             RuleFor(x => x.Dto.Description).MustBeValueObject(TaskDescription.Create);
-            RuleFor(x => x.Dto.TargetId).NotEqual(default(long)).CustomErrorMessage(TaskError.TargetIdNotFound());
+            RuleFor(x => x.Dto.TargetId).NotNull().NotEmpty().CustomErrorMessage(TaskError.TargetIdNotFound());
         }
 
         public async override Task<IExecutionResult> RequestValidateAsync(UpdateTaskCommand request, CancellationToken cancellationToken)

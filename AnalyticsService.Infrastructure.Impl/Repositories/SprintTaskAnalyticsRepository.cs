@@ -13,7 +13,7 @@ namespace AnalyticsService.Infrastructure.Impl.Repositories
             await dbContext.SaveChangesAsync();
         }
 
-        public Task<List<SprintTaskAnalyticsEntity>> GetBySprintId(long sprintId)
+        public Task<List<SprintTaskAnalyticsEntity>> GetBySprintId(Guid sprintId)
         {
             return dbContext.SprintTaskAnalytics
                 .AsNoTracking()
@@ -21,7 +21,7 @@ namespace AnalyticsService.Infrastructure.Impl.Repositories
                 .ToListAsync();
         }
 
-        public async Task<SprintTaskAnalyticsEntity?> GetByTask(long taskId)
+        public async Task<SprintTaskAnalyticsEntity?> GetByTask(Guid taskId)
         {
             return await dbContext.SprintTaskAnalytics
                 .FirstOrDefaultAsync(x => x.TaskId == taskId);

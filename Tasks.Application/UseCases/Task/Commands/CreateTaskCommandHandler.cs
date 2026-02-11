@@ -11,19 +11,17 @@ using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace Tasks.Application.UseCases.Task.Commands
 {
-    public class CreateTaskCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<CreateTaskCommand, IExecutionResult<long>>
+    public class CreateTaskCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<CreateTaskCommand, IExecutionResult<Guid>>
     {
-        public async Task<IExecutionResult<long>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
+        public async Task<IExecutionResult<Guid>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
             var newTask = TaskEntity.Create(request.CreateDto.Name, request.CreateDto.Description, request.CreateDto.TargetId, request.CreateDto.WeekId);
-
-            var taskResult = await dbContext.Tasks.AddAsync(newTask.Value, cancellationToken);
-
+            await dbContext.Tasks.AddAsync(newTask.Value, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             var linkagesSprintInfo = await dbContext.Sprints
                 .AsNoTracking()
-                .Where(SprintSpecification.ByTaskId(taskResult.Entity.Id))
+                .Where(SprintSpecification.ByTaskId(newTask.Value.Id))
                 .Select(x => new 
                 {
                     x.Id,
@@ -34,14 +32,14 @@ namespace Tasks.Application.UseCases.Task.Commands
             var taskStatusChangedEvent = new TaskStatusChangedEvent(
                 Guid.NewGuid(),
                 DateTimeOffset.UtcNow,
-                taskResult.Entity.Id,
+                newTask.Value.Id,
                 linkagesSprintInfo!.Id, 
                 linkagesSprintInfo.UserId, 
                 TasksStatus.Created.Value.ToString());
 
             await publishEndpoint.Publish(taskStatusChangedEvent, cancellationToken);
 
-            return ExecutionResult.Success(taskResult.Entity.Id);
+            return ExecutionResult.Success(newTask.Value.Id);
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public long TargetId { get; set; }
-        public long? WeekId { get; set; }
+        public Guid TargetId { get; set; }
+        public Guid? WeekId { get; set; }
     }
 }

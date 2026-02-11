@@ -51,7 +51,7 @@ namespace AuthenticationService.Infrastructure.Impl.Services
             return !string.IsNullOrEmpty(userId);
         }
 
-        public async Task RevokeAllTokensForUser(long userId)
+        public async Task RevokeAllTokensForUser(Guid userId)
         {
             var userAccessKey = $"{USER_ACCESS_KEY}:{userId}";
             var userRefreshKey = $"{USER_REFRESH_KEY}:{userId}";
@@ -107,10 +107,10 @@ namespace AuthenticationService.Infrastructure.Impl.Services
             return new JwtSecurityTokenHandler().WriteToken(tokenSecutity);
         }
 
-        public async Task<long?> GetUserIdByRefreshToken(string refreshToken)
+        public async Task<Guid?> GetUserIdByRefreshToken(string refreshToken)
         {
             var refreshKey = $"{REFRESH_KEY}:{refreshToken}";
-            var userId = await cache.GetAsync<long?>(refreshKey);
+            var userId = await cache.GetAsync<Guid?>(refreshKey);
             return userId;
         }
 
