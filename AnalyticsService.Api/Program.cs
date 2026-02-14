@@ -25,10 +25,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<AnalyticsDbContext>();
-await dbContext.Database.MigrateAsync().ConfigureAwait(false);
+var migrations = await dbContext.Database.GetPendingMigrationsAsync();
+if (migrations.Any())
+{
+    await dbContext.Database.MigrateAsync().ConfigureAwait(false);
+}
 
 app.UseHttpsRedirection();
 
