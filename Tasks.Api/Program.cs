@@ -11,6 +11,7 @@ using Tasks.Api.Extensions;
 using Tasks.Api.Handlers;
 using Tasks.Application;
 using Tasks.DataAccess.Postgres;
+using Tasks.Infrastructure.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.Configure<JwtSettings>(options => builder.Configuration.GetSect
 
 builder.Services.AddPostgres(builder.Configuration)
                 .AddApplication()
+                .AddInfrastructure(builder.Configuration)
                 .AddCustomAuthentication(builder.Configuration)
                 .AddHttpContextAccessor()
                 .AddCustomCors()

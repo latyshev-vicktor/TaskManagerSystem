@@ -1,8 +1,8 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Contracts.Events;
 using TaskManagerSystem.Common.Interfaces;
+using Tasks.Application.Services;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Entities;
 using Tasks.Domain.Specifications;
@@ -10,7 +10,9 @@ using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace Tasks.Application.UseCases.Sprint.Commands
 {
-    public class CreateSprintCommandHandler(TaskDbContext dbContext, IPublishEndpoint publishEndpoint) : IRequestHandler<CreateSprintCommand, IExecutionResult<Guid>>
+    public class CreateSprintCommandHandler(
+        TaskDbContext dbContext,
+        IOutboxMessageService outboxMessageService) : IRequestHandler<CreateSprintCommand, IExecutionResult<Guid>>
     {
         public async Task<IExecutionResult<Guid>> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
         {
@@ -52,12 +54,13 @@ namespace Tasks.Application.UseCases.Sprint.Commands
             sprintResult.Value.SetStartDate(startDate);
             sprintResult.Value.SetEndDate(sprintResult.Value.SprintWeeks[sprintResult.Value.SprintWeeks.Count - 1].EndDate);
 
-            var createdSprint = await dbContext.AddAsync(sprintResult.Value, cancellationToken);
+            await dbContext.AddAsync(sprintResult.Value, cancellationToken);
+            var createdSprint = sprintResult.Value;
+
+            await outboxMessageService.Add(new CreatedNewSprint(createdSprint.Id, createdSprint.UserId, createdSprint.Name.Name));
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            await publishEndpoint.Publish(new CreatedNewSprint(createdSprint.Entity.Id, createdSprint.Entity.UserId, createdSprint.Entity.Name.Name), cancellationToken);
-
-            return ExecutionResult.Success(createdSprint.Entity.Id);
+            return ExecutionResult.Success(createdSprint.Id);
         }
     }
 }

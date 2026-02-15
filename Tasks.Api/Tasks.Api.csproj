@@ -30,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Tasks.Application\Tasks.Application.csproj" />
     <ProjectReference Include="..\Tasks.DataAccess.Postgres\Tasks.DataAccess.Postgres.csproj" />
+    <ProjectReference Include="..\Tasks.Infrastructure.Impl\Tasks.Infrastructure.Impl.csproj" />
   </ItemGroup>
 
 </Project>
