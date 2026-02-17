@@ -7,5 +7,6 @@ namespace AnalyticsService.Domain.Repositories
         Task Add(SprintAnalyticsEntity sprintAnalitycs);
         Task Update(SprintAnalyticsEntity sprintAnalitycs);
         Task<SprintAnalyticsEntity?> GetBySprintId(Guid sprintId);
+        Task<bool> AnyBySprintId(Guid sprintId);
     }
 }

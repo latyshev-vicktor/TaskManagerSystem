@@ -25,39 +25,17 @@ namespace Tasks.Application.UseCases.Sprint.Commands
                 request.UserId,
                 request.Dto.Name,
                 request.Dto.Description,
-                fieldActivities);
+                fieldActivities,
+                request.Dto.WeekCount);
 
             if (sprintResult.IsFailure)
                 return ExecutionResult.Failure<Guid>(sprintResult.Error);
-
-            var startDate = DateTimeOffset.UtcNow.Date;
-
-            var dayWeekCount = 7;
-
-            for(int weekIndex = 0; weekIndex < request.Dto.WeekCount; weekIndex++)
-            {
-                var weekStart = startDate.AddDays(weekIndex * dayWeekCount);
-                var weekEnd = weekStart.AddDays(dayWeekCount - 1);
-
-                var weekResult = SprintWeekEntity.Create(
-                    sprintResult.Value,
-                    weekIndex + 1,
-                    weekStart,
-                    weekEnd);
-
-                if(weekResult.IsFailure)
-                    return ExecutionResult.Failure<Guid>(weekResult.Error);
-
-                sprintResult.Value.AddWeek(weekResult.Value);
-            }
-            
-            sprintResult.Value.SetStartDate(startDate);
-            sprintResult.Value.SetEndDate(sprintResult.Value.SprintWeeks[sprintResult.Value.SprintWeeks.Count - 1].EndDate);
 
             await dbContext.AddAsync(sprintResult.Value, cancellationToken);
             var createdSprint = sprintResult.Value;
 
             await outboxMessageService.Add(new CreatedNewSprint(createdSprint.Id, createdSprint.UserId, createdSprint.Name.Name));
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return ExecutionResult.Success(createdSprint.Id);

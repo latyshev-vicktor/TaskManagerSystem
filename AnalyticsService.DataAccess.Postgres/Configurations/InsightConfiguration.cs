@@ -17,7 +17,7 @@ namespace AnalyticsService.DataAccess.Postgres.Configurations
             builder.Property(x => x.UserId).IsRequired();
             builder.Property(x => x.Message).IsRequired();
 
-            builder.HasIndex(x => new { x.SprintId, x.UserId, x.Type });
+            builder.HasIndex(x => new { x.SprintId, x.UserId, x.Type }).IsUnique();
         }
     }
 }

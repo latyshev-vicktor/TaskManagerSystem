@@ -33,7 +33,7 @@ namespace Notification.Application.Consumers
 
             var userProfile = await notificationDbContext
                 .UserNotificationProfiles
-                .SingleOrDefaultAsync(UserNotificationProfileSpecification.ByUserId(context.Message.UserId));
+                .FirstOrDefaultAsync(UserNotificationProfileSpecification.ByUserId(context.Message.UserId));
 
             await notificationSender.Dispatch(notificationResult.Value, userProfile!);
         }
