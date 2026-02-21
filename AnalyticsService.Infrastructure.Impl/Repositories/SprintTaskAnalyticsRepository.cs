@@ -32,5 +32,18 @@ namespace AnalyticsService.Infrastructure.Impl.Repositories
             dbContext.Update(task);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task Delete(Guid taskId, CancellationToken cancellationToken)
+        {
+            await dbContext.SprintTaskAnalytics.Where(x => x.TaskId == taskId).ExecuteDeleteAsync(cancellationToken);
+        }
+
+        public async Task<bool> Any(Guid taskId)
+        {
+            return await dbContext
+                .SprintTaskAnalytics
+                .AsNoTracking()
+                .AnyAsync(x => x.TaskId == taskId);
+        }
     }
 }

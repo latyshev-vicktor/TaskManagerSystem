@@ -52,6 +52,7 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
 
             if (messages.Count == 0)
             {
+                await connection.CloseAsync();
                 return;
             }
 
@@ -60,6 +61,8 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
             await Task.WhenAll(publishTasks);
 
             await UpdateMessages(updatedMessageQueue, connection, transaction);
+
+            await transaction.CommitAsync(cancellationToken);
         }
 
         private static async Task UpdateMessages(

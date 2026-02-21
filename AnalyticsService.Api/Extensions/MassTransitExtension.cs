@@ -12,6 +12,7 @@ namespace AnalyticsService.Api.Extensions
                 x.AddConsumer<SprintCreatedConsumer>();
                 x.AddConsumer<SprintUpdateNameConsumer>();
                 x.AddConsumer<TaskStatusChangedConsumer>();
+                x.AddConsumer<DeleteTaskConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
