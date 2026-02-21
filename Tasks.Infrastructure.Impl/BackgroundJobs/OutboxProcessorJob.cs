@@ -26,23 +26,10 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var maxDegreeOfParallelism = Environment.ProcessorCount * 2;
-            var parallelOptions = new ParallelOptions
-            {
-                MaxDegreeOfParallelism = maxDegreeOfParallelism,
-                CancellationToken = context.CancellationToken,
-            };
-
-            await Parallel.ForEachAsync(
-                Enumerable.Range(0, maxDegreeOfParallelism),
-                parallelOptions,
-                async (_, token) =>
-                {
-                    await Proccess(token);
-                });
+            await Process(context.CancellationToken);
         }
 
-        private async Task Proccess(CancellationToken cancellationToken)
+        private async Task Process(CancellationToken cancellationToken)
         {
             var updatedMessageQueue = new ConcurrentQueue<OutboxUpdate>();
 
@@ -58,7 +45,10 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
                 FOR UPDATE SKIP LOCKED
                 ",
                 new { BATCH_SIZE },
-                transaction: transaction)).AsList();
+                transaction: transaction,
+                commandTimeout: 30)).AsList();
+
+            logger.LogDebug("Количество отправляемых сообщений [{messageCount}]", messages.Count);
 
             if (messages.Count == 0)
             {
@@ -70,9 +60,6 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
             await Task.WhenAll(publishTasks);
 
             await UpdateMessages(updatedMessageQueue, connection, transaction);
-
-            await transaction.CommitAsync(cancellationToken);
-            await connection.CloseAsync();
         }
 
         private static async Task UpdateMessages(
@@ -117,7 +104,11 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
                 var messageType = GetOrAddType(message.Type);
                 var deserializedMessage = JsonSerializer.Deserialize(message.Content, messageType!);
 
+                logger.LogDebug("Попытка отправки сообщения [{messageId}]...", message.Id);
+
                 await publishEndpoint.Publish(deserializedMessage!, cancellationToken);
+
+                logger.LogDebug("Сообщение [{messageId}] успешно отправлено", message.Id);
 
                 updatedMessages.Enqueue(new OutboxUpdate
                 {
@@ -127,11 +118,13 @@ namespace Tasks.Infrastructure.Impl.BackgroundJobs
             }
             catch (Exception ex)
             {
+                logger.LogError("Ошибка при отправке сообщения с Id [{messageId}]: [{messageError}]", message.Id, ex.Message);
+
                 updatedMessages.Enqueue(new OutboxUpdate
                 {
                     Id = message.Id,
                     ProcessedOnUtc = DateTime.UtcNow,
-                    Error = ex.ToString()
+                    Error = ex.Message
                 });
             }
 

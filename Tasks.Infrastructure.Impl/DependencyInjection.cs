@@ -32,7 +32,7 @@ namespace Tasks.Infrastructure.Impl
                 config.AddTrigger(opts => opts
                     .ForJob(jobKey)
                     .WithIdentity("OutboxProcessorJob-trigger")
-                    .WithCronSchedule("0/30 * * * * ?")
+                    .WithCronSchedule("0/5 * * * * ?")
                 );
             });
 
