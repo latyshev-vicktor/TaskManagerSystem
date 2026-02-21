@@ -8,5 +8,7 @@ namespace AnalyticsService.Domain.Repositories
         Task<List<SprintTaskAnalyticsEntity>> GetBySprintId(Guid sprintId);
         Task Add(SprintTaskAnalyticsEntity task);
         Task Save(SprintTaskAnalyticsEntity task);
+        Task<bool> Any(Guid taskId);
+        Task Delete(Guid taskId, CancellationToken cancellationToken);
     }
 }
