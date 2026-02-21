@@ -10,6 +10,13 @@ namespace AnalyticsService.Application.Consumers
         public async Task Consume(ConsumeContext<CreatedNewSprint> context)
         {
             var contractMessage = context.Message;
+
+            var existSprint = await sprintAnalitycsRepository.AnyBySprintId(contractMessage.SprintId);
+            if (existSprint)
+            {
+                return;
+            }
+
             var newSprint = new SprintAnalyticsEntity(contractMessage.UserId, contractMessage.SprintId, contractMessage.Name);
             await sprintAnalitycsRepository.Add(newSprint);
         }

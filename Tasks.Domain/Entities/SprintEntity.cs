@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using MediatR;
 using TaskManagerSystem.Common.Implementation;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Domain.DomainEvents;
@@ -59,7 +60,8 @@ namespace Tasks.Domain.Entities
             Guid userId,
             string name,
             string description,
-            List<FieldActivityEntity> fieldActivities)
+            List<FieldActivityEntity> fieldActivities,
+            int weekCount)
         {
             if (userId == default)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.UserNotEmpty());
@@ -75,7 +77,32 @@ namespace Tasks.Domain.Entities
             if (fieldActivities.Count == 0)
                 return ExecutionResult.Failure<SprintEntity>(SprintError.NotFoundFieldActivities());
 
-            return ExecutionResult.Success(new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivities));
+            var newSprint = new SprintEntity(userId, nameResult.Value, descriptionResult.Value, fieldActivities);
+
+            var startDate = DateTimeOffset.UtcNow.Date;
+            var dayWeekCount = 7;
+
+            for (int weekIndex = 0; weekIndex < weekCount; weekIndex++)
+            {
+                var weekStart = startDate.AddDays(weekIndex * dayWeekCount);
+                var weekEnd = weekStart.AddDays(dayWeekCount - 1);
+
+                var weekResult = SprintWeekEntity.Create(
+                    newSprint,
+                    weekIndex + 1,
+                    weekStart,
+                    weekEnd);
+
+                if (weekResult.IsFailure)
+                    return ExecutionResult.Failure<SprintEntity>(weekResult.Error);
+
+                newSprint.AddWeek(weekResult.Value);
+            }
+
+            newSprint.SetStartDate(startDate);
+            newSprint.SetEndDate(newSprint.SprintWeeks[newSprint.SprintWeeks.Count - 1].EndDate);
+
+            return ExecutionResult.Success(newSprint);
         }
 
         public IExecutionResult StartSprint()

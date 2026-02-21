@@ -35,5 +35,8 @@ namespace Tasks.Domain.Specifications
 
         public static Spec<SprintEntity> ByTaskId(Guid taskId)
             => new(x => x.Targets.Any(target => target.Tasks.Any(task => task.Id == taskId)));
+
+        public static Spec<SprintEntity> ByTargetId(Guid targetId)
+            => new(x => x.Targets.Any(target => target.Id == targetId));
     }
 }

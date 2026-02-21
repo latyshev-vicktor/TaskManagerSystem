@@ -24,5 +24,12 @@ namespace AnalyticsService.Infrastructure.Impl.Repositories
             dbContext.Update(sprintAnalitycs);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> AnyBySprintId(Guid sprintId)
+        {
+            return await dbContext.SprintAnalitycs
+                                  .AsNoTracking()
+                                  .AnyAsync(x => x.SprintId == sprintId);
+        }
     }
 }
