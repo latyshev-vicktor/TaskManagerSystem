@@ -18,7 +18,14 @@ namespace Tasks.Application.UseCases.Task.Commands
 
             task!.Delete();
 
-            await outboxMessageService.Add(new DeleteTaskEvent(Guid.NewGuid(), DateTime.UtcNow, task.Id));
+            var linkagesSprintId = await dbContext
+                .Sprints
+                .AsNoTracking()
+                .Where(SprintSpecification.ByTaskId(task.Id))
+                .Select(x => x.Id)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            await outboxMessageService.Add(new DeleteTaskEvent(Guid.NewGuid(), DateTime.UtcNow, task.Id, linkagesSprintId));
 
             await dbContext.SaveChangesAsync(cancellationToken);
 

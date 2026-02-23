@@ -20,7 +20,7 @@ namespace AnalyticsService.Application.Consumers
         public async Task Consume(ConsumeContext<DeleteTaskEvent> context)
         {
             var contractMessage = context.Message;
-            var key = $"sprintId-{contractMessage.TaskId}";
+            var key = $"sprintId-{contractMessage.SprintId}";
 
             await taskQueueService.Execute(key, async () =>
             {

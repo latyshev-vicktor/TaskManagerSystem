@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TaskManagerSystem.Common.Contracts.Events;
+using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Application.Services;
 using Tasks.DataAccess.Postgres;
@@ -34,7 +34,7 @@ namespace Tasks.Application.UseCases.Sprint.Commands
             await dbContext.AddAsync(sprintResult.Value, cancellationToken);
             var createdSprint = sprintResult.Value;
 
-            await outboxMessageService.Add(new CreatedNewSprint(createdSprint.Id, createdSprint.UserId, createdSprint.Name.Name));
+            await outboxMessageService.Add(new CreatedNewSprint(Guid.NewGuid(), DateTime.UtcNow, createdSprint.Id, createdSprint.UserId, createdSprint.Name.Name));
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
