@@ -1,4 +1,4 @@
-﻿namespace TaskManagerSystem.Common.Contracts.Events.Analytics
+﻿namespace TaskManagerSystem.Common.Contracts.Events
 {
     public interface IIntegrationEvent
     {
