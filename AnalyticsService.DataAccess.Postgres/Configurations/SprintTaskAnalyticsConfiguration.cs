@@ -10,9 +10,7 @@ namespace AnalyticsService.DataAccess.Postgres.Configurations
         {
             builder.ToTable("SprintTaskAnalytics");
             builder.HasKey(e => e.TaskId);
-            builder.Property(x => x.SprintId).IsRequired();
             builder.Property(x => x.Status).HasConversion<int>().IsRequired();
-            builder.HasIndex(x => new { x.TaskId, x.SprintId });
         }
     }
 }

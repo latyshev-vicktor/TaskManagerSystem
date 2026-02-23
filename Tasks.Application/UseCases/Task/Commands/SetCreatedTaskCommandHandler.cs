@@ -1,11 +1,11 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 using TaskManagerSystem.Common.Interfaces;
 using Tasks.Application.Services;
 using Tasks.DataAccess.Postgres;
 using Tasks.Domain.Specifications;
+using Tasks.Domain.ValueObjects;
 using ExecutionResult = TaskManagerSystem.Common.Implementation.ExecutionResult;
 
 namespace Tasks.Application.UseCases.Task.Commands
@@ -32,7 +32,7 @@ namespace Tasks.Application.UseCases.Task.Commands
                 task.Id,
                 linkagesSprintInfo.Id,
                 linkagesSprintInfo.UserId,
-                task.Status.Value.ToString()));
+                TasksStatus.Created.Value));
 
             await dbContext.SaveChangesAsync(cancellationToken);
 

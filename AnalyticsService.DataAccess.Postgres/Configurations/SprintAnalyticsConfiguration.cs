@@ -9,10 +9,13 @@ namespace AnalyticsService.DataAccess.Postgres.Configurations
         public void Configure(EntityTypeBuilder<SprintAnalyticsEntity> builder)
         {
             builder.ToTable("SprintAnalytics");
-            builder.HasKey(e => e.Id);
+            builder.HasKey(x => x.SprintId);
             builder.Property(x => x.UserId).IsRequired();
-            builder.Property(x => x.SprintId).IsRequired();
             builder.Property(x => x.Name).IsRequired();
+
+            builder.HasMany(x => x.Tasks)
+                .WithOne(x => x.Sprint)
+                .HasForeignKey(x => x.SprintId);
 
             builder.HasIndex(x => new { x.UserId, x.SprintId });
         }

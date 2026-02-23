@@ -3,6 +3,7 @@ using System;
 using AnalyticsService.DataAccess.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnalyticsService.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(AnalyticsDbContext))]
-    partial class AnalyticsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260222113826_AddMessageConsumers")]
+    partial class AddMessageConsumers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,9 +27,12 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
 
             modelBuilder.Entity("AnalyticsService.Domain.Entities.AnalitycsModels.SprintAnalyticsEntity", b =>
                 {
-                    b.Property<Guid>("SprintId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<int>("CompletedTasks")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("LastUpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -35,10 +41,16 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("SprintId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TotalTasks")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("SprintId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId", "SprintId");
 
@@ -59,7 +71,7 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
 
                     b.HasKey("TaskId");
 
-                    b.HasIndex("SprintId");
+                    b.HasIndex("TaskId", "SprintId");
 
                     b.ToTable("SprintTaskAnalytics", (string)null);
                 });
@@ -111,22 +123,6 @@ namespace AnalyticsService.DataAccess.Postgres.Migrations
                     b.HasKey("EventId", "ConsumerName");
 
                     b.ToTable("MessageConsumers", (string)null);
-                });
-
-            modelBuilder.Entity("AnalyticsService.Domain.Entities.AnalitycsModels.SprintTaskAnalyticsEntity", b =>
-                {
-                    b.HasOne("AnalyticsService.Domain.Entities.AnalitycsModels.SprintAnalyticsEntity", "Sprint")
-                        .WithMany("Tasks")
-                        .HasForeignKey("SprintId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sprint");
-                });
-
-            modelBuilder.Entity("AnalyticsService.Domain.Entities.AnalitycsModels.SprintAnalyticsEntity", b =>
-                {
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

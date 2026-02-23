@@ -9,6 +9,7 @@ namespace AnalyticsService.DataAccess.Postgres
         public DbSet<SprintAnalyticsEntity> SprintAnalitycs { get; set; } = null!;
         public DbSet<SprintTaskAnalyticsEntity> SprintTaskAnalytics { get; set; } = null!;
         public DbSet<InsightEntity> Insights { get; set; } = null!;
+        public DbSet<MessageConsumerEntity> MessageConsumers { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

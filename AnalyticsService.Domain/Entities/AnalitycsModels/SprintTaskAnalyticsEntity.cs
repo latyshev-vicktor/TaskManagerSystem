@@ -5,6 +5,7 @@ namespace AnalyticsService.Domain.Entities.AnalitycsModels
     public class SprintTaskAnalyticsEntity
     {
         public Guid SprintId { get; set; }
+        public SprintAnalyticsEntity? Sprint { get; set; }
         public Guid TaskId { get; set; }
         public TasksStatus Status { get; set; }
 

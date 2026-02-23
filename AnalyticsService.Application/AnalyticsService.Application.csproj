@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="9.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnalyticsService.DataAccess.Postgres\AnalyticsService.DataAccess.Postgres.csproj" />
     <ProjectReference Include="..\AnalyticsService.Domain\AnalyticsService.Domain.csproj" />
     <ProjectReference Include="..\TaskManagerSystem.Common\TaskManagerSystem.Common.csproj" />
   </ItemGroup>
