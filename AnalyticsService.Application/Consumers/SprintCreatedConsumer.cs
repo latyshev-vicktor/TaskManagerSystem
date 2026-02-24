@@ -41,7 +41,7 @@ namespace AnalyticsService.Application.Consumers
                         return;
                     }
 
-                    var command = new CreateSprintForAnalitycsCommand(contractMessage.SprintId, contractMessage.UserId, contractMessage.Name);
+                    var command = new CreateSprintAnalyticsCommand(contractMessage.SprintId, contractMessage.UserId, contractMessage.Name);
                     await mediator.Send(command, cancellationToken);
 
                     await dbContext.MessageConsumers.AddAsync(new MessageConsumerEntity

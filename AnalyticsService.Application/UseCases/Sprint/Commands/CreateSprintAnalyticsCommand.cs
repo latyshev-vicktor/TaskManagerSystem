@@ -2,7 +2,7 @@
 
 namespace AnalyticsService.Application.UseCases.Sprints.Commands
 {
-    public record CreateSprintForAnalitycsCommand(
+    public record CreateSprintAnalyticsCommand(
         Guid SprintId,
         Guid UserId,
         string Name) : IRequest;

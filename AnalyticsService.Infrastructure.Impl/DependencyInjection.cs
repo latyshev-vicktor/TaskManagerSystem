@@ -2,9 +2,7 @@
 using AnalyticsService.Application.Dto;
 using AnalyticsService.Application.Interfaces.Detectors;
 using AnalyticsService.Application.Interfaces.Services;
-using AnalyticsService.Domain.Repositories;
 using AnalyticsService.Infrastructure.Impl.Detectors;
-using AnalyticsService.Infrastructure.Impl.Repositories;
 using AnalyticsService.Infrastructure.Impl.Services;
 using Medallion.Threading;
 using Medallion.Threading.Postgres;
@@ -20,8 +18,6 @@ namespace AnalyticsService.Infrastructure.Impl
             var connectionString = configuration.GetConnectionString("DbConnection")
                 ?? throw new InvalidOperationException("Не указана строка подключения к БД сервиса AnalyticsService");
 
-            services.AddScoped<ISprintTaskAnalyticsRepository, SprintTaskAnalyticsRepository>();
-            services.AddScoped<ISprintAnalitycsRepository, SprintAnalitycsRepository>();
             services.AddScoped<ITaskStatusChangedService, TaskStatusChangedService>();
             services.AddScoped<IInsightProcessingService, InsightProcessingService>();
 

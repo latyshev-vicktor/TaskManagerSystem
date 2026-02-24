@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnalyticsService.Application.UseCases.Sprints.Commands
 {
-    public class CreateSprintForAnalitycsCommandHandler(AnalyticsDbContext dbContext) : IRequestHandler<CreateSprintForAnalitycsCommand>
+    public class CreateSprintAnalyticsCommandHandler(AnalyticsDbContext dbContext) : IRequestHandler<CreateSprintAnalyticsCommand>
     {
-        public async Task Handle(CreateSprintForAnalitycsCommand request, CancellationToken cancellationToken)
+        public async Task Handle(CreateSprintAnalyticsCommand request, CancellationToken cancellationToken)
         {
             var existSprint = await dbContext.SprintAnalitycs
                 .AsNoTracking()
