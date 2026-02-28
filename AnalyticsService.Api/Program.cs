@@ -2,15 +2,17 @@ using AnalyticsService.Infrastructure.Impl;
 using AnalyticsService.DataAccess.Postgres;
 using AnalyticsService.Api.Extensions;
 using Microsoft.EntityFrameworkCore;
+using AnalyticsService.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddPostgres(builder.Configuration);
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddCustomMassTransit();
+builder.Services.AddPostgres(builder.Configuration)
+    .AddInfrastructure(builder.Configuration)
+    .AddCustomMassTransit()
+    .AddApplication();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

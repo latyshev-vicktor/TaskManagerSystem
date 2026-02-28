@@ -1,9 +1,10 @@
 ﻿using AnalyticsService.Application.Interfaces.Services;
+using AnalyticsService.Application.UseCases.Tasks.Commands;
 using AnalyticsService.DataAccess.Postgres;
 using AnalyticsService.Domain.Entities;
-using AnalyticsService.Domain.Repositories;
 using DnsClient.Internal;
 using MassTransit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
@@ -11,8 +12,7 @@ using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 namespace AnalyticsService.Application.Consumers
 {
     public class DeleteTaskConsumer(
-        ISprintTaskAnalyticsRepository sprintTaskAnalyticsRepository,
-        ISprintAnalitycsRepository sprintAnalitycsRepository,
+        IMediator mediator,
         AnalyticsDbContext dbContext,
         ILogger<DeleteTaskConsumer> logger,
         ITaskQueueService taskQueueService) : IConsumer<DeleteTaskEvent>
@@ -20,7 +20,7 @@ namespace AnalyticsService.Application.Consumers
         public async Task Consume(ConsumeContext<DeleteTaskEvent> context)
         {
             var contractMessage = context.Message;
-            var key = $"sprintId-{contractMessage.TaskId}";
+            var key = $"sprintId-{contractMessage.SprintId}";
 
             await taskQueueService.Execute(key, async () =>
             {
@@ -39,13 +39,8 @@ namespace AnalyticsService.Application.Consumers
                         return;
                     }
 
-                    var task = await sprintTaskAnalyticsRepository.GetByTask(contractMessage.TaskId)
-                        ?? throw new ApplicationException($"Не найдена задача по Id {contractMessage.TaskId}");
-
-                    var linkagesSprint = await sprintAnalitycsRepository.GetBySprintId(task.SprintId)
-                        ?? throw new ApplicationException($"Не найден спринт, привязанный к задаче с Id {task.TaskId}");
-
-                    await sprintTaskAnalyticsRepository.Delete(contractMessage.TaskId, context.CancellationToken);
+                    var command = new DeleteAnalyticsTaskCommand(contractMessage.TaskId);
+                    await mediator.Send(command, context.CancellationToken);
 
                     await dbContext.MessageConsumers.AddAsync(new MessageConsumerEntity
                     {

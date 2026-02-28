@@ -3,7 +3,8 @@
     public record DeleteTaskEvent(
         Guid EventId,
         DateTimeOffset OccurredAt,
-        Guid TaskId) : IIntegrationEvent
+        Guid TaskId,
+        Guid SprintId) : IIntegrationEvent
     {
         public int Version => 1;
     }

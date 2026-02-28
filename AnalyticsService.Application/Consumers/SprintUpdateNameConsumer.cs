@@ -1,24 +1,18 @@
-﻿using AnalyticsService.Domain.Repositories;
+﻿using AnalyticsService.Application.UseCases.Sprint.Commands;
 using MassTransit;
+using MediatR;
 using TaskManagerSystem.Common.Contracts.Events;
 
 namespace AnalyticsService.Application.Consumers
 {
-    public class SprintUpdateNameConsumer(ISprintAnalitycsRepository sprintAnalitycsRepository) : IConsumer<UpdatedSprint>
+    public class SprintUpdateNameConsumer(IMediator mediator) : IConsumer<UpdatedSprint>
     {
         public async Task Consume(ConsumeContext<UpdatedSprint> context)
         {
             var contractMessage = context.Message;
 
-            var sprint = await sprintAnalitycsRepository.GetBySprintId(contractMessage.SprintId);
-            if(sprint == null)
-            {
-                throw new ApplicationException($"Не найден спринт с Id {contractMessage.SprintId}");
-            }
-
-            sprint.UpdateName(contractMessage.NewName);
-
-            await sprintAnalitycsRepository.Update(sprint);
+            var command = new UpdateSprintNameAnalyticsCommand(contractMessage.SprintId, contractMessage.NewName);
+            await mediator.Send(command, context.CancellationToken);
         }
     }
 }

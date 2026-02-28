@@ -4,15 +4,12 @@ using AnalyticsService.Application.Interfaces.Services;
 using AnalyticsService.DataAccess.Postgres;
 using AnalyticsService.Domain.Entities.AnalitycsModels;
 using AnalyticsService.Domain.Enums;
-using AnalyticsService.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerSystem.Common.Contracts.Events.Analytics.v1;
 
 namespace AnalyticsService.Infrastructure.Impl.Services
 {
     public class TaskStatusChangedService(
-        ISprintTaskAnalyticsRepository sprintTaskAnalyticsRepository,
-        ISprintAnalitycsRepository sprintAnalitycsRepository,
         InsightDetectionPipeline detectionPipeline,
         IInsightProcessingService insightProcessingService,
         AnalyticsDbContext dbContext) : ITaskStatusChangedService
